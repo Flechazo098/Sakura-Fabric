@@ -75,18 +75,18 @@ public class RiceCropRoot extends BushBlock implements BonemealableBlock, Liquid
             int age = this.getAge(state);
             if (age <= this.getMaxAge()) {
                 float chance = 10;
-                if (net.minecraftforge.common.ForgeHooks.onCropsGrowPre(worldIn, pos, state,
-                        rand.nextInt((int) (25.0F / chance) + 1) == 0)) {
+                // 移除ForgeHooks.onCropsGrowPre调用，直接使用随机逻辑
+                if (rand.nextInt((int) (25.0F / chance) + 1) == 0) {
                     if (age == this.getMaxAge()) {
-                        RiceCrop riceUpper = (RiceCrop) BlockRegistry.RICE_CROP.get();
+                        RiceCrop riceUpper = (RiceCrop) BlockRegistry.RICE_CROP;
                         if (riceUpper.defaultBlockState().canSurvive(worldIn, pos.above())
                                 && worldIn.isEmptyBlock(pos.above())) {
                             worldIn.setBlockAndUpdate(pos.above(), riceUpper.defaultBlockState());
-                            net.minecraftforge.common.ForgeHooks.onCropsGrowPost(worldIn, pos, state);
+                            // 移除ForgeHooks.onCropsGrowPost调用
                         }
                     } else {
                         worldIn.setBlock(pos, this.withAge(age + 1), 2);
-                        net.minecraftforge.common.ForgeHooks.onCropsGrowPost(worldIn, pos, state);
+                        // 移除ForgeHooks.onCropsGrowPost调用
                     }
                 }
             }
@@ -103,7 +103,7 @@ public class RiceCropRoot extends BushBlock implements BonemealableBlock, Liquid
     @Override
     public boolean isValidBonemealTarget(LevelReader worldIn, BlockPos pos, BlockState state, boolean isClient) {
         BlockState upperState = worldIn.getBlockState(pos.above());
-        if (upperState.is(BlockRegistry.RICE_CROP.get())) {
+        if (upperState.is(BlockRegistry.RICE_CROP)) {
             return !((RiceCrop) upperState.getBlock()).isMaxAge(upperState);
         }
         return true;
@@ -121,13 +121,13 @@ public class RiceCropRoot extends BushBlock implements BonemealableBlock, Liquid
             worldIn.setBlockAndUpdate(pos, state.setValue(AGE, ageGrowth));
         } else {
             BlockState top = worldIn.getBlockState(pos.above());
-            if (top.is(BlockRegistry.RICE_CROP.get())) {
+            if (top.is(BlockRegistry.RICE_CROP)) {
                 BonemealableBlock growable = (BonemealableBlock) worldIn.getBlockState(pos.above()).getBlock();
                 if (growable.isValidBonemealTarget(worldIn, pos.above(), top, false)) {
                     growable.performBonemeal(worldIn, worldIn.random, pos.above(), top);
                 }
             } else {
-                RiceCrop riceUpper = (RiceCrop) BlockRegistry.RICE_CROP.get();
+                RiceCrop riceUpper = (RiceCrop) BlockRegistry.RICE_CROP;
                 int remainingGrowth = ageGrowth - this.getMaxAge() - 1;
                 if (riceUpper.defaultBlockState().canSurvive(worldIn, pos.above())
                         && worldIn.isEmptyBlock(pos.above())) {

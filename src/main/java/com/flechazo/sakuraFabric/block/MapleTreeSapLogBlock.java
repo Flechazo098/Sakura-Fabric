@@ -37,7 +37,7 @@ public class MapleTreeSapLogBlock extends RotatedPillarBlock {
             return;
         }
         if (rand.nextInt(36000) == 0) {
-            worldIn.setBlockAndUpdate(pos, BlockRegistry.MAPLE_LOG.get().withPropertiesOf(state));
+            worldIn.setBlockAndUpdate(pos, BlockRegistry.MAPLE_LOG.withPropertiesOf(state));
         }
     }
 }

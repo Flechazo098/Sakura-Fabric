@@ -39,7 +39,7 @@ public class RiceCrop extends CropBlock {
 
     @Override
     protected ItemLike getBaseSeedId() {
-        return ItemRegistry.RICE_SEEDS.get();
+        return ItemRegistry.RICE_SEEDS;
     }
 
     @Override
@@ -55,12 +55,12 @@ public class RiceCrop extends CropBlock {
     @Override
     public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
         return (worldIn.getRawBrightness(pos, 0) >= 8 || worldIn.canSeeSky(pos))
-                && worldIn.getBlockState(pos.below()).is(BlockRegistry.RICE_CROP_ROOT.get());
+                && worldIn.getBlockState(pos.below()).is(BlockRegistry.RICE_CROP_ROOT);
     }
 
     @Override
     protected boolean mayPlaceOn(BlockState state, BlockGetter worldIn, BlockPos pos) {
-        return state.is(BlockRegistry.RICE_CROP_ROOT.get());
+        return state.is(BlockRegistry.RICE_CROP_ROOT);
     }
 
 }

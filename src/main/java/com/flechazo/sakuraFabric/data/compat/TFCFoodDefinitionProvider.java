@@ -5,6 +5,7 @@ import com.flechazo.sakuraFabric.item.info.FoodInfo;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
 import io.github.fabricators_of_create.porting_lib.data.ExistingFileHelper;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
@@ -40,7 +41,7 @@ public class TFCFoodDefinitionProvider implements DataProvider {
     }
 
     public void addData(Item item, FoodInfo data) {
-        this.datas.computeIfAbsent(ForgeRegistries.ITEMS.getKey(item), loc->{
+        this.datas.computeIfAbsent(BuiltInRegistries.ITEM.getKey(item), loc->{
             existingFileHelper.trackGenerated(loc, resourceType);
             return data;
         });
@@ -58,7 +59,7 @@ public class TFCFoodDefinitionProvider implements DataProvider {
             Path path = outputFolder.resolve(pathString);
 
             JsonObject jsonObj = new JsonObject();
-            jsonObj.add("ingredient", Ingredient.of(ForgeRegistries.ITEMS.getValue(loc)).toJson());
+            jsonObj.add("ingredient", Ingredient.of(BuiltInRegistries.ITEM.get(loc)).toJson());
             jsonObj.addProperty("hunger", data.getAmount());
             jsonObj.addProperty("saturation", data.getCalories());
             jsonObj.addProperty("decayModifier", data.getDecayModifier());

@@ -1,13 +1,19 @@
 package com.flechazo.sakuraFabric.block.entity;
 
 import com.flechazo.sakuraFabric.block.BlockRegistry;
+import com.flechazo.sakuraFabric.block.machines.CookingPotBlock;
+import com.flechazo.sakuraFabric.container.CookingPotContainer;
+import com.flechazo.sakuraFabric.inventory.CookingPotItemHandler;
 import com.flechazo.sakuraFabric.recipes.CookingPotRecipe;
+import com.flechazo.sakuraFabric.recipes.RecipeTypeRegistry;
+import com.flechazo.sakuraFabric.utils.FluidAction;
 import com.flechazo.sakuraFabric.utils.FluidIngredient;
 import com.flechazo.sakuraFabric.utils.LevelUtils;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTank;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
 import io.github.fabricators_of_create.porting_lib.transfer.item.RecipeWrapper;
+import io.github.fabricators_of_create.porting_lib.transfer.item.SlottedStackStorage;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
@@ -17,29 +23,29 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.Container;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-import javax.annotation.Nonnull
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 public class CookingPotBlockEntity extends SyncedBlockEntity implements MenuProvider, HeatableBlockEntity {
 
     public static final int TANK_CAPACITY = 8000;
     private final ItemStackHandler inventory;
-    private LazyOptional<IItemHandler> inputHandler;
-    private LazyOptional<IItemHandler> outputHandler;
+    private LazyOptional<SlottedStackStorage > inputHandler;
+    private LazyOptional<SlottedStackStorage> outputHandler;
 
     private LazyOptional<FluidTank> fluidTank;
     protected final ContainerData tileData;
@@ -52,7 +58,7 @@ public class CookingPotBlockEntity extends SyncedBlockEntity implements MenuProv
     private boolean checkNewRecipe;
 
     public CookingPotBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockEntityRegistry.COOKING_POT.get(), pos, state);
+        super(BlockEntityRegistry.COOKING_POT, pos, state);
 
         this.inventory = createHandler();
         this.inputHandler = LazyOptional.of(() -> new CookingPotItemHandler(inventory, Direction.UP));
@@ -72,7 +78,7 @@ public class CookingPotBlockEntity extends SyncedBlockEntity implements MenuProv
                 blockEntity.recipeTime = 0;
             }
         } else if (blockEntity.recipeTime > 0) {
-            if (state.is(BlockRegistry.COOKING_POT.get()))
+            if (state.is(BlockRegistry.COOKING_POT))
                 state.setValue(CookingPotBlock.OPEN, true);
             blockEntity.recipeTime = 0;
         }
@@ -91,13 +97,13 @@ public class CookingPotBlockEntity extends SyncedBlockEntity implements MenuProv
         return false;
     }
 
-    private Optional<CookingPotRecipe> getMatchingRecipe(RecipeWrapper inventoryWrapper) {
+    private Optional<CookingPotRecipe> getMatchingRecipe(Container inventoryWrapper) {
         if (level == null) {
             return Optional.empty();
         }
 
         if (lastRecipeID != null) {
-            Recipe<RecipeWrapper> recipe = level.getRecipeManager().getAllRecipesFor(RecipeTypeRegistry.COOKING_RECIPE_TYPE.get()).stream()
+            Recipe<Container> recipe = level.getRecipeManager().getAllRecipesFor(RecipeTypeRegistry.COOKING_RECIPE_TYPE).stream()
                     .filter(now -> now.getId().equals(lastRecipeID)).findFirst().get();
             if (recipe instanceof CookingPotRecipe cookingRecipe) {
                 if (cookingRecipe.matchesWithFluid(this.fluidTank.orElse(new FluidTank(0)).getFluid(), inventoryWrapper,
@@ -108,7 +114,7 @@ public class CookingPotBlockEntity extends SyncedBlockEntity implements MenuProv
         }
 
         if (checkNewRecipe) {
-            List<CookingPotRecipe> recipes = level.getRecipeManager().getRecipesFor(RecipeTypeRegistry.COOKING_RECIPE_TYPE.get(),
+            List<CookingPotRecipe> recipes = level.getRecipeManager().getRecipesFor(RecipeTypeRegistry.COOKING_RECIPE_TYPE,
                     inventoryWrapper, level);
             for(CookingPotRecipe recipe : recipes) {
                 if(recipe.matchesWithFluid(this.fluidTank.orElse(new FluidTank(0)).getFluid(),
@@ -145,7 +151,7 @@ public class CookingPotBlockEntity extends SyncedBlockEntity implements MenuProv
         }
     }
 
-    private boolean processRecipe(CookingPotRecipe recipe,Level level) {
+    private boolean processRecipe(CookingPotRecipe recipe, Level level) {
         if (level == null) {
             return false;
         }
@@ -166,26 +172,49 @@ public class CookingPotBlockEntity extends SyncedBlockEntity implements MenuProv
         } else if (ItemStack.isSameItem(outStack, resultStack)) {
             outStack.grow(resultStack.getCount());
         }
-        if(recipe.getRequiredFluid() != FluidIngredient.EMPTY)
-            this.fluidTank.orElse(new FluidTank(0)).drain(recipe.getRequiredFluid().getRequiredAmount(),
-                    FluidAction.EXECUTE);
+
+        // 修复流体消耗逻辑
+        if(recipe.getRequiredFluid() != FluidIngredient.EMPTY) {
+            FluidTank tank = this.fluidTank.orElse(new FluidTank(0));
+            // 使用 drain 方法的替代实现
+            int amount = recipe.getRequiredFluid().getRequiredAmount();
+            if (tank.getFluidAmount() >= amount) {
+                tank.setFluid(new FluidStack(tank.getFluid().getFluid(), tank.getFluidAmount() - amount));
+            }
+        }
 
         trackRecipeExperience(recipe);
 
         for (int i = 0; i < 9; ++i) {
             ItemStack slotStack = inventory.getStackInSlot(i);
-            if (slotStack.hasCraftingRemainingItem()) {
+            // 修复合成剩余物品逻辑
+            if (hasRecipeRemainder(slotStack)) {
                 double x = worldPosition.getX() + 0.5;
                 double y = worldPosition.getY() + 0.7;
                 double z = worldPosition.getZ() + 0.5;
-                LevelUtils.spawnItemEntity(level, inventory.getStackInSlot(i).getCraftingRemainingItem(), x, y, z, 0F, 0.25F,
-                        0F);
+                LevelUtils.spawnItemEntity(level, getRecipeRemainder(slotStack), x, y, z, 0F, 0.25F, 0F);
             }
             if (!slotStack.isEmpty()) {
                 slotStack.shrink(1);
             }
         }
         return true;
+    }
+
+    // 添加辅助方法检查物品是否有合成剩余物
+    private boolean hasRecipeRemainder(ItemStack stack) {
+        return !stack.isEmpty() && stack.getItem().hasCraftingRemainingItem();
+    }
+
+    // 添加辅助方法获取合成剩余物
+    private ItemStack getRecipeRemainder(ItemStack stack) {
+        if (stack.isEmpty()) return ItemStack.EMPTY;
+
+        Item item = stack.getItem();
+        if (item.hasCraftingRemainingItem()) {
+            return new ItemStack(item.getCraftingRemainingItem());
+        }
+        return ItemStack.EMPTY;
     }
 
     public void trackRecipeExperience(@Nullable Recipe<?> recipe) {
@@ -207,22 +236,8 @@ public class CookingPotBlockEntity extends SyncedBlockEntity implements MenuProv
         }
     }
 
-    @Override
-    @Nonnull
-    public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
-        if (!this.isRemoved()) {
-            if (cap.equals(ForgeCapabilities.ITEM_HANDLER)) {
-                if (side == null || side.equals(Direction.UP)) {
-                    return inputHandler.cast();
-                } else {
-                    return outputHandler.cast();
-                }
-            }
-            if (cap.equals(ForgeCapabilities.FLUID_HANDLER)) {
-                return this.fluidTank.cast();
-            }
-        }
-        return super.getCapability(cap, side);
+    public FluidTank getFluidHandler() {
+        return fluidTank.orElse(null);
     }
 
     public ItemStackHandler getInventory() {
@@ -284,6 +299,7 @@ public class CookingPotBlockEntity extends SyncedBlockEntity implements MenuProv
         };
     }
 
+    // 修改 FluidTank 创建方法
     private FluidTank createFluidHandler() {
         return new FluidTank(TANK_CAPACITY) {
             @Override
@@ -295,11 +311,47 @@ public class CookingPotBlockEntity extends SyncedBlockEntity implements MenuProv
 
             @Override
             public boolean isFluidValid(FluidStack stack) {
-                return ! Objects.requireNonNull(stack.getFluid().getFluidType()).isLighterThanAir();
+                return stack.getFluid().getFluidType() != null &&
+                        !stack.getFluid().getFluidType().isLighterThanAir();
+            }
+
+            // 添加 drain 方法的替代实现
+            public FluidStack drain(int maxDrain, FluidAction action) {
+                long drainAmount = Math.min(getFluidAmount(), maxDrain);
+                if (drainAmount <= 0) return FluidStack.EMPTY;
+
+                FluidStack stack = new FluidStack(getFluid().getFluid(), drainAmount);
+                if (action.execute()) {
+                    setFluid(new FluidStack(getFluid().getFluid(), getFluidAmount() - drainAmount));
+                    onContentsChanged();
+                }
+                return stack;
+            }
+
+            // 添加 fill 方法的替代实现
+            public long fill(FluidStack resource, FluidAction action) {
+                if (resource.isEmpty() || !isFluidValid(resource)) return 0;
+
+                long fillAmount = Math.min(getSpace(), resource.getAmount());
+                if (fillAmount <= 0) return 0;
+
+                if (action.execute()) {
+                    if (isEmpty()) {
+                        setFluid(new FluidStack(resource.getFluid(), fillAmount));
+                    } else {
+                        setFluid(new FluidStack(getFluid().getFluid(), getFluidAmount() + fillAmount));
+                    }
+                    onContentsChanged();
+                }
+                return fillAmount;
+            }
+
+            // 获取可用空间
+            public long getSpace() {
+                return getCapacity() - getFluidAmount();
             }
         };
     }
-
     private ContainerData createIntArray() {
         return new ContainerData() {
             @Override
@@ -363,14 +415,6 @@ public class CookingPotBlockEntity extends SyncedBlockEntity implements MenuProv
         inputHandler.invalidate();
         outputHandler.invalidate();
         fluidTank.invalidate();
-    }
-
-    @Override
-    public void reviveCaps() {
-        super.reviveCaps();
-        inputHandler = LazyOptional.of(() -> new CookingPotItemHandler(inventory, Direction.UP));
-        outputHandler = LazyOptional.of(() -> new CookingPotItemHandler(inventory, Direction.DOWN));
-        fluidTank = LazyOptional.of(this::createFluidHandler);
     }
 
 }

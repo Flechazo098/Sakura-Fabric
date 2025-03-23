@@ -2,6 +2,7 @@ package com.flechazo.sakuraFabric.container;
 
 import com.flechazo.sakuraFabric.block.entity.FermenterBlockEntity;
 import io.github.fabricators_of_create.porting_lib.transfer.item.SlotItemHandler;
+import io.github.fabricators_of_create.porting_lib.transfer.item.SlottedStackStorage;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
@@ -14,7 +15,7 @@ public class FermenterResultSlot extends SlotItemHandler {
     private final Player player;
     private int removeCount;
 
-    public FermenterResultSlot(Player player, FermenterBlockEntity tile, IItemHandler inventoryIn, int index,
+    public FermenterResultSlot(Player player, FermenterBlockEntity tile, SlottedStackStorage inventoryIn, int index,
                                int xPosition, int yPosition) {
         super(inventoryIn, index, xPosition, yPosition);
         this.tileEntity = tile;

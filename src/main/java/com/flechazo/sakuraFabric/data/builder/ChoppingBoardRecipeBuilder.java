@@ -114,7 +114,7 @@ public class ChoppingBoardRecipeBuilder {
 
         @Override
         public void serializeRecipeData(JsonObject json) {
-            JsonObject recipeJson = RecipeTypeRegistry.CHOPPING_RECIPE_SERIALIZER.get().toJson(recipe);
+            JsonObject recipeJson = RecipeTypeRegistry.CHOPPING_RECIPE_SERIALIZER.toJson(recipe);
             json.add("ingredient", recipeJson.get("ingredient"));
             json.add("tool", recipeJson.get("tool"));
             json.add("result", recipeJson.get("result"));
@@ -125,7 +125,7 @@ public class ChoppingBoardRecipeBuilder {
 
         @Override
         public RecipeSerializer<?> getType() {
-            return RecipeTypeRegistry.CHOPPING_RECIPE_SERIALIZER.get();
+            return RecipeTypeRegistry.CHOPPING_RECIPE_SERIALIZER;
         }
 
         @Override

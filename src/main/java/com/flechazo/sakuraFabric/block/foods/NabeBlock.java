@@ -38,7 +38,7 @@ public class NabeBlock extends Block implements HeatableBlockEntity {
     protected static final VoxelShape SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 8.0D, 15.0D);
     private final FoodInfo info;
     public NabeBlock(FoodInfo info) {
-        super(Properties.copy(BlockRegistry.COOKING_POT.get()));
+        super(Properties.copy(BlockRegistry.COOKING_POT));
         this.info = info;
         this.registerDefaultState(this.stateDefinition.any().setValue(IS_COOKED, false).setValue(FACING, Direction.NORTH).setValue(BITES, 0));
     }
@@ -116,7 +116,7 @@ public class NabeBlock extends Block implements HeatableBlockEntity {
                 level.setBlock(pos, state.setValue(BITES, Integer.valueOf(i + 1)), 3);
             } else {
                 level.playSound(null, pos, SoundEvents.BUCKET_EMPTY, SoundSource.PLAYERS, 0.8F, 0.8F);
-                level.setBlock(pos, BlockRegistry.COOKING_POT.get().defaultBlockState().setValue(FACING, state.getValue(FACING)), UPDATE_ALL);
+                level.setBlock(pos, BlockRegistry.COOKING_POT.defaultBlockState().setValue(FACING, state.getValue(FACING)), UPDATE_ALL);
             }
 
             return InteractionResult.SUCCESS;

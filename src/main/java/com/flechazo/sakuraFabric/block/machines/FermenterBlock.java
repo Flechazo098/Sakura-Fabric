@@ -2,11 +2,6 @@ package com.flechazo.sakuraFabric.block.machines;
 
 import com.flechazo.sakuraFabric.block.entity.BlockEntityRegistry;
 import com.flechazo.sakuraFabric.block.entity.FermenterBlockEntity;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTank;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.item.FluidBucketWrapper;
-import io.github.fabricators_of_create.porting_lib.transfer.item.ItemHandlerHelper;
-import io.github.fabricators_of_create.porting_lib.util.FluidUtil;
-import io.github.fabricators_of_create.porting_lib.util.NetworkHooks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
@@ -48,7 +43,7 @@ public class FermenterBlock extends BaseEntityBlock {
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return BlockEntityRegistry.FERMENTER.get().create(pos, state);
+        return BlockEntityRegistry.FERMENTER.create(pos, state);
     }
 
     @Override

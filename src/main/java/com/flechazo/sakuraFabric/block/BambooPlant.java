@@ -80,11 +80,10 @@ public class BambooPlant extends Block implements BonemealableBlock {
 
     @Override
     public void randomTick(BlockState state, ServerLevel levelIn, BlockPos pos, RandomSource random) {
-        if(ForgeHooks.onCropsGrowPre(levelIn, pos, state, random.nextInt(3) == 0)) {
+        if (random.nextInt(3) == 0) {
             if (levelIn.getRawBrightness(pos.above(), 0) >= 6) {
                 growingTick(state, levelIn, pos, random);
                 spreadingTick(levelIn, pos, random);
-                ForgeHooks.onCropsGrowPost(levelIn, pos, state);
             }
         }
     }
@@ -184,9 +183,9 @@ public class BambooPlant extends Block implements BonemealableBlock {
     public void growBambooShoot(ServerLevel levelIn, BlockPos pos, RandomSource random) {
         BlockPos blockpos1 = pos.offset(random.nextInt(3) - 1, random.nextInt(2) - random.nextInt(2),
                 random.nextInt(3) - 1);
-        if (BlockRegistry.BAMBOOSHOOT.get().defaultBlockState().canSurvive(levelIn, blockpos1)
+        if (BlockRegistry.BAMBOOSHOOT.defaultBlockState().canSurvive(levelIn, blockpos1)
                 && levelIn.isEmptyBlock(blockpos1.above()) && levelIn.isEmptyBlock(blockpos1)) {
-            levelIn.setBlockAndUpdate(blockpos1, BlockRegistry.BAMBOOSHOOT.get().defaultBlockState());
+            levelIn.setBlockAndUpdate(blockpos1, BlockRegistry.BAMBOOSHOOT.defaultBlockState());
         }
     }
 

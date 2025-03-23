@@ -19,7 +19,7 @@ import java.util.function.Consumer;
 public class StoneMortarItem extends BlockItem {
 
     public StoneMortarItem() {
-        super(BlockRegistry.STONE_MORTAR.get(), SakuraFabric.defaultItemProperties());
+        super(BlockRegistry.STONE_MORTAR, SakuraFabric.defaultItemProperties());
     }
 
     @Override

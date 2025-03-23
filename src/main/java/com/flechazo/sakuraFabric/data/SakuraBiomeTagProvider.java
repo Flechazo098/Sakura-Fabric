@@ -1,7 +1,6 @@
 package com.flechazo.sakuraFabric.data;
 
 import com.flechazo.sakuraFabric.tags.SakuraBiomeTags;
-import io.github.fabricators_of_create.porting_lib.data.ExistingFileHelper;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.BiomeTagsProvider;
@@ -11,8 +10,8 @@ import net.minecraft.world.level.biome.Biomes;
 import java.util.concurrent.CompletableFuture;
 
 public class SakuraBiomeTagProvider extends BiomeTagsProvider {
-    public SakuraBiomeTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> provider, String modId, ExistingFileHelper existingFileHelper) {
-        super(output, provider, modId, existingFileHelper);
+    public SakuraBiomeTagProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> completableFuture) {
+        super(packOutput, completableFuture);
     }
 
     @Override

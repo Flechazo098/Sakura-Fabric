@@ -61,15 +61,13 @@ public class HighCropBlock extends BaseCropBlock {
         if (worldIn.isAreaLoaded(pos, 1)) {
             float f = getGrowthSpeed(this, worldIn, pos);
             int age = this.getAge(state);
-            if (worldIn.getRawBrightness(pos, 0) >= 9 && age < this.getMaxAge() && ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt((int)(25.0F / f) + 1) == 0)) {
+            if (worldIn.getRawBrightness(pos, 0) >= 9 && age < this.getMaxAge() && rand.nextInt((int)(25.0F / f) + 1) == 0) {
                 worldIn.setBlock(pos, (BlockState)this.getStateForAge(age + 1).setValue(this.getUpperProperty(), (Boolean)state.getValue(this.getUpperProperty())), 2);
-                ForgeHooks.onCropsGrowPost(worldIn, pos, state);
             }
 
             if (!(Boolean)state.getValue(this.getUpperProperty())) {
-                if (age >= this.getGrowUpperAge() && ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt((int)(25.0F / f) + 1) == 0) && this.defaultBlockState().canSurvive(worldIn, pos.above()) && worldIn.isEmptyBlock(pos.above())) {
+                if (age >= this.getGrowUpperAge() &&  rand.nextInt((int)(25.0F / f) + 1) == 0 && this.defaultBlockState().canSurvive(worldIn, pos.above()) && worldIn.isEmptyBlock(pos.above())) {
                     worldIn.setBlockAndUpdate(pos.above(), (BlockState)this.defaultBlockState().setValue(this.getUpperProperty(), true));
-                    ForgeHooks.onCropsGrowPost(worldIn, pos, state);
                 }
 
             }

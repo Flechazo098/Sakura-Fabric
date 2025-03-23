@@ -24,7 +24,7 @@ public class CookingPotContainer extends AbstractContainerMenu {
 
     public CookingPotContainer(final int windowId, final Inventory playerInventory,
                                final CookingPotBlockEntity tileEntity, ContainerData cookingPotDataIn) {
-        super(ContainerRegistry.COOKING_POT.get(), windowId);
+        super(ContainerRegistry.COOKING_POT, windowId);
         this.tileEntity = tileEntity;
         this.inventory = tileEntity.getInventory();
         this.containerData = cookingPotDataIn;

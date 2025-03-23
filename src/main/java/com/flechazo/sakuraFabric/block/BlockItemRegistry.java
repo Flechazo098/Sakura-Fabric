@@ -1,123 +1,130 @@
 package com.flechazo.sakuraFabric.block;
 
 import com.flechazo.sakuraFabric.SakuraFabric;
-import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
+import com.flechazo.sakuraFabric.item.StoneMortarItem;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 
 public class BlockItemRegistry {
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, SakuraFabric.MODID);
 
-    public static final RegistryObject<Item> SAKURA_LEAVES = ITEMS.register("sakuraleaves",
-            () -> new BlockItem(BlockRegistry.SAKURA_LEAVES.get(), SakuraFabric.defaultItemProperties()));
+    public static final Item SAKURA_LEAVES = registerItem("sakuraleaves",
+             new BlockItem(BlockRegistry.SAKURA_LEAVES, SakuraFabric.defaultItemProperties()));
 
-    public static final RegistryObject<Item> MAPLE_LEAVES_RED = ITEMS.register("mapleleaves_red",
-            () -> new BlockItem(BlockRegistry.MAPLE_LEAVES_RED.get(), SakuraFabric.defaultItemProperties()));
-    public static final RegistryObject<Item> MAPLE_LEAVES_YELLOW = ITEMS.register("mapleleaves_yellow",
-            () -> new BlockItem(BlockRegistry.MAPLE_LEAVES_YELLOW.get(), SakuraFabric.defaultItemProperties()));
-    public static final RegistryObject<Item> MAPLE_LEAVES_ORANGE = ITEMS.register("mapleleaves_orange",
-            () -> new BlockItem(BlockRegistry.MAPLE_LEAVES_ORANGE.get(), SakuraFabric.defaultItemProperties()));
-    public static final RegistryObject<Item> MAPLE_LEAVES_GREEN = ITEMS.register("mapleleaves_green",
-            () -> new BlockItem(BlockRegistry.MAPLE_LEAVES_GREEN.get(), SakuraFabric.defaultItemProperties()));
+    public static final Item MAPLE_LEAVES_RED = registerItem("mapleleaves_red",
+             new BlockItem(BlockRegistry.MAPLE_LEAVES_RED, SakuraFabric.defaultItemProperties()));
+    public static final Item MAPLE_LEAVES_YELLOW = registerItem("mapleleaves_yellow",
+             new BlockItem(BlockRegistry.MAPLE_LEAVES_YELLOW, SakuraFabric.defaultItemProperties()));
+    public static final Item MAPLE_LEAVES_ORANGE = registerItem("mapleleaves_orange",
+             new BlockItem(BlockRegistry.MAPLE_LEAVES_ORANGE, SakuraFabric.defaultItemProperties()));
+    public static final Item MAPLE_LEAVES_GREEN = registerItem("mapleleaves_green",
+             new BlockItem(BlockRegistry.MAPLE_LEAVES_GREEN, SakuraFabric.defaultItemProperties()));
 
-    public static final RegistryObject<Item> SAKURA_LOG = ITEMS.register("sakura_log",
-            () -> new BlockItem(BlockRegistry.SAKURA_LOG.get(), SakuraFabric.defaultItemProperties()));
+    public static final Item SAKURA_LOG = registerItem("sakura_log",
+             new BlockItem(BlockRegistry.SAKURA_LOG, SakuraFabric.defaultItemProperties()));
 
-    public static final RegistryObject<Item> STRIPPED_SAKURA_LOG = ITEMS.register("stripped_sakura_log",
-            () -> new BlockItem(BlockRegistry.STRIPPED_SAKURA_LOG.get(), SakuraFabric.defaultItemProperties()));
+    public static final Item STRIPPED_SAKURA_LOG = registerItem("stripped_sakura_log",
+             new BlockItem(BlockRegistry.STRIPPED_SAKURA_LOG, SakuraFabric.defaultItemProperties()));
 
-    public static final RegistryObject<Item> SAKURA_WOOD = ITEMS.register("sakura_wood",
-            () -> new BlockItem(BlockRegistry.SAKURA_WOOD.get(), SakuraFabric.defaultItemProperties()));
-    public static final RegistryObject<Item> STRIPPED_SAKURA_WOOD = ITEMS.register("stripped_sakura_wood",
-            () -> new BlockItem(BlockRegistry.STRIPPED_SAKURA_WOOD.get(), SakuraFabric.defaultItemProperties()));
+    public static final Item SAKURA_WOOD = registerItem("sakura_wood",
+             new BlockItem(BlockRegistry.SAKURA_WOOD, SakuraFabric.defaultItemProperties()));
+    public static final Item STRIPPED_SAKURA_WOOD = registerItem("stripped_sakura_wood",
+             new BlockItem(BlockRegistry.STRIPPED_SAKURA_WOOD, SakuraFabric.defaultItemProperties()));
 
-    public static final RegistryObject<Item> MAPLE_LOG = ITEMS.register("maple_log",
-            () -> new BlockItem(BlockRegistry.MAPLE_LOG.get(), SakuraFabric.defaultItemProperties()));
-    public static final RegistryObject<Item> STRIPPED_MAPLE_LOG = ITEMS.register("stripped_maple_log",
-            () -> new BlockItem(BlockRegistry.STRIPPED_MAPLE_LOG.get(), SakuraFabric.defaultItemProperties()));
+    public static final Item MAPLE_LOG = registerItem("maple_log",
+             new BlockItem(BlockRegistry.MAPLE_LOG, SakuraFabric.defaultItemProperties()));
+    public static final Item STRIPPED_MAPLE_LOG = registerItem("stripped_maple_log",
+             new BlockItem(BlockRegistry.STRIPPED_MAPLE_LOG, SakuraFabric.defaultItemProperties()));
 
-    public static final RegistryObject<Item> MAPLE_WOOD = ITEMS.register("maple_wood",
-            () -> new BlockItem(BlockRegistry.MAPLE_WOOD.get(), SakuraFabric.defaultItemProperties()));
-    public static final RegistryObject<Item> STRIPPED_MAPLE_WOOD = ITEMS.register("stripped_maple_wood",
-            () -> new BlockItem(BlockRegistry.STRIPPED_MAPLE_WOOD.get(), SakuraFabric.defaultItemProperties()));
+    public static final Item MAPLE_WOOD = registerItem("maple_wood",
+             new BlockItem(BlockRegistry.MAPLE_WOOD, SakuraFabric.defaultItemProperties()));
+    public static final Item STRIPPED_MAPLE_WOOD = registerItem("stripped_maple_wood",
+             new BlockItem(BlockRegistry.STRIPPED_MAPLE_WOOD, SakuraFabric.defaultItemProperties()));
 
-    public static final RegistryObject<Item> BAMBOO_BLOCK = ITEMS.register("bamboo_block",
-            () -> new BlockItem(BlockRegistry.BAMBOO_BLOCK.get(), SakuraFabric.defaultItemProperties()));
-    public static final RegistryObject<Item> BAMBOO_BLOCK_SUNBURNT = ITEMS.register("bamboo_block_sunburnt",
-            () -> new BlockItem(BlockRegistry.BAMBOO_BLOCK_SUNBURNT.get(), SakuraFabric.defaultItemProperties()));
-    public static final RegistryObject<Item> BAMBOO_CHARCOAL_BLOCK = ITEMS.register("bamboo_charcoal_block",
-            () -> new BlockItem(BlockRegistry.BAMBOO_CHARCOAL_BLOCK.get(), SakuraFabric.defaultItemProperties()));
+    public static final Item BAMBOO_BLOCK = registerItem("bamboo_block",
+             new BlockItem(BlockRegistry.BAMBOO_BLOCK, SakuraFabric.defaultItemProperties()));
+    public static final Item BAMBOO_BLOCK_SUNBURNT = registerItem("bamboo_block_sunburnt",
+             new BlockItem(BlockRegistry.BAMBOO_BLOCK_SUNBURNT, SakuraFabric.defaultItemProperties()));
+    public static final Item BAMBOO_CHARCOAL_BLOCK = registerItem("bamboo_charcoal_block",
+             new BlockItem(BlockRegistry.BAMBOO_CHARCOAL_BLOCK, SakuraFabric.defaultItemProperties()));
 
-    public static final RegistryObject<Item> SAKURA_PLANK = ITEMS.register("plank_sakura",
-            () -> new BlockItem(BlockRegistry.SAKURA_PLANK.get(), SakuraFabric.defaultItemProperties()));
-    public static final RegistryObject<Item> MAPLE_PLANK = ITEMS.register("plank_maple",
-            () -> new BlockItem(BlockRegistry.MAPLE_PLANK.get(), SakuraFabric.defaultItemProperties()));
-    public static final RegistryObject<Item> BAMBOO_PLANK = ITEMS.register("plank_bamboo",
-            () -> new BlockItem(BlockRegistry.BAMBOO_PLANK.get(), SakuraFabric.defaultItemProperties()));
+    public static final Item SAKURA_PLANK = registerItem("plank_sakura",
+             new BlockItem(BlockRegistry.SAKURA_PLANK, SakuraFabric.defaultItemProperties()));
+    public static final Item MAPLE_PLANK = registerItem("plank_maple",
+             new BlockItem(BlockRegistry.MAPLE_PLANK, SakuraFabric.defaultItemProperties()));
+    public static final Item BAMBOO_PLANK = registerItem("plank_bamboo",
+             new BlockItem(BlockRegistry.BAMBOO_PLANK, SakuraFabric.defaultItemProperties()));
 
-    public static final RegistryObject<Item> TATAMI = ITEMS.register("tatami",
-            () -> new BlockItem(BlockRegistry.TATAMI.get(), SakuraFabric.defaultItemProperties()));
-    public static final RegistryObject<Item> TATAMI_SLAB = ITEMS.register("tatami_slab",
-            () -> new BlockItem(BlockRegistry.TATAMI_SLAB.get(), SakuraFabric.defaultItemProperties()));
+    public static final Item TATAMI = registerItem("tatami",
+             new BlockItem(BlockRegistry.TATAMI, SakuraFabric.defaultItemProperties()));
+    public static final Item TATAMI_SLAB = registerItem("tatami_slab",
+             new BlockItem(BlockRegistry.TATAMI_SLAB, SakuraFabric.defaultItemProperties()));
 
-    public static final RegistryObject<Item> TATAMI_SUNBURNT = ITEMS.register("tatami_sunburnt",
-            () -> new BlockItem(BlockRegistry.TATAMI_SUNBURNT.get(), SakuraFabric.defaultItemProperties()));
-    public static final RegistryObject<Item> TATAMI_SLAB_SUNBURNT = ITEMS.register("tatami_slab_sunburnt",
-            () -> new BlockItem(BlockRegistry.TATAMI_SLAB_SUNBURNT.get(), SakuraFabric.defaultItemProperties()));
+    public static final Item TATAMI_SUNBURNT = registerItem("tatami_sunburnt",
+             new BlockItem(BlockRegistry.TATAMI_SUNBURNT, SakuraFabric.defaultItemProperties()));
+    public static final Item TATAMI_SLAB_SUNBURNT = registerItem("tatami_slab_sunburnt",
+             new BlockItem(BlockRegistry.TATAMI_SLAB_SUNBURNT, SakuraFabric.defaultItemProperties()));
 
-    public static final RegistryObject<Item> STRAW_BLOCK = ITEMS.register("straw_block",
-            () -> new BlockItem(BlockRegistry.STRAW_BLOCK.get(), SakuraFabric.defaultItemProperties()));
+    public static final Item STRAW_BLOCK = registerItem("straw_block",
+             new BlockItem(BlockRegistry.STRAW_BLOCK, SakuraFabric.defaultItemProperties()));
 
-    public static final RegistryObject<Item> BAMBOOSHOOT = ITEMS.register("bamboo_shoot",
-            () -> new BlockItem(BlockRegistry.BAMBOOSHOOT.get(), SakuraFabric.defaultItemProperties()));
+    public static final Item BAMBOOSHOOT = registerItem("bamboo_shoot",
+             new BlockItem(BlockRegistry.BAMBOOSHOOT, SakuraFabric.defaultItemProperties()));
 
-    public static final RegistryObject<Item> SAKURA_SAPLING = ITEMS.register("sakura_sapling",
-            () -> new BlockItem(BlockRegistry.SAKURA_SAPLING.get(), SakuraFabric.defaultItemProperties()));
+    public static final Item SAKURA_SAPLING = registerItem("sakura_sapling",
+             new BlockItem(BlockRegistry.SAKURA_SAPLING, SakuraFabric.defaultItemProperties()));
 
-    public static final RegistryObject<Item> MAPLE_SAPLING_RED = ITEMS.register("maple_sapling_red",
-            () -> new BlockItem(BlockRegistry.MAPLE_SAPLING_RED.get(), SakuraFabric.defaultItemProperties()));
-    public static final RegistryObject<Item> MAPLE_SAPLING_YELLOW = ITEMS.register("maple_sapling_yellow",
-            () -> new BlockItem(BlockRegistry.MAPLE_SAPLING_YELLOW.get(), SakuraFabric.defaultItemProperties()));
-    public static final RegistryObject<Item> MAPLE_SAPLING_ORANGE = ITEMS.register("maple_sapling_orange",
-            () -> new BlockItem(BlockRegistry.MAPLE_SAPLING_ORANGE.get(), SakuraFabric.defaultItemProperties()));
-    public static final RegistryObject<Item> MAPLE_SAPLING_GREEN = ITEMS.register("maple_sapling_green",
-            () -> new BlockItem(BlockRegistry.MAPLE_SAPLING_GREEN.get(), SakuraFabric.defaultItemProperties()));
+    public static final Item MAPLE_SAPLING_RED = registerItem("maple_sapling_red",
+             new BlockItem(BlockRegistry.MAPLE_SAPLING_RED, SakuraFabric.defaultItemProperties()));
+    public static final Item MAPLE_SAPLING_YELLOW = registerItem("maple_sapling_yellow",
+             new BlockItem(BlockRegistry.MAPLE_SAPLING_YELLOW, SakuraFabric.defaultItemProperties()));
+    public static final Item MAPLE_SAPLING_ORANGE = registerItem("maple_sapling_orange",
+             new BlockItem(BlockRegistry.MAPLE_SAPLING_ORANGE, SakuraFabric.defaultItemProperties()));
+    public static final Item MAPLE_SAPLING_GREEN = registerItem("maple_sapling_green",
+             new BlockItem(BlockRegistry.MAPLE_SAPLING_GREEN, SakuraFabric.defaultItemProperties()));
 
-    public static final RegistryObject<Item> STONE_MORTAR = ITEMS.register("stone_mortar", StoneMortarItem::new);
+    public static final Item STONE_MORTAR = registerItem("stone_mortar", new  StoneMortarItem());
 
-    public static final RegistryObject<Item> COOKING_POT = ITEMS.register("cooking_pot",
-            () -> new BlockItem(BlockRegistry.COOKING_POT.get(), SakuraFabric.defaultItemProperties()));
+    public static final Item COOKING_POT = registerItem("cooking_pot",
+             new BlockItem(BlockRegistry.COOKING_POT, SakuraFabric.defaultItemProperties()));
 
-    public static final RegistryObject<Item> FERMENTER = ITEMS.register("fermenter",
-            () -> new BlockItem(BlockRegistry.FERMENTER.get(), SakuraFabric.defaultItemProperties()));
+    public static final Item FERMENTER = registerItem("fermenter",
+             new BlockItem(BlockRegistry.FERMENTER, SakuraFabric.defaultItemProperties()));
 
-    public static final RegistryObject<Item> DISTILLER = ITEMS.register("distiller",
-            () -> new BlockItem(BlockRegistry.DISTILLER.get(), SakuraFabric.defaultItemProperties()));
+    public static final Item DISTILLER = registerItem("distiller",
+             new BlockItem(BlockRegistry.DISTILLER, SakuraFabric.defaultItemProperties()));
 
-    public static final RegistryObject<Item> OBON = ITEMS.register("obon",
-            () -> new BlockItem(BlockRegistry.OBON.get(), SakuraFabric.defaultItemProperties()));
+    public static final Item OBON = registerItem("obon",
+             new BlockItem(BlockRegistry.OBON, SakuraFabric.defaultItemProperties()));
 
-    public static final RegistryObject<Item> CHOPPING_BOARD = ITEMS.register("chopping_board",
-            () -> new BlockItem(BlockRegistry.CHOPPING_BOARD.get(), SakuraFabric.defaultItemProperties()));
+    public static final Item CHOPPING_BOARD = registerItem("chopping_board",
+             new BlockItem(BlockRegistry.CHOPPING_BOARD, SakuraFabric.defaultItemProperties()));
 
-    public static final RegistryObject<Item> TEISHOUKU_FISH_RAW = ITEMS.register("teishoku_fish_raw",
-            () -> new BlockItem(BlockRegistry.TEISHOUKU_FISH_RAW.get(), SakuraFabric.defaultItemProperties()));
+    public static final Item TEISHOUKU_FISH_RAW = registerItem("teishoku_fish_raw",
+             new BlockItem(BlockRegistry.TEISHOUKU_FISH_RAW, SakuraFabric.defaultItemProperties()));
 
-    public static final RegistryObject<Item> TEISHOUKU_FISH_COOKED = ITEMS.register("teishoku_fish_cooked",
-            () -> new BlockItem(BlockRegistry.TEISHOUKU_FISH_COOKED.get(), SakuraFabric.defaultItemProperties()));
+    public static final Item TEISHOUKU_FISH_COOKED = registerItem("teishoku_fish_cooked",
+             new BlockItem(BlockRegistry.TEISHOUKU_FISH_COOKED, SakuraFabric.defaultItemProperties()));
 
-    public static final RegistryObject<Item> TEISHOUKU_FISH_SALT = ITEMS.register("teishoku_fish_salt",
-            () -> new BlockItem(BlockRegistry.TEISHOUKU_FISH_SALT.get(), SakuraFabric.defaultItemProperties()));
+    public static final Item TEISHOUKU_FISH_SALT = registerItem("teishoku_fish_salt",
+             new BlockItem(BlockRegistry.TEISHOUKU_FISH_SALT, SakuraFabric.defaultItemProperties()));
 
-    public static final RegistryObject<Item> TEISHOKO_TAMAGOYAKI = ITEMS.register("teishoku_tamagoyaki",
-            () -> new BlockItem(BlockRegistry.TEISHOKO_TAMAGOYAKI.get(), SakuraFabric.defaultItemProperties()));
+    public static final Item TEISHOKO_TAMAGOYAKI = registerItem("teishoku_tamagoyaki",
+             new BlockItem(BlockRegistry.TEISHOKO_TAMAGOYAKI, SakuraFabric.defaultItemProperties()));
 
-    public static final RegistryObject<Item> TEISHOKO_YAKINIKU = ITEMS.register("teishoku_yakiniku",
-            () -> new BlockItem(BlockRegistry.TEISHOKO_YAKINIKU.get(), SakuraFabric.defaultItemProperties()));
+    public static final Item TEISHOKO_YAKINIKU = registerItem("teishoku_yakiniku",
+             new BlockItem(BlockRegistry.TEISHOKO_YAKINIKU, SakuraFabric.defaultItemProperties()));
 
-    public static final RegistryObject<Item> NABE_SUKIYAKI = ITEMS.register("nabe_sukiyaki",
-            () -> new BlockItem(BlockRegistry.NABE_SUKIYAKI.get(), SakuraFabric.defaultItemProperties()));
+    public static final Item NABE_SUKIYAKI = registerItem("nabe_sukiyaki",
+             new BlockItem(BlockRegistry.NABE_SUKIYAKI, SakuraFabric.defaultItemProperties()));
 
-    public static final RegistryObject<Item> NABE_ODEN = ITEMS.register("nabe_oden",
-            () -> new BlockItem(BlockRegistry.NABE_ODEN.get(), SakuraFabric.defaultItemProperties()));
+    public static final Item NABE_ODEN = registerItem("nabe_oden",
+             new BlockItem(BlockRegistry.NABE_ODEN, SakuraFabric.defaultItemProperties()));
+
+    private static Item registerItem(String name, Item item) {
+        return Registry.register(BuiltInRegistries.ITEM,
+                new ResourceLocation(SakuraFabric.MODID, name), item);
+    }
 }

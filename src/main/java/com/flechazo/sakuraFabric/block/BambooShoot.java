@@ -36,10 +36,7 @@ public class BambooShoot extends BushBlock implements BonemealableBlock {
         if (worldIn.getRawBrightness(pos.above(), 0) > 6) {
             if (worldIn.getBrightness(LightLayer.BLOCK, pos) > 0) {
                 if (rand.nextInt(3) == 0) {
-                    if (ForgeHooks.onCropsGrowPre(worldIn, pos, state, true)) {
                         growBamboo(worldIn, pos);
-                        ForgeHooks.onCropsGrowPost(worldIn, pos, state);
-                    }
                 }
             }
         }
@@ -49,7 +46,7 @@ public class BambooShoot extends BushBlock implements BonemealableBlock {
     public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
         BlockState ground = worldIn.getBlockState(pos.below());
         return ground.is(BlockTags.BAMBOO_PLANTABLE_ON) && !(ground.is(Blocks.BAMBOO))
-                && !(ground.is(Blocks.BAMBOO_SAPLING)) && !(ground.is(BlockRegistry.BAMBOO_PLANT.get()))
+                && !(ground.is(Blocks.BAMBOO_SAPLING)) && !(ground.is(BlockRegistry.BAMBOO_PLANT))
                 && !(ground.is(this));
     }
 
@@ -74,11 +71,11 @@ public class BambooShoot extends BushBlock implements BonemealableBlock {
             return;
         }
         if (worldIn.isEmptyBlock(pos.above(2))) {
-            worldIn.setBlockAndUpdate(pos.above(2), BlockRegistry.BAMBOO_PLANT.get().defaultBlockState()
+            worldIn.setBlockAndUpdate(pos.above(2), BlockRegistry.BAMBOO_PLANT.defaultBlockState()
                     .setValue(BambooStalkBlock.LEAVES, BambooLeaves.LARGE));
         }
         worldIn.setBlockAndUpdate(pos.above(),
-                BlockRegistry.BAMBOO_PLANT.get().defaultBlockState().setValue(BambooStalkBlock.LEAVES, BambooLeaves.SMALL));
-        worldIn.setBlockAndUpdate(pos, BlockRegistry.BAMBOO_PLANT.get().defaultBlockState());
+                BlockRegistry.BAMBOO_PLANT.defaultBlockState().setValue(BambooStalkBlock.LEAVES, BambooLeaves.SMALL));
+        worldIn.setBlockAndUpdate(pos, BlockRegistry.BAMBOO_PLANT.defaultBlockState());
     }
 }

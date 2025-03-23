@@ -1,11 +1,15 @@
 package com.flechazo.sakuraFabric.block.entity;
 
+import com.flechazo.sakuraFabric.inventory.FermenterItemHandler;
+import com.flechazo.sakuraFabric.recipes.FermenterRecipe;
+import com.flechazo.sakuraFabric.recipes.RecipeTypeRegistry;
 import com.flechazo.sakuraFabric.utils.FluidIngredient;
 import com.flechazo.sakuraFabric.utils.LevelUtils;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTank;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
 import io.github.fabricators_of_create.porting_lib.transfer.item.RecipeWrapper;
+import io.github.fabricators_of_create.porting_lib.transfer.item.SlottedStackStorage;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
@@ -15,6 +19,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.Container;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -35,8 +40,8 @@ public class FermenterBlockEntity extends SyncedBlockEntity implements MenuProvi
 
     public static final int TANK_CAPACITY = 8000;
     private final ItemStackHandler inventory;
-    private LazyOptional<IItemHandler> inputHandler;
-    private LazyOptional<IItemHandler> outputHandler;
+    private LazyOptional<SlottedStackStorage> inputHandler;
+    private LazyOptional<SlottedStackStorage> outputHandler;
 
     private LazyOptional<FluidTank> inputfluidTank;
     private LazyOptional<FluidTank> outputfluidTank;
@@ -50,7 +55,7 @@ public class FermenterBlockEntity extends SyncedBlockEntity implements MenuProvi
     private boolean checkNewRecipe;
 
     public FermenterBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockEntityRegistry.FERMENTER.get(), pos, state);
+        super(BlockEntityRegistry.FERMENTER, pos, state);
 
         this.inventory = createHandler();
         this.inputHandler = LazyOptional.of(() -> new FermenterItemHandler(inventory, Direction.UP));
@@ -91,14 +96,14 @@ public class FermenterBlockEntity extends SyncedBlockEntity implements MenuProvi
         }
         return false;
     }
-    private Optional<FermenterRecipe> getMatchingRecipe(RecipeWrapper inventoryWrapper) {
+    private Optional<FermenterRecipe> getMatchingRecipe(Container inventoryWrapper) {
         if (level == null) {
             return Optional.empty();
         }
 
         if (lastRecipeID != null) {
-            Recipe<RecipeWrapper> recipe = level.getRecipeManager()
-                    .getAllRecipesFor(RecipeTypeRegistry.FERMENTER_RECIPE_TYPE.get()).stream()
+            Recipe<Container> recipe = level.getRecipeManager()
+                    .getAllRecipesFor(RecipeTypeRegistry.FERMENTER_RECIPE_TYPE).stream()
                     .filter(now -> now.getId().equals(lastRecipeID)).findFirst().get();
             if (recipe instanceof FermenterRecipe cookingRecipe) {
                 if (cookingRecipe.matchesWithFluid(this.inputfluidTank.orElse(new FluidTank(0)).getFluid(),
@@ -110,7 +115,7 @@ public class FermenterBlockEntity extends SyncedBlockEntity implements MenuProvi
 
         if (checkNewRecipe) {
             List<FermenterRecipe> recipes = level.getRecipeManager()
-                    .getRecipesFor(RecipeTypeRegistry.FERMENTER_RECIPE_TYPE.get(), inventoryWrapper, level);
+                    .getRecipesFor(RecipeTypeRegistry.FERMENTER_RECIPE_TYPE, inventoryWrapper, level);
             for(FermenterRecipe recipe : recipes) {
                 if (recipe.matchesWithFluid(
                         this.inputfluidTank.orElse(new FluidTank(0)).getFluid(), inventoryWrapper, level)) {

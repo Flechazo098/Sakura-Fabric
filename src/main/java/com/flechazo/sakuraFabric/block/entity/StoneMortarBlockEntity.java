@@ -1,8 +1,13 @@
 package com.flechazo.sakuraFabric.block.entity;
 
+import com.flechazo.sakuraFabric.container.StoneMortarContainer;
+import com.flechazo.sakuraFabric.inventory.StoneMortarItemHandler;
+import com.flechazo.sakuraFabric.recipes.RecipeTypeRegistry;
+import com.flechazo.sakuraFabric.recipes.StoneMortarRecipe;
 import com.flechazo.sakuraFabric.utils.LevelUtils;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
 import io.github.fabricators_of_create.porting_lib.transfer.item.RecipeWrapper;
+import io.github.fabricators_of_create.porting_lib.transfer.item.SlottedStackStorage;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
@@ -14,6 +19,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.Container;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -32,8 +38,8 @@ import java.util.Optional;
 public class StoneMortarBlockEntity extends SyncedBlockEntity implements MenuProvider {
 
     private final ItemStackHandler inventory;
-    private final LazyOptional<IItemHandler> inputHandler;
-    private final LazyOptional<IItemHandler> outputHandler;
+    private final LazyOptional<SlottedStackStorage> inputHandler;
+    private final LazyOptional<SlottedStackStorage> outputHandler;
 
     protected final ContainerData tileData;
     private final Object2IntOpenHashMap<ResourceLocation> experienceTracker;
@@ -45,7 +51,7 @@ public class StoneMortarBlockEntity extends SyncedBlockEntity implements MenuPro
     private boolean checkNewRecipe;
 
     public StoneMortarBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockEntityRegistry.STONE_MORTAR.get(), pos, state);
+        super(BlockEntityRegistry.STONE_MORTAR, pos, state);
 
         this.inventory = createHandler();
         this.inputHandler = LazyOptional.of(() -> new StoneMortarItemHandler(inventory, Direction.UP));
@@ -83,23 +89,23 @@ public class StoneMortarBlockEntity extends SyncedBlockEntity implements MenuPro
         return false;
     }
 
-    private Optional<StoneMortarRecipe> getMatchingRecipe(RecipeWrapper inventoryWrapper) {
+    private Optional<StoneMortarRecipe> getMatchingRecipe(Container inventoryWrapper) {
         if (level == null) {
             return Optional.empty();
         }
 
         if (lastRecipeID != null) {
-            Recipe<RecipeWrapper> recipe = level.getRecipeManager().getAllRecipesFor(RecipeTypeRegistry.STONE_MORTAR_RECIPE_TYPE.get()).stream()
+            StoneMortarRecipe recipe = level.getRecipeManager().getAllRecipesFor(RecipeTypeRegistry.STONE_MORTAR_RECIPE_TYPE).stream()
                     .filter(now -> now.getId().equals(lastRecipeID)).findFirst().get();
             if (recipe instanceof StoneMortarRecipe) {
                 if (recipe.matches(inventoryWrapper, level)) {
-                    return Optional.of((StoneMortarRecipe) recipe);
+                    return Optional.of(recipe);
                 }
             }
         }
 
         if (checkNewRecipe) {
-            Optional<StoneMortarRecipe> recipe = level.getRecipeManager().getRecipeFor(RecipeTypeRegistry.STONE_MORTAR_RECIPE_TYPE.get(),
+            Optional<StoneMortarRecipe> recipe = level.getRecipeManager().getRecipeFor(RecipeTypeRegistry.STONE_MORTAR_RECIPE_TYPE,
                     inventoryWrapper, level);
             if (recipe.isPresent()) {
                 lastRecipeID = recipe.get().getId();

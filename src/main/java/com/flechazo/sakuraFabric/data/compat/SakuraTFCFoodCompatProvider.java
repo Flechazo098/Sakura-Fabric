@@ -6,6 +6,8 @@ import com.flechazo.sakuraFabric.item.ItemRegistry;
 import io.github.fabricators_of_create.porting_lib.data.ExistingFileHelper;
 import net.minecraft.data.PackOutput;
 
+import java.util.Arrays;
+
 public class SakuraTFCFoodCompatProvider extends TFCFoodDefinitionProvider {
 
     public SakuraTFCFoodCompatProvider(PackOutput packOutput, ExistingFileHelper existingFileHelper) {
@@ -14,12 +16,24 @@ public class SakuraTFCFoodCompatProvider extends TFCFoodDefinitionProvider {
 
     @Override
     public void addDatas() {
-        FoodRegistry.ITEMS.getEntries().forEach(item -> {
-            this.addData(item.get());
-        });
-        ItemRegistry.ITEMS.getEntries().forEach(item -> {
-            this.addData(item.get());
-        });
+        // 使用反射获取所有食物物品
+        if (FoodRegistry.FOODSET != null) {
+            FoodRegistry.FOODSET.values().forEach(this::addData);
+        }
+
+        if (FoodRegistry.CUISINES != null) {
+            FoodRegistry.CUISINES.values().forEach(this::addData);
+        }
+
+        Arrays.stream(ItemRegistry.class.getDeclaredFields())
+                .filter(field -> field.getType().isAssignableFrom(net.minecraft.world.item.Item.class))
+                .forEach(field -> {
+                    try {
+                        addData((net.minecraft.world.item.Item) field.get(null));
+                    } catch (Exception e) {
+                        SakuraFabric.LOGGER.error("Error adding item to TFC food compat", e);
+                    }
+                });
     }
 
     @Override

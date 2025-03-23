@@ -27,34 +27,34 @@ public class SakuraTreeFeatures {
     public static List<Pair<ResourceKey<ConfiguredFeature<?, ?>>, ConfiguredFeature<?, ?>>> ENTRY = new ArrayList<>();
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> SAKURA_KEY = ResourceKey.create(Registries.CONFIGURED_FEATURE, new ResourceLocation(SakuraFabric.MODID, "sakura"));
-    public static final ConfiguredFeature<?, ?> SAKURA = registryTree(SAKURA_KEY, createSimpleBlobTree(BlockRegistry.SAKURA_LOG.get(), BlockRegistry.SAKURA_LEAVES.get()).ignoreVines());
+    public static final ConfiguredFeature<?, ?> SAKURA = registryTree(SAKURA_KEY, createSimpleBlobTree(BlockRegistry.SAKURA_LOG, BlockRegistry.SAKURA_LEAVES).ignoreVines());
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> FANCY_SAKURA_KEY = ResourceKey.create(Registries.CONFIGURED_FEATURE, new ResourceLocation(SakuraFabric.MODID, "fancy_sakura"));
-    public static final ConfiguredFeature<?, ?> FANCY_SAKURA = registryTree(FANCY_SAKURA_KEY, createFancyTree(BlockRegistry.SAKURA_LOG.get(), BlockRegistry.SAKURA_LEAVES.get()));
+    public static final ConfiguredFeature<?, ?> FANCY_SAKURA = registryTree(FANCY_SAKURA_KEY, createFancyTree(BlockRegistry.SAKURA_LOG, BlockRegistry.SAKURA_LEAVES));
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> MAPLE_RED_KEY = ResourceKey.create(Registries.CONFIGURED_FEATURE, new ResourceLocation(SakuraFabric.MODID, "maple_red"));
-    public static final ConfiguredFeature<?, ?> MAPLE_RED = registryTree(MAPLE_RED_KEY, createStraightBlobTree(BlockRegistry.MAPLE_LOG.get(), BlockRegistry.MAPLE_LEAVES_RED.get(), 5, 2, 0, 2).ignoreVines());
+    public static final ConfiguredFeature<?, ?> MAPLE_RED = registryTree(MAPLE_RED_KEY, createStraightBlobTree(BlockRegistry.MAPLE_LOG, BlockRegistry.MAPLE_LEAVES_RED, 5, 2, 0, 2).ignoreVines());
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> FANCY_MAPLE_RED_KEY = ResourceKey.create(Registries.CONFIGURED_FEATURE, new ResourceLocation(SakuraFabric.MODID, "fancy_maple_red"));
-    public static final ConfiguredFeature<?, ?> FANCY_MAPLE_RED = registryTree(FANCY_MAPLE_RED_KEY, createFancyTree(BlockRegistry.MAPLE_LOG.get(), BlockRegistry.MAPLE_LEAVES_RED.get()));
+    public static final ConfiguredFeature<?, ?> FANCY_MAPLE_RED = registryTree(FANCY_MAPLE_RED_KEY, createFancyTree(BlockRegistry.MAPLE_LOG, BlockRegistry.MAPLE_LEAVES_RED));
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> MAPLE_YELLOW_KEY = ResourceKey.create(Registries.CONFIGURED_FEATURE, new ResourceLocation(SakuraFabric.MODID, "maple_yellow"));
-    public static final ConfiguredFeature<?, ?> MAPLE_YELLOW = registryTree(MAPLE_YELLOW_KEY, createStraightBlobTree(BlockRegistry.MAPLE_LOG.get(), BlockRegistry.MAPLE_LEAVES_YELLOW.get(), 5, 2, 0, 2).ignoreVines());
+    public static final ConfiguredFeature<?, ?> MAPLE_YELLOW = registryTree(MAPLE_YELLOW_KEY, createStraightBlobTree(BlockRegistry.MAPLE_LOG, BlockRegistry.MAPLE_LEAVES_YELLOW, 5, 2, 0, 2).ignoreVines());
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> FANCY_MAPLE_YELLOW_KEY = ResourceKey.create(Registries.CONFIGURED_FEATURE, new ResourceLocation(SakuraFabric.MODID, "fancy_maple_yellow"));
-    public static final ConfiguredFeature<?, ?> FANCY_MAPLE_YELLOW = registryTree(FANCY_MAPLE_YELLOW_KEY, createFancyTree(BlockRegistry.MAPLE_LOG.get(), BlockRegistry.MAPLE_LEAVES_YELLOW.get()));
+    public static final ConfiguredFeature<?, ?> FANCY_MAPLE_YELLOW = registryTree(FANCY_MAPLE_YELLOW_KEY, createFancyTree(BlockRegistry.MAPLE_LOG, BlockRegistry.MAPLE_LEAVES_YELLOW));
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> MAPLE_ORANGE_KEY = ResourceKey.create(Registries.CONFIGURED_FEATURE, new ResourceLocation(SakuraFabric.MODID, "maple_orange"));
-    public static final ConfiguredFeature<?, ?> MAPLE_ORANGE = registryTree(MAPLE_ORANGE_KEY, createStraightBlobTree(BlockRegistry.MAPLE_LOG.get(), BlockRegistry.MAPLE_LEAVES_ORANGE.get(), 5, 2, 0, 2).ignoreVines());
+    public static final ConfiguredFeature<?, ?> MAPLE_ORANGE = registryTree(MAPLE_ORANGE_KEY, createStraightBlobTree(BlockRegistry.MAPLE_LOG, BlockRegistry.MAPLE_LEAVES_ORANGE, 5, 2, 0, 2).ignoreVines());
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> FANCY_MAPLE_ORANGE_KEY = ResourceKey.create(Registries.CONFIGURED_FEATURE, new ResourceLocation(SakuraFabric.MODID, "fancy_maple_orange"));
-    public static final ConfiguredFeature<?, ?> FANCY_MAPLE_ORANGE = registryTree(FANCY_MAPLE_ORANGE_KEY, createFancyTree(BlockRegistry.MAPLE_LOG.get(), BlockRegistry.MAPLE_LEAVES_ORANGE.get()));
+    public static final ConfiguredFeature<?, ?> FANCY_MAPLE_ORANGE = registryTree(FANCY_MAPLE_ORANGE_KEY, createFancyTree(BlockRegistry.MAPLE_LOG, BlockRegistry.MAPLE_LEAVES_ORANGE));
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> MAPLE_GREEN_KEY = ResourceKey.create(Registries.CONFIGURED_FEATURE, new ResourceLocation(SakuraFabric.MODID, "maple_green"));
-    public static final ConfiguredFeature<?, ?> MAPLE_GREEN = registryTree(MAPLE_GREEN_KEY, createStraightBlobTree(BlockRegistry.MAPLE_LOG.get(), BlockRegistry.MAPLE_LEAVES_GREEN.get(), 5, 2, 0, 2).ignoreVines());
+    public static final ConfiguredFeature<?, ?> MAPLE_GREEN = registryTree(MAPLE_GREEN_KEY, createStraightBlobTree(BlockRegistry.MAPLE_LOG, BlockRegistry.MAPLE_LEAVES_GREEN, 5, 2, 0, 2).ignoreVines());
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> FANCY_MAPLE_GREEN_KEY = ResourceKey.create(Registries.CONFIGURED_FEATURE, new ResourceLocation(SakuraFabric.MODID, "fancy_maple_green"));
-    public static final ConfiguredFeature<?, ?> FANCY_MAPLE_GREEN = registryTree(FANCY_MAPLE_GREEN_KEY, createFancyTree(BlockRegistry.MAPLE_LOG.get(), BlockRegistry.MAPLE_LEAVES_GREEN.get()));
+    public static final ConfiguredFeature<?, ?> FANCY_MAPLE_GREEN = registryTree(FANCY_MAPLE_GREEN_KEY, createFancyTree(BlockRegistry.MAPLE_LOG, BlockRegistry.MAPLE_LEAVES_GREEN));
 
     private static ConfiguredFeature<?, ?> registryTree(ResourceKey<ConfiguredFeature<?, ?>> key, TreeConfiguration.TreeConfigurationBuilder tree) {
         ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>> feature = new ConfiguredFeature<>(Feature.TREE, tree.build());

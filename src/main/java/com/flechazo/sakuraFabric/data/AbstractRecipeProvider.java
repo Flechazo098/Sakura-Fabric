@@ -1,7 +1,9 @@
 package com.flechazo.sakuraFabric.data;
 
 import io.github.fabricators_of_create.porting_lib.tags.Tags;
-import net.minecraft.data.PackOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
@@ -14,32 +16,32 @@ import net.minecraft.world.level.block.Block;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public abstract class AbstractRecipeProvider extends RecipeProvider implements IConditionBuilder {
+public abstract class AbstractRecipeProvider extends FabricRecipeProvider{
 
-    public AbstractRecipeProvider(PackOutput gen) {
-        super(gen);
+    public AbstractRecipeProvider(FabricDataOutput output) {
+        super(output);
 
     }
 
     protected final void foodCooking(Supplier<? extends ItemLike> material, Supplier<? extends ItemLike> result, float xp, Consumer<FinishedRecipe> consumer) {
-        SimpleCookingRecipeBuilder.smelting(Ingredient.of(material.get()), RecipeCategory.FOOD, result.get(), xp, 200).unlockedBy("has_item", has(material.get())).save(consumer, new ResourceLocation(ForgeRegistries.ITEMS.getKey(result.get().asItem()).getNamespace(), "smelting_" + ForgeRegistries.ITEMS.getKey(result.get().asItem()).getPath()));
-        SimpleCookingRecipeBuilder.smoking(Ingredient.of(material.get()), RecipeCategory.FOOD, result.get(), xp, 100).unlockedBy("has_item", has(material.get())).save(consumer, new ResourceLocation(ForgeRegistries.ITEMS.getKey(result.get().asItem()).getNamespace(),"smoking_" + ForgeRegistries.ITEMS.getKey(result.get().asItem()).getPath()));
-        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(material.get()), RecipeCategory.FOOD, result.get(), xp, 600).unlockedBy("has_item", has(material.get())).save(consumer, new ResourceLocation(ForgeRegistries.ITEMS.getKey(result.get().asItem()).getNamespace(),"campfire_cooking_" + ForgeRegistries.ITEMS.getKey(result.get().asItem()).getPath()));
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(material.get()), RecipeCategory.FOOD, result.get(), xp, 200).unlockedBy("has_item", has(material.get())).save(consumer, new ResourceLocation(BuiltInRegistries.ITEM.getKey(result.get().asItem()).getNamespace(), "smelting_" + BuiltInRegistries.ITEM.getKey(result.get().asItem()).getPath()));
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(material.get()), RecipeCategory.FOOD, result.get(), xp, 100).unlockedBy("has_item", has(material.get())).save(consumer, new ResourceLocation(BuiltInRegistries.ITEM.getKey(result.get().asItem()).getNamespace(),"smoking_" + BuiltInRegistries.ITEM.getKey(result.get().asItem()).getPath()));
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(material.get()), RecipeCategory.FOOD, result.get(), xp, 600).unlockedBy("has_item", has(material.get())).save(consumer, new ResourceLocation(BuiltInRegistries.ITEM.getKey(result.get().asItem()).getNamespace(),"campfire_cooking_" + BuiltInRegistries.ITEM.getKey(result.get().asItem()).getPath()));
     }
-
+    
     protected final void foodCookingButNoCampfire(Supplier<? extends ItemLike> material, Supplier<? extends ItemLike> result, float xp, Consumer<FinishedRecipe> consumer) {
-        SimpleCookingRecipeBuilder.smelting(Ingredient.of(material.get()), RecipeCategory.FOOD, result.get(), xp, 200).unlockedBy("has_item", has(material.get())).save(consumer, new ResourceLocation(ForgeRegistries.ITEMS.getKey(result.get().asItem()).getNamespace(),"smelting_" + ForgeRegistries.ITEMS.getKey(result.get().asItem()).getPath()));
-        SimpleCookingRecipeBuilder.smoking(Ingredient.of(material.get()), RecipeCategory.FOOD, result.get(), xp, 100).unlockedBy("has_item", has(material.get())).save(consumer, new ResourceLocation(ForgeRegistries.ITEMS.getKey(result.get().asItem()).getNamespace(),"smoking_" + ForgeRegistries.ITEMS.getKey(result.get().asItem()).getPath()));
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(material.get()), RecipeCategory.FOOD, result.get(), xp, 200).unlockedBy("has_item", has(material.get())).save(consumer, new ResourceLocation(BuiltInRegistries.ITEM.getKey(result.get().asItem()).getNamespace(),"smelting_" + BuiltInRegistries.ITEM.getKey(result.get().asItem()).getPath()));
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(material.get()), RecipeCategory.FOOD, result.get(), xp, 100).unlockedBy("has_item", has(material.get())).save(consumer, new ResourceLocation(BuiltInRegistries.ITEM.getKey(result.get().asItem()).getNamespace(),"smoking_" + BuiltInRegistries.ITEM.getKey(result.get().asItem()).getPath()));
     }
 
     protected final void foodCooking(Supplier<? extends ItemLike> material, Supplier<? extends ItemLike> result, float xp, Consumer<FinishedRecipe> consumer, String recipeName) {
-        SimpleCookingRecipeBuilder.smelting(Ingredient.of(material.get()), RecipeCategory.FOOD, result.get(), xp, 200).unlockedBy("has_item", has(material.get())).save(consumer, new ResourceLocation(ForgeRegistries.ITEMS.getKey(result.get().asItem()).getNamespace(),"smelting_" + recipeName));
-        SimpleCookingRecipeBuilder.smoking(Ingredient.of(material.get()), RecipeCategory.FOOD, result.get(), xp, 100).unlockedBy("has_item", has(material.get())).save(consumer, new ResourceLocation(ForgeRegistries.ITEMS.getKey(result.get().asItem()).getNamespace(),"smoking_" + recipeName));
-        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(material.get()), RecipeCategory.FOOD, result.get(), xp, 600).unlockedBy("has_item", has(material.get())).save(consumer, new ResourceLocation(ForgeRegistries.ITEMS.getKey(result.get().asItem()).getNamespace(),"campfire_cooking_" + recipeName));
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(material.get()), RecipeCategory.FOOD, result.get(), xp, 200).unlockedBy("has_item", has(material.get())).save(consumer, new ResourceLocation(BuiltInRegistries.ITEM.getKey(result.get().asItem()).getNamespace(),"smelting_" + recipeName));
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(material.get()), RecipeCategory.FOOD, result.get(), xp, 100).unlockedBy("has_item", has(material.get())).save(consumer, new ResourceLocation(BuiltInRegistries.ITEM.getKey(result.get().asItem()).getNamespace(),"smoking_" + recipeName));
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(material.get()), RecipeCategory.FOOD, result.get(), xp, 600).unlockedBy("has_item", has(material.get())).save(consumer, new ResourceLocation(BuiltInRegistries.ITEM.getKey(result.get().asItem()).getNamespace(),"campfire_cooking_" + recipeName));
     }
 
     public static void cuttingRecipe(Consumer<FinishedRecipe> consumer, Supplier<? extends ItemLike> cuttingItem, Supplier<? extends ItemLike> result, int count) {
-        SingleItemRecipeBuilder.stonecutting(Ingredient.of(cuttingItem.get()), RecipeCategory.BUILDING_BLOCKS, result.get(), count).unlockedBy("has_item", has(cuttingItem.get())).save(consumer, new ResourceLocation(ForgeRegistries.ITEMS.getKey(result.get().asItem()).getNamespace(),"cutting_" + ForgeRegistries.ITEMS.getKey(result.get().asItem()).getPath()));
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(cuttingItem.get()), RecipeCategory.BUILDING_BLOCKS, result.get(), count).unlockedBy("has_item", has(cuttingItem.get())).save(consumer, new ResourceLocation(BuiltInRegistries.ITEM.getKey(result.get().asItem()).getNamespace(),"cutting_" + BuiltInRegistries.ITEM.getKey(result.get().asItem()).getPath()));
     }
 
     protected final void helmetItem(Consumer<FinishedRecipe> consumer, String name, Supplier<? extends ItemLike> result, Supplier<? extends ItemLike> material) {
@@ -48,7 +50,7 @@ public abstract class AbstractRecipeProvider extends RecipeProvider implements I
                 .pattern("# #")
                 .define('#', material.get())
                 .unlockedBy("has_item", has(material.get()))
-                .save(consumer, locEquip(ForgeRegistries.ITEMS.getKey(result.get().asItem()).getNamespace(), name));
+                .save(consumer, locEquip(BuiltInRegistries.ITEM.getKey(result.get().asItem()).getNamespace(), name));
     }
 
     protected final void chestplateItem(Consumer<FinishedRecipe> consumer, String name, Supplier<? extends ItemLike> result, Supplier<? extends ItemLike> material) {
@@ -58,7 +60,7 @@ public abstract class AbstractRecipeProvider extends RecipeProvider implements I
                 .pattern("###")
                 .define('#', material.get())
                 .unlockedBy("has_item", has(material.get()))
-                .save(consumer, locEquip(ForgeRegistries.ITEMS.getKey(result.get().asItem()).getNamespace(),name));
+                .save(consumer, locEquip(BuiltInRegistries.ITEM.getKey(result.get().asItem()).getNamespace(),name));
     }
 
     protected final void leggingsItem(Consumer<FinishedRecipe> consumer, String name, Supplier<? extends ItemLike> result, Supplier<? extends ItemLike> material) {
@@ -68,7 +70,7 @@ public abstract class AbstractRecipeProvider extends RecipeProvider implements I
                 .pattern("# #")
                 .define('#', material.get())
                 .unlockedBy("has_item", has(material.get()))
-                .save(consumer, locEquip(ForgeRegistries.ITEMS.getKey(result.get().asItem()).getNamespace(),name));
+                .save(consumer, locEquip(BuiltInRegistries.ITEM.getKey(result.get().asItem()).getNamespace(),name));
     }
 
     protected final void bootsItem(Consumer<FinishedRecipe> consumer, String name, Supplier<? extends ItemLike> result, Supplier<? extends ItemLike> material) {
@@ -77,7 +79,7 @@ public abstract class AbstractRecipeProvider extends RecipeProvider implements I
                 .pattern("# #")
                 .define('#', material.get())
                 .unlockedBy("has_item", has(material.get()))
-                .save(consumer, locEquip(ForgeRegistries.ITEMS.getKey(result.get().asItem()).getNamespace(),name));
+                .save(consumer, locEquip(BuiltInRegistries.ITEM.getKey(result.get().asItem()).getNamespace(),name));
     }
 
     protected final void pickaxeItem(Consumer<FinishedRecipe> consumer, String name, Supplier<? extends ItemLike> result, Supplier<? extends ItemLike> material, TagKey<Item> handle) {
@@ -88,7 +90,7 @@ public abstract class AbstractRecipeProvider extends RecipeProvider implements I
                 .define('#', material.get())
                 .define('X', handle)
                 .unlockedBy("has_item", has(material.get()))
-                .save(consumer, locEquip(ForgeRegistries.ITEMS.getKey(result.get().asItem()).getNamespace(),name));
+                .save(consumer, locEquip(BuiltInRegistries.ITEM.getKey(result.get().asItem()).getNamespace(),name));
     }
 
     protected final void swordItem(Consumer<FinishedRecipe> consumer, String name, Supplier<? extends ItemLike> result, Supplier<? extends ItemLike> material, TagKey<Item> handle) {
@@ -99,7 +101,7 @@ public abstract class AbstractRecipeProvider extends RecipeProvider implements I
                 .define('#', material.get())
                 .define('X', handle)
                 .unlockedBy("has_item", has(material.get()))
-                .save(consumer, locEquip(ForgeRegistries.ITEMS.getKey(result.get().asItem()).getNamespace(),name));
+                .save(consumer, locEquip(BuiltInRegistries.ITEM.getKey(result.get().asItem()).getNamespace(),name));
     }
 
     protected final void axeItem(Consumer<FinishedRecipe> consumer, String name, Supplier<? extends ItemLike> result, Supplier<? extends ItemLike> material, TagKey<Item> handle) {
@@ -110,7 +112,7 @@ public abstract class AbstractRecipeProvider extends RecipeProvider implements I
                 .define('#', material.get())
                 .define('X', handle)
                 .unlockedBy("has_item", has(material.get()))
-                .save(consumer, locEquip(ForgeRegistries.ITEMS.getKey(result.get().asItem()).getNamespace(),name));
+                .save(consumer, locEquip(BuiltInRegistries.ITEM.getKey(result.get().asItem()).getNamespace(),name));
     }
 
     protected final void shovelItem(Consumer<FinishedRecipe> consumer, String name, Supplier<? extends ItemLike> result, Supplier<? extends ItemLike> material, TagKey<Item> handle) {
@@ -121,7 +123,7 @@ public abstract class AbstractRecipeProvider extends RecipeProvider implements I
                 .define('#', material.get())
                 .define('X', handle)
                 .unlockedBy("has_item", has(material.get()))
-                .save(consumer, locEquip(ForgeRegistries.ITEMS.getKey(result.get().asItem()).getNamespace(),name));
+                .save(consumer, locEquip(BuiltInRegistries.ITEM.getKey(result.get().asItem()).getNamespace(),name));
     }
 
     protected final void hoeItem(Consumer<FinishedRecipe> consumer, String name, Supplier<? extends ItemLike> result, Supplier<? extends ItemLike> material, TagKey<Item> handle) {
@@ -132,7 +134,7 @@ public abstract class AbstractRecipeProvider extends RecipeProvider implements I
                 .define('#', material.get())
                 .define('X', handle)
                 .unlockedBy("has_item", has(material.get()))
-                .save(consumer, locEquip(ForgeRegistries.ITEMS.getKey(result.get().asItem()).getNamespace(),name));
+                .save(consumer, locEquip(BuiltInRegistries.ITEM.getKey(result.get().asItem()).getNamespace(),name));
     }
 
     protected final void tofuBlockItem(Consumer<FinishedRecipe> consumer, Supplier<? extends ItemLike> result, Supplier<? extends ItemLike> material) {
@@ -150,7 +152,7 @@ public abstract class AbstractRecipeProvider extends RecipeProvider implements I
                 .pattern("##")
                 .define('#', material.get())
                 .unlockedBy("has_item", has(material.get()))
-                .save(consumer, new ResourceLocation(ForgeRegistries.ITEMS.getKey(result.get().asItem()).getNamespace(),name));
+                .save(consumer, new ResourceLocation(BuiltInRegistries.ITEM.getKey(result.get().asItem()).getNamespace(),name));
     }
 
     protected final void ladderItem(Consumer<FinishedRecipe> consumer, Supplier<? extends ItemLike> result, Supplier<? extends ItemLike> material) {
@@ -221,7 +223,7 @@ public abstract class AbstractRecipeProvider extends RecipeProvider implements I
                 .pattern("PP")
                 .pattern("PP")
                 .define('P', plankIn.get())
-                .unlockedBy("has_" + ForgeRegistries.ITEMS.getKey(plankIn.get().asItem()).getPath(), has(plankIn.get())).save(consumer);
+                .unlockedBy("has_" + BuiltInRegistries.ITEM.getKey(plankIn.get().asItem()).getPath(), has(plankIn.get())).save(consumer);
     }
 
     public void makeTrapdoor(Consumer<FinishedRecipe> consumer, Supplier<? extends Block> trapdoorOut, Supplier<? extends ItemLike> plankIn) {
@@ -229,7 +231,7 @@ public abstract class AbstractRecipeProvider extends RecipeProvider implements I
                 .pattern("PPP")
                 .pattern("PPP")
                 .define('P', plankIn.get())
-                .unlockedBy("has_" + ForgeRegistries.ITEMS.getKey(plankIn.get().asItem()).getPath(), has(plankIn.get())).save(consumer);
+                .unlockedBy("has_" + BuiltInRegistries.ITEM.getKey(plankIn.get().asItem()).getPath(), has(plankIn.get())).save(consumer);
     }
 
     public void makeWoodFence(Consumer<FinishedRecipe> consumer, Block fenceOut, Block blockIn) {
@@ -238,7 +240,7 @@ public abstract class AbstractRecipeProvider extends RecipeProvider implements I
                 .pattern("MSM")
                 .define('M', blockIn)
                 .define('S', Tags.Items.RODS_WOODEN)
-                .unlockedBy("has_" + ForgeRegistries.BLOCKS.getKey(blockIn).getPath(), has(blockIn)).save(consumer);
+                .unlockedBy("has_" + BuiltInRegistries.BLOCK.getKey(blockIn).getPath(), has(blockIn)).save(consumer);
     }
 
     public void makeFenceGate(Consumer<FinishedRecipe> consumer, Block fenceOut, Block blockIn) {
@@ -247,7 +249,7 @@ public abstract class AbstractRecipeProvider extends RecipeProvider implements I
                 .pattern("SMS")
                 .define('M', blockIn)
                 .define('S', Tags.Items.RODS_WOODEN)
-                .unlockedBy("has_" + ForgeRegistries.BLOCKS.getKey(blockIn).getPath(), has(blockIn)).save(consumer);
+                .unlockedBy("has_" + BuiltInRegistries.BLOCK.getKey(blockIn).getPath(), has(blockIn)).save(consumer);
     }
 
 

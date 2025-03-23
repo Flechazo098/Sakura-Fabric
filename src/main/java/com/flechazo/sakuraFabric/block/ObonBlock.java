@@ -110,7 +110,7 @@ public class ObonBlock extends BaseEntityBlock {
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return BlockEntityRegistry.OBON.get().create(pos, state);
+        return BlockEntityRegistry.OBON.create(pos, state);
     }
 
     @Override

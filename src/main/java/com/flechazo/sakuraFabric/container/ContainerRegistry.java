@@ -1,20 +1,20 @@
 package com.flechazo.sakuraFabric.container;
 
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.inventory.MenuType;
 
-public class ContainerRegistry {
-    public static final DeferredRegister<MenuType<?>> CONTAINER_TYPES = DeferredRegister
-            .create(ForgeRegistries.MENU_TYPES, SakuraMod.MODID);
 
-    public static final RegistryObject<MenuType<StoneMortarContainer>> STONE_MORTAR = CONTAINER_TYPES
-            .register("stone_mortar", () -> IForgeMenuType.create(StoneMortarContainer::new));
+public class ContainerRegistry{
+    public static MenuType<StoneMortarContainer> STONE_MORTAR;
+    public static MenuType<CookingPotContainer> COOKING_POT;
+    public static MenuType<FermenterContainer> FERMENTER;
+    public static MenuType<DistillerContainer> DISTILLER;
 
-    public static final RegistryObject<MenuType<CookingPotContainer>> COOKING_POT = CONTAINER_TYPES
-            .register("cooking_pot", () -> IForgeMenuType.create(CookingPotContainer::new));
-
-    public static final RegistryObject<MenuType<FermenterContainer>> FERMENTER = CONTAINER_TYPES
-            .register("fermenter", () -> IForgeMenuType.create(FermenterContainer::new));
-
-    public static final RegistryObject<MenuType<DistillerContainer>> DISTILLER = CONTAINER_TYPES
-            .register("distiller", () -> IForgeMenuType.create(DistillerContainer::new));
+    public static void registryModMenus() {
+        STONE_MORTAR = Registry.register(BuiltInRegistries.MENU, "stone_mortar", IForgeMenuType.create(StoneMortarContainer::new));
+        COOKING_POT = Registry.register(BuiltInRegistries.MENU, "cooking_pot", IForgeMenuType.create(CookingPotContainer::new));
+        FERMENTER = Registry.register(BuiltInRegistries.MENU, "fermenter", IForgeMenuType.create(FermenterContainer::new));
+        DISTILLER = Registry.register(BuiltInRegistries.MENU, "distiller", IForgeMenuType.create(DistillerContainer::new));
+    }
 }

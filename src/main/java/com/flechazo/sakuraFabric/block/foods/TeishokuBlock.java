@@ -79,7 +79,7 @@ public class TeishokuBlock extends Block {
             if (i < 3) {
                 level.setBlock(pos, state.setValue(BITES, Integer.valueOf(i + 1)), 3);
             } else {
-                level.setBlock(pos, BlockRegistry.TEISHOUKU_FINISHED.get().defaultBlockState().setValue(FACING, state.getValue(FACING)), 3);
+                level.setBlock(pos, BlockRegistry.TEISHOUKU_FINISHED.defaultBlockState().setValue(FACING, state.getValue(FACING)), 3);
             }
 
             return InteractionResult.SUCCESS;

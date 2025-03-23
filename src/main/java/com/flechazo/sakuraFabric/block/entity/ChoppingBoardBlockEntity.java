@@ -1,10 +1,13 @@
 package com.flechazo.sakuraFabric.block.entity;
 
+import com.flechazo.sakuraFabric.block.machines.ChoppingBoardBlock;
 import com.flechazo.sakuraFabric.recipes.ChoppingRecipe;
+import com.flechazo.sakuraFabric.recipes.RecipeTypeRegistry;
 import com.flechazo.sakuraFabric.utils.LevelUtils;
 import io.github.fabricators_of_create.porting_lib.tags.Tags;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
 import io.github.fabricators_of_create.porting_lib.transfer.item.RecipeWrapper;
+import io.github.fabricators_of_create.porting_lib.transfer.item.SlottedStackStorage;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -31,14 +34,14 @@ import java.util.Optional;
 
 public class ChoppingBoardBlockEntity extends SyncedBlockEntity {
     private final ItemStackHandler inventory;
-    private final LazyOptional<IItemHandler> inputHandler;
+    private final LazyOptional<SlottedStackStorage> inputHandler;
     private ResourceLocation lastRecipeID;
 
     private int recipeTime;
     private int recipeTimeTotal;
 
     public ChoppingBoardBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockEntityRegistry.CHOPPING_BOARD.get(), pos, state);
+        super(BlockEntityRegistry.CHOPPING_BOARD, pos, state);
         inventory = createHandler();
         inputHandler = LazyOptional.of(() -> inventory);
     }
@@ -106,17 +109,17 @@ public class ChoppingBoardBlockEntity extends SyncedBlockEntity {
             return Optional.empty();
 
         if (lastRecipeID != null) {
-            Recipe<RecipeWrapper> recipe = level.getRecipeManager()
-                    .getAllRecipesFor(RecipeTypeRegistry.CHOPPING_RECIPE_TYPE.get()).stream()
+            ChoppingRecipe recipe = level.getRecipeManager()
+                    .getAllRecipesFor(RecipeTypeRegistry.CHOPPING_RECIPE_TYPE).stream()
                     .filter(now -> now.getId().equals(lastRecipeID)).findFirst().get();
             if (recipe instanceof ChoppingRecipe && recipe.matches(recipeWrapper, level)
-                    && ((ChoppingRecipe) recipe).getTool().test(toolStack)) {
-                return Optional.of((ChoppingRecipe) recipe);
+                    && recipe.getTool().test(toolStack)) {
+                return Optional.of(recipe);
             }
         }
 
         List<ChoppingRecipe> recipeList = level.getRecipeManager()
-                .getRecipesFor(RecipeTypeRegistry.CHOPPING_RECIPE_TYPE.get(), recipeWrapper, level);
+                .getRecipesFor(RecipeTypeRegistry.CHOPPING_RECIPE_TYPE, recipeWrapper, level);
         if (recipeList.isEmpty()) {
             if (player != null)
                 player.displayClientMessage(Component.translatable("sakura.block.chopping_board.invalid_item"), true);
@@ -188,7 +191,7 @@ public class ChoppingBoardBlockEntity extends SyncedBlockEntity {
         return ItemStack.EMPTY;
     }
 
-    public IItemHandler getInventory() {
+    public SlottedStackStorage getInventory() {
         return inventory;
     }
 

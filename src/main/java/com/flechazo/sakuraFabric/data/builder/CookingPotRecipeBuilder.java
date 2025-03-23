@@ -94,7 +94,7 @@ public class CookingPotRecipeBuilder {
 
         @Override
         public void serializeRecipeData(JsonObject json) {
-            JsonObject recipeJson = RecipeTypeRegistry.COOKING_RECIPE_SERIALIZER.get().toJson(recipe);
+            JsonObject recipeJson = RecipeTypeRegistry.COOKING_RECIPE_SERIALIZER.toJson(recipe);
             json.add("ingredients", recipeJson.get("ingredients"));
             json.add("fluid", recipeJson.get("fluid"));
             json.add("result", recipeJson.get("result"));
@@ -104,7 +104,7 @@ public class CookingPotRecipeBuilder {
 
         @Override
         public RecipeSerializer<?> getType() {
-            return RecipeTypeRegistry.COOKING_RECIPE_SERIALIZER.get();
+            return RecipeTypeRegistry.COOKING_RECIPE_SERIALIZER;
         }
 
         @Override

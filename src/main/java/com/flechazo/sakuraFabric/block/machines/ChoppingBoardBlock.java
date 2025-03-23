@@ -137,7 +137,7 @@ public class ChoppingBoardBlock extends BaseEntityBlock {
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return BlockEntityRegistry.CHOPPING_BOARD.get().create(pos, state);
+        return BlockEntityRegistry.CHOPPING_BOARD.create(pos, state);
     }
 
     @Override

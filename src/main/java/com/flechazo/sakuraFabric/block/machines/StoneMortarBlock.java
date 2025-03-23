@@ -2,7 +2,6 @@ package com.flechazo.sakuraFabric.block.machines;
 
 import com.flechazo.sakuraFabric.block.entity.BlockEntityRegistry;
 import com.flechazo.sakuraFabric.block.entity.StoneMortarBlockEntity;
-import io.github.fabricators_of_create.porting_lib.util.NetworkHooks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
@@ -35,7 +34,7 @@ public class StoneMortarBlock extends BaseEntityBlock {
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return BlockEntityRegistry.STONE_MORTAR.get().create(pos, state);
+        return BlockEntityRegistry.STONE_MORTAR.create(pos, state);
     }
 
     @Override
@@ -68,7 +67,7 @@ public class StoneMortarBlock extends BaseEntityBlock {
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state,
                                                                   BlockEntityType<T> blockEntity) {
-        return createTickerHelper(blockEntity, BlockEntityRegistry.STONE_MORTAR.get(),
+        return createTickerHelper(blockEntity, BlockEntityRegistry.STONE_MORTAR ,
                 StoneMortarBlockEntity::workingTick);
     }
 }

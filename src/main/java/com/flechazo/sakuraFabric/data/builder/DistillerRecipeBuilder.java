@@ -123,7 +123,7 @@ public class DistillerRecipeBuilder {
 
         @Override
         public void serializeRecipeData(JsonObject json) {
-            JsonObject recipeJson = RecipeTypeRegistry.FERMENTER_RECIPE_SERIALIZER.get().toJson(recipe);
+            JsonObject recipeJson = RecipeTypeRegistry.FERMENTER_RECIPE_SERIALIZER.toJson(recipe);
             json.add("ingredients", recipeJson.get("ingredients"));
             json.add("fluid", recipeJson.get("fluid"));
             json.add("results", recipeJson.get("results"));
@@ -134,7 +134,7 @@ public class DistillerRecipeBuilder {
 
         @Override
         public RecipeSerializer<?> getType() {
-            return RecipeTypeRegistry.DISTILLER_RECIPE_SERIALIZER.get();
+            return RecipeTypeRegistry.DISTILLER_RECIPE_SERIALIZER;
         }
 
         @Override

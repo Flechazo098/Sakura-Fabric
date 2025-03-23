@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
@@ -191,7 +192,7 @@ public abstract class FluidIngredient implements Predicate<FluidStack> {
         }
 
         protected void writeInternal(JsonObject json) {
-            json.addProperty("fluid", ForgeRegistries.FLUIDS.getKey(this.fluid).toString());
+            json.addProperty("fluid", BuiltInRegistries.FLUID.getKey(this.fluid).toString());
             json.add("nbt", JsonParser.parseString(this.tagToMatch.toString()));
         }
 

@@ -22,9 +22,10 @@ public class StoneMortarContainer extends AbstractContainerMenu {
     private final ContainerData containerData;
     private final ContainerLevelAccess canInteractWithCallable;
 
+
     public StoneMortarContainer(final int windowId, final Inventory playerInventory,
                                 final StoneMortarBlockEntity tileEntity, ContainerData cookingPotDataIn) {
-        super(ContainerRegistry.STONE_MORTAR.get(), windowId);
+        super(ContainerRegistry.STONE_MORTAR, windowId);
         this.tileEntity = tileEntity;
         this.inventory = tileEntity.getInventory();
         this.containerData = cookingPotDataIn;

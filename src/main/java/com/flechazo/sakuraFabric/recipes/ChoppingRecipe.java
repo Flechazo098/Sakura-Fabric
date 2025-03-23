@@ -7,6 +7,7 @@ import io.github.fabricators_of_create.porting_lib.transfer.item.RecipeWrapper;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -48,7 +49,7 @@ public class ChoppingRecipe extends AbstractRecipe {
     }
 
     @Override
-    public boolean matches(RecipeWrapper inv, Level worldIn) {
+    public boolean matches(Container inv, Level worldIn) {
         if (inv.isEmpty())
             return false;
         return input.test(inv.getItem(0));
@@ -75,7 +76,7 @@ public class ChoppingRecipe extends AbstractRecipe {
     }
 
     @Override
-    public ItemStack assemble(RecipeWrapper pContainer, RegistryAccess pRegistryAccess) {
+    public ItemStack assemble(Container pContainer, RegistryAccess pRegistryAccess) {
         return this.output;
     }
 
@@ -86,12 +87,12 @@ public class ChoppingRecipe extends AbstractRecipe {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return RecipeTypeRegistry.CHOPPING_RECIPE_SERIALIZER.get();
+        return RecipeTypeRegistry.CHOPPING_RECIPE_SERIALIZER;
     }
 
     @Override
     public RecipeType<?> getType() {
-        return RecipeTypeRegistry.CHOPPING_RECIPE_TYPE.get();
+        return RecipeTypeRegistry.CHOPPING_RECIPE_TYPE;
     }
 
 }

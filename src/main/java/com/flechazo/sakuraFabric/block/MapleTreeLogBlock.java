@@ -39,7 +39,7 @@ public class MapleTreeLogBlock extends RotatedPillarBlock {
         if (itemstack.canPerformAction(ToolActions.SHEARS_CARVE)) {
             if (!level.isClientSide) {
                 level.playSound((Player) null, pos, SoundEvents.WOOD_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
-                level.setBlock(pos, BlockRegistry.MAPLE_SAP_LOG.get().withPropertiesOf(state)
+                level.setBlock(pos, BlockRegistry.MAPLE_SAP_LOG.withPropertiesOf(state)
                         .setValue(MapleTreeSapLogBlock.EXHAUSTION, false), 11);
                 itemstack.hurtAndBreak(1, player, tool -> {
                     tool.broadcastBreakEvent(hand);
@@ -57,7 +57,7 @@ public class MapleTreeLogBlock extends RotatedPillarBlock {
     public BlockState getToolModifiedState(BlockState state, UseOnContext context, ToolAction toolAction,
                                            boolean simulate) {
         if (context.getItemInHand().canPerformAction(ToolActions.SHEARS_CARVE)) {
-            return BlockRegistry.MAPLE_SAP_LOG.get().withPropertiesOf(state).setValue(MapleTreeSapLogBlock.EXHAUSTION,
+            return BlockRegistry.MAPLE_SAP_LOG.withPropertiesOf(state).setValue(MapleTreeSapLogBlock.EXHAUSTION,
                     false);
         }
         return super.getToolModifiedState(state, context, toolAction, simulate);

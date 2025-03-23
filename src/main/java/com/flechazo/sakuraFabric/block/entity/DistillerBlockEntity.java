@@ -1,11 +1,15 @@
 package com.flechazo.sakuraFabric.block.entity;
 
+import com.flechazo.sakuraFabric.inventory.FermenterItemHandler;
+import com.flechazo.sakuraFabric.recipes.DistillerRecipe;
+import com.flechazo.sakuraFabric.recipes.RecipeTypeRegistry;
 import com.flechazo.sakuraFabric.utils.FluidIngredient;
 import com.flechazo.sakuraFabric.utils.LevelUtils;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTank;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
 import io.github.fabricators_of_create.porting_lib.transfer.item.RecipeWrapper;
+import io.github.fabricators_of_create.porting_lib.transfer.item.SlottedStackStorage;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
@@ -35,8 +39,8 @@ public class DistillerBlockEntity extends SyncedBlockEntity implements MenuProvi
 
     public static final int TANK_CAPACITY = 8000;
     private final ItemStackHandler inventory;
-    private LazyOptional<IItemHandler> inputHandler;
-    private LazyOptional<IItemHandler> outputHandler;
+    private LazyOptional<SlottedStackStorage> inputHandler;
+    private LazyOptional<SlottedStackStorage> outputHandler;
 
     private LazyOptional<FluidTank> inputfluidTank;
     private LazyOptional<FluidTank> outputfluidTank;
@@ -50,7 +54,7 @@ public class DistillerBlockEntity extends SyncedBlockEntity implements MenuProvi
     private boolean checkNewRecipe;
 
     public DistillerBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockEntityRegistry.DISTILLER.get(), pos, state);
+        super(BlockEntityRegistry.DISTILLER, pos, state);
 
         this.inventory = createHandler();
         this.inputHandler = LazyOptional.of(() -> new FermenterItemHandler(inventory, Direction.UP));
@@ -99,7 +103,7 @@ public class DistillerBlockEntity extends SyncedBlockEntity implements MenuProvi
 
         if (lastRecipeID != null) {
             Recipe<RecipeWrapper> recipe = level.getRecipeManager()
-                    .getAllRecipesFor(RecipeTypeRegistry.DISTILLER_RECIPE_TYPE.get()).stream()
+                    .getAllRecipesFor(RecipeTypeRegistry.DISTILLER_RECIPE_TYPE).stream()
                     .filter(now -> now.getId().equals(lastRecipeID)).findFirst().get();
             if (recipe instanceof DistillerRecipe cookingRecipe) {
                 if (cookingRecipe.matchesWithFluid(this.inputfluidTank.orElse(new FluidTank(0)).getFluid(),
@@ -111,7 +115,7 @@ public class DistillerBlockEntity extends SyncedBlockEntity implements MenuProvi
 
         if (checkNewRecipe) {
             List<DistillerRecipe> recipes = level.getRecipeManager()
-                    .getRecipesFor(RecipeTypeRegistry.DISTILLER_RECIPE_TYPE.get(), inventoryWrapper, level);
+                    .getRecipesFor(RecipeTypeRegistry.DISTILLER_RECIPE_TYPE, inventoryWrapper, level);
             for(DistillerRecipe recipe : recipes) {
                 if (recipe.matchesWithFluid(this.inputfluidTank.orElse(new FluidTank(0)).getFluid(), inventoryWrapper, level)) {
                     lastRecipeID = recipe.getId();

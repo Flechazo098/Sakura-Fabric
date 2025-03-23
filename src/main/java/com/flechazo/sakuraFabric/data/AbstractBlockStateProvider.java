@@ -4,6 +4,7 @@ import io.github.fabricators_of_create.porting_lib.data.ExistingFileHelper;
 import io.github.fabricators_of_create.porting_lib.models.generators.ConfiguredModel;
 import io.github.fabricators_of_create.porting_lib.models.generators.ModelFile;
 import io.github.fabricators_of_create.porting_lib.models.generators.block.BlockStateProvider;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.*;
@@ -25,7 +26,7 @@ public abstract class AbstractBlockStateProvider extends BlockStateProvider {
     }
 
     public String name(Supplier<? extends Block> block) {
-        return ForgeRegistries.BLOCKS.getKey(block.get()).getPath();
+        return BuiltInRegistries.BLOCK.getKey(block.get()).getPath();
     }
 
     public void block(Supplier<? extends Block> block) {
@@ -70,7 +71,7 @@ public abstract class AbstractBlockStateProvider extends BlockStateProvider {
     }
 
     private void fenceColumn(Supplier<? extends FenceBlock> block, String side) {
-        String baseName = ForgeRegistries.BLOCKS.getKey(block.get()).toString();
+        String baseName = BuiltInRegistries.BLOCK.getKey(block.get()).toString();
         fourWayBlock(block.get(), models().fencePost(baseName + "_post", texture(side)),
                 models().fenceSide(baseName + "_side", texture(side)));
     }

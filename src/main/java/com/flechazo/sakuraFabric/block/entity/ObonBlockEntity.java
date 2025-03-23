@@ -1,6 +1,7 @@
 package com.flechazo.sakuraFabric.block.entity;
 
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
+import io.github.fabricators_of_create.porting_lib.transfer.item.SlottedStackStorage;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -13,10 +14,10 @@ import javax.annotation.Nullable;
 
 public class ObonBlockEntity extends SyncedBlockEntity {
     private final ItemStackHandler inventory;
-    private final LazyOptional<IItemHandler> inputHandler;
+    private final LazyOptional<SlottedStackStorage> inputHandler;
 
     public ObonBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockEntityRegistry.OBON.get(), pos, state);
+        super(BlockEntityRegistry.OBON, pos, state);
 
         inventory = createHandler();
         inputHandler = LazyOptional.of(() -> inventory);
@@ -52,7 +53,7 @@ public class ObonBlockEntity extends SyncedBlockEntity {
         return ItemStack.EMPTY;
     }
 
-    public IItemHandler getInventory() {
+    public SlottedStackStorage getInventory() {
         return inventory;
     }
 

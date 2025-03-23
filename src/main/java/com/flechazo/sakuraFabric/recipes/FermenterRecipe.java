@@ -1,6 +1,7 @@
 package com.flechazo.sakuraFabric.recipes;
 
 import com.flechazo.sakuraFabric.utils.FluidIngredient;
+import com.flechazo.sakuraFabric.utils.RecipeMatcher;
 import com.google.common.collect.Lists;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -8,12 +9,14 @@ import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import io.github.fabricators_of_create.porting_lib.transfer.item.RecipeWrapper;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
+import java.util.BitSet;
 import java.util.List;
 
 public class FermenterRecipe extends AbstractRecipe {
@@ -47,14 +50,14 @@ public class FermenterRecipe extends AbstractRecipe {
         return inputFluid;
     }
 
-    public boolean matchesWithFluid(FluidStack fluid, RecipeWrapper inv, Level worldIn) {
+    public boolean matchesWithFluid(FluidStack fluid, Container inv, Level worldIn) {
         if(this.getRequiredFluid() == FluidIngredient.EMPTY)
             return fluid.isEmpty() && matches(inv, worldIn);
         return this.getRequiredFluid().test(fluid) && matches(inv, worldIn);
     }
 
     @Override
-    public boolean matches(RecipeWrapper inv, Level worldIn) {
+    public boolean matches(Container inv, Level worldIn) {
         List<ItemStack> inputs = Lists.newArrayList();
         int i = 0;
         for (int j = 0; j < 3; ++j) {
@@ -68,8 +71,8 @@ public class FermenterRecipe extends AbstractRecipe {
     }
 
     @Override
-    public ItemStack assemble(RecipeWrapper inv, RegistryAccess pRegistryAccess) {
-        if(this.outputItems.size()>0)
+    public ItemStack assemble(Container inv, RegistryAccess pRegistryAccess) {
+        if(! this.outputItems.isEmpty())
             return this.outputItems.get(0).copy();
         return ItemStack.EMPTY;
     }
@@ -81,7 +84,7 @@ public class FermenterRecipe extends AbstractRecipe {
 
     @Override
     public ItemStack getResultItem(RegistryAccess pRegistryAccess) {
-        if(this.outputItems.size()>0)
+        if(! this.outputItems.isEmpty())
             return this.outputItems.get(0);
         return ItemStack.EMPTY;
     }
@@ -94,14 +97,15 @@ public class FermenterRecipe extends AbstractRecipe {
         return outputFluid;
     }
 
+
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return RecipeTypeRegistry.FERMENTER_RECIPE_SERIALIZER.get();
+        return RecipeTypeRegistry.FERMENTER_RECIPE_SERIALIZER;
     }
 
     @Override
     public RecipeType<?> getType() {
-        return RecipeTypeRegistry.FERMENTER_RECIPE_TYPE.get();
+        return RecipeTypeRegistry.FERMENTER_RECIPE_TYPE;
     }
 
 }

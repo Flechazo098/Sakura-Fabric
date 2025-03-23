@@ -24,7 +24,7 @@ public class DistillerContainer extends AbstractContainerMenu {
 
     public DistillerContainer(final int windowId, final Inventory playerInventory,
                               final DistillerBlockEntity tileEntity, ContainerData cookingPotDataIn) {
-        super(ContainerRegistry.DISTILLER.get(), windowId);
+        super(ContainerRegistry.DISTILLER, windowId);
         this.tileEntity = tileEntity;
         this.inventory = tileEntity.getInventory();
         this.containerData = cookingPotDataIn;

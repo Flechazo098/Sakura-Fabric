@@ -24,7 +24,7 @@ public class FermenterContainer extends AbstractContainerMenu {
 
     public FermenterContainer(final int windowId, final Inventory playerInventory,
                               final FermenterBlockEntity tileEntity, ContainerData cookingPotDataIn) {
-        super(ContainerRegistry.FERMENTER.get(), windowId);
+        super(ContainerRegistry.FERMENTER, windowId);
         this.tileEntity = tileEntity;
         this.inventory = tileEntity.getInventory();
         this.containerData = cookingPotDataIn;
