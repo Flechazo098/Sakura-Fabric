@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "sakura-fabric",
+  "id": "sakura",
   "version": "${version}",
   "name": "Sakura-Fabric",
   "description": "",
@@ -11,10 +11,13 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "com.flechazo.sakuraFabric.client.SakuraFabricClient"
+      "com.flechazo.sakura.client.handler.SakuraClientEventHandler"
     ],
     "main": [
-      "com.flechazo.sakuraFabric.SakuraFabric"
+      "com.flechazo.sakura.SakuraFabric"
+    ],
+    "cardinal-components": [
+      "com.flechazo.sakura.api.SakuraComponents"
     ]
   },
   "mixins": [
@@ -24,5 +27,11 @@
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
     "minecraft": "${minecraft_version}"
+  },
+  "custom": {
+    "cardinal-components": [
+      "sakura:item_handler",
+      "sakura:fluid_handler"
+    ]
   }
 }

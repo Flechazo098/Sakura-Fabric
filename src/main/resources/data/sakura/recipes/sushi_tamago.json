@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "sakura:rice_cooked"
+    },
+    {
+      "item": "sakura:tamagoyaki"
+    },
+    {
+      "item": "minecraft:dried_kelp"
+    }
+  ],
+  "result": {
+    "count": 3,
+    "item": "sakura:sushi_tamago"
+  }
+}

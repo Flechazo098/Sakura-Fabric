@@ -1,0 +1,30 @@
+{
+  "type": "sakura:fermenting",
+  "experience": 0.0,
+  "fluid": {
+    "amount": 100,
+    "fluidTag": "forge:water/water"
+  },
+  "ingredients": [
+    {
+      "tag": "forge:yeast"
+    },
+    {
+      "tag": "forge:sugar"
+    },
+    {
+      "tag": "forge:sugar"
+    }
+  ],
+  "recipeTime": 200,
+  "result_fluid": {
+    "amount": 0,
+    "fluid": "minecraft:empty"
+  },
+  "results": [
+    {
+      "count": 4,
+      "item": "sakura:yeast"
+    }
+  ]
+}

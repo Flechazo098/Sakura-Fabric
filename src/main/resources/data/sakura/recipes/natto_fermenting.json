@@ -1,0 +1,20 @@
+{
+  "type": "sakura:cooking",
+  "experience": 1.0,
+  "fluid": {
+    "null_fluid": true
+  },
+  "ingredients": [
+    {
+      "tag": "forge:crops/soybean"
+    },
+    {
+      "tag": "forge:straw"
+    }
+  ],
+  "recipeTime": 600,
+  "result": {
+    "count": 2,
+    "item": "sakura:natto"
+  }
+}
