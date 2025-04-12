@@ -1,6 +1,6 @@
 package com.flechazo.sakura.block.machines;
 
-import com.flechazo.sakura.block.entity.BlockEntityRegistry;
+import com.flechazo.sakura.init.BlockEntityRegistry;
 import com.flechazo.sakura.block.entity.ChoppingBoardBlockEntity;
 import com.flechazo.sakura.tags.SakuraItemTags;
 import net.minecraft.core.BlockPos;

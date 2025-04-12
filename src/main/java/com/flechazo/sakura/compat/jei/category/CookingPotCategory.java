@@ -1,14 +1,13 @@
 package com.flechazo.sakura.compat.jei.category;
 
 import com.flechazo.sakura.SakuraFabric;
-import com.flechazo.sakura.block.BlockRegistry;
+import com.flechazo.sakura.init.BlockRegistry;
 import com.flechazo.sakura.block.entity.CookingPotBlockEntity;
 import com.flechazo.sakura.compat.jei.JEIPlugin;
 import com.flechazo.sakura.recipes.CookingPotRecipe;
 import com.flechazo.sakura.utils.FluidIngredient;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.fabric.constants.FabricTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;

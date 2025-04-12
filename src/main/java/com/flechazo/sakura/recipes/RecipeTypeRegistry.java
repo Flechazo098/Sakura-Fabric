@@ -6,7 +6,6 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 
 public class RecipeTypeRegistry {
@@ -26,11 +25,15 @@ public class RecipeTypeRegistry {
     }
 
     private static <T extends Recipe<?>> RecipeType<T> registerRecipeType(String name) {
-        RecipeType<T> type = new RecipeType<>() {
-            public String toString () {
-                return new ResourceLocation(SakuraFabric.MODID, name).toString();
-            }
-        };
-        return Registry.register(BuiltInRegistries.RECIPE_TYPE, new ResourceLocation(SakuraFabric.MODID, name), type);
+        ResourceLocation id = new ResourceLocation(SakuraFabric.MODID, name);
+        return Registry.register(BuiltInRegistries.RECIPE_TYPE, id, new SakuraRecipeType<>(id));
     }
+
+    private record SakuraRecipeType<T extends Recipe<?>>(ResourceLocation id) implements RecipeType<T> {
+
+        @Override
+            public String toString () {
+                return id.toString();
+            }
+        }
 }

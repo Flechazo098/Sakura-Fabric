@@ -3,6 +3,7 @@ package com.flechazo.sakura.block.entity;
 import com.flechazo.sakura.api.FluidHandlerComponent;
 import com.flechazo.sakura.api.ItemHandlerComponent;
 import com.flechazo.sakura.container.DistillerContainer;
+import com.flechazo.sakura.init.BlockEntityRegistry;
 import com.flechazo.sakura.inventory.FermenterItemHandler;
 import com.flechazo.sakura.recipes.DistillerRecipe;
 import com.flechazo.sakura.recipes.RecipeTypeRegistry;
@@ -22,6 +23,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.Container;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -178,13 +180,13 @@ public class DistillerBlockEntity extends SyncedBlockEntity implements MenuProvi
         return false;
     }
 
-    private Optional<DistillerRecipe> getMatchingRecipe(ItemStackHandlerContainer inventoryWrapper) {
+    private Optional<DistillerRecipe> getMatchingRecipe(Container inventoryWrapper) {
         if (level == null) {
             return Optional.empty();
         }
 
         if (lastRecipeID != null) {
-            Recipe<ItemStackHandlerContainer> recipe = level.getRecipeManager()
+            Recipe<Container> recipe = level.getRecipeManager()
                     .getAllRecipesFor(RecipeTypeRegistry.DISTILLER_RECIPE_TYPE).stream()
                     .filter(now -> now.getId().equals(lastRecipeID)).findFirst().get();
             if (recipe instanceof DistillerRecipe cookingRecipe) {

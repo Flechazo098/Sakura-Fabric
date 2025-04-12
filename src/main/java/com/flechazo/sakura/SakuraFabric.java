@@ -1,18 +1,18 @@
 package com.flechazo.sakura;
 
 import com.flechazo.sakura.block.BlockItemRegistry;
-import com.flechazo.sakura.block.BlockRegistry;
-import com.flechazo.sakura.block.entity.BlockEntityRegistry;
-import com.flechazo.sakura.container.ContainerRegistry;
-import com.flechazo.sakura.events.BurnTimeEvent;
-import com.flechazo.sakura.events.TreeEvent;
+import com.flechazo.sakura.init.BlockRegistry;
+import com.flechazo.sakura.init.BlockEntityRegistry;
+import com.flechazo.sakura.init.ContainerRegistry;
+import com.flechazo.sakura.core.events.BurnTimeEvent;
+import com.flechazo.sakura.core.events.TreeEvent;
 import com.flechazo.sakura.fluid.BucketItemRegistry;
 import com.flechazo.sakura.fluid.FluidBlockRegistry;
-import com.flechazo.sakura.fluid.FluidRegistry;
+import com.flechazo.sakura.init.FluidRegistry;
 import com.flechazo.sakura.fluid.FluidTypeRegistry;
-import com.flechazo.sakura.item.CreativeModeTabRegistry;
-import com.flechazo.sakura.item.FoodRegistry;
-import com.flechazo.sakura.item.ItemRegistry;
+import com.flechazo.sakura.init.CreativeModeTabRegistry;
+import com.flechazo.sakura.item.food.FoodRegistry;
+import com.flechazo.sakura.init.ItemRegistry;
 import com.flechazo.sakura.loot_modifier.LootModifiterRegistry;
 import com.flechazo.sakura.recipes.RecipeSerializerRegistry;
 import com.flechazo.sakura.recipes.RecipeTypeRegistry;
@@ -60,8 +60,6 @@ public class SakuraFabric implements ModInitializer {
         // 4. 注册流体相关内容，按照依赖顺序
         FluidTypeRegistry.initialize();
         FluidRegistry.initialize();
-        FluidTypeRegistry.registerFluidAttributes();
-        FluidTypeRegistry.setupFluidRendering();
         FluidBlockRegistry.initialize();
         BucketItemRegistry.initialize();
 

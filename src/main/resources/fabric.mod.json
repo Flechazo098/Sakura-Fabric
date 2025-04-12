@@ -18,6 +18,9 @@
     ],
     "cardinal-components": [
       "com.flechazo.sakura.api.SakuraComponents"
+    ],
+    "datagen": [
+      "com.flechazo.sakura.SakuraFabricDataGen"
     ]
   },
   "mixins": [

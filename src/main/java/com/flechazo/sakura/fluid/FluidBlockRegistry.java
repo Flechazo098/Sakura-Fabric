@@ -1,6 +1,7 @@
 package com.flechazo.sakura.fluid;
 
 import com.flechazo.sakura.SakuraFabric;
+import com.flechazo.sakura.init.FluidRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;

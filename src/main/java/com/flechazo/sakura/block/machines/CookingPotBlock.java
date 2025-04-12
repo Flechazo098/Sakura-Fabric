@@ -1,8 +1,7 @@
 package com.flechazo.sakura.block.machines;
 
-import com.flechazo.sakura.block.entity.BlockEntityRegistry;
+import com.flechazo.sakura.init.BlockEntityRegistry;
 import com.flechazo.sakura.block.entity.CookingPotBlockEntity;
-import com.flechazo.sakura.container.CookingPotContainer;
 import com.flechazo.sakura.tags.SakuraBlockTags;
 import io.github.fabricators_of_create.porting_lib.util.NetworkHooks;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;

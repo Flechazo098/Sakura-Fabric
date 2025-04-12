@@ -1,6 +1,6 @@
 {
-    "textures": {
-        "particle": "block/water_still"
-    }
+  "parent": "block/water",
+  "textures": {
+    "particle": "block/water_still"
+  }
 }
-

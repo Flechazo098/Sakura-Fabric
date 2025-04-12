@@ -1,5 +1,6 @@
 package com.flechazo.sakura.block;
 
+import com.flechazo.sakura.init.BlockRegistry;
 import io.github.fabricators_of_create.porting_lib.tool.ToolAction;
 import io.github.fabricators_of_create.porting_lib.tool.ToolActions;
 import io.github.fabricators_of_create.porting_lib.tool.extensions.BlockExtensions;
@@ -34,7 +35,6 @@ public class MapleTreeLogBlock extends RotatedPillarBlock implements BlockExtens
                                 : MapColor.PODZOL))
                 .strength(2.0F).sound(SoundType.WOOD));
     }
-
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand,
                                  BlockHitResult hitresult) {

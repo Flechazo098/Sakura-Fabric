@@ -9,6 +9,7 @@ import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandlerContainer;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -42,14 +43,14 @@ public class CookingPotRecipe extends AbstractRecipe {
         return fluidInput;
     }
 
-    public boolean matchesWithFluid(FluidStack fluid, ItemStackHandlerContainer inv, Level worldIn) {
+    public boolean matchesWithFluid(FluidStack fluid, Container inv, Level worldIn) {
         if(this.getRequiredFluid() == FluidIngredient.EMPTY)
             return fluid.isEmpty() && matches(inv, worldIn);
         return this.getRequiredFluid().test(fluid) && matches(inv, worldIn);
     }
 
     @Override
-    public boolean matches(ItemStackHandlerContainer inv, Level worldIn) {
+    public boolean matches(Container inv, Level worldIn) {
         List<ItemStack> inputs = Lists.newArrayList();
         int i = 0;
         for (int j = 0; j < 9; ++j) {
@@ -63,7 +64,7 @@ public class CookingPotRecipe extends AbstractRecipe {
     }
 
     @Override
-    public ItemStack assemble(ItemStackHandlerContainer inv, RegistryAccess pRegistryAccess) {
+    public ItemStack assemble(Container inv, RegistryAccess pRegistryAccess) {
         return this.output.copy();
     }
 

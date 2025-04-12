@@ -7,7 +7,6 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandlerContainer;
-import io.github.fabricators_of_create.porting_lib.transfer.item.RecipeWrapper;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.Container;
@@ -50,14 +49,14 @@ public class DistillerRecipe extends AbstractRecipe {
         return inputFluid;
     }
 
-    public boolean matchesWithFluid(FluidStack fluid, ItemStackHandlerContainer inv, Level worldIn) {
+    public boolean matchesWithFluid(FluidStack fluid, Container inv, Level worldIn) {
         if(this.getRequiredFluid() == FluidIngredient.EMPTY)
             return matches(inv, worldIn);
         return this.getRequiredFluid().test(fluid) && matches(inv, worldIn);
     }
 
     @Override
-    public boolean matches(ItemStackHandlerContainer inv, Level worldIn) {
+    public boolean matches(Container inv, Level worldIn) {
         List<ItemStack> inputs = Lists.newArrayList();
         int i = 0;
         for (int j = 0; j < 3; ++j) {
@@ -71,7 +70,7 @@ public class DistillerRecipe extends AbstractRecipe {
     }
 
     @Override
-    public ItemStack assemble(ItemStackHandlerContainer inv, RegistryAccess pRegistryAccess) {
+    public ItemStack assemble(Container inv, RegistryAccess pRegistryAccess) {
         if(! this.outputItems.isEmpty())
             return this.outputItems.get(0).copy();
         return ItemStack.EMPTY;

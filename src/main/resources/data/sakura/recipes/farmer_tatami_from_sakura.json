@@ -1,34 +1,27 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "fabric:load_conditions": [
     {
-      "conditions": [
-        {
-          "type": "forge:mod_loaded",
-          "modid": "farmersdelight"
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shaped",
-        "category": "misc",
-        "key": {
-          "#": {
-            "tag": "forge:straw"
-          },
-          "S": {
-            "item": "farmersdelight:canvas"
-          }
-        },
-        "pattern": [
-          "S#",
-          "#S"
-        ],
-        "result": {
-          "count": 2,
-          "item": "farmersdelight:tatami"
-        },
-        "show_notification": true
-      }
+      "condition": "fabric:all_mods_loaded",
+      "values": ["farmersdelight"]
     }
-  ]
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "tag": "c:straw"
+    },
+    "S": {
+      "item": "farmersdelight:canvas"
+    }
+  },
+  "pattern": [
+    "S#",
+    "#S"
+  ],
+  "result": {
+    "count": 2,
+    "item": "farmersdelight:tatami"
+  },
+  "show_notification": true
 }

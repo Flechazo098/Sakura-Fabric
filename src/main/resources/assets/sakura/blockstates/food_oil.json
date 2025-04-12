@@ -1,6 +1,51 @@
 {
   "variants": {
-    "": {
+    "level=0": {
+      "model": "sakura:block/food_oil"
+    },
+    "level=1": {
+      "model": "sakura:block/food_oil"
+    },
+    "level=2": {
+      "model": "sakura:block/food_oil"
+    },
+    "level=3": {
+      "model": "sakura:block/food_oil"
+    },
+    "level=4": {
+      "model": "sakura:block/food_oil"
+    },
+    "level=5": {
+      "model": "sakura:block/food_oil"
+    },
+    "level=6": {
+      "model": "sakura:block/food_oil"
+    },
+    "level=7": {
+      "model": "sakura:block/food_oil"
+    },
+    "level=8": {
+      "model": "sakura:block/food_oil"
+    },
+    "level=9": {
+      "model": "sakura:block/food_oil"
+    },
+    "level=10": {
+      "model": "sakura:block/food_oil"
+    },
+    "level=11": {
+      "model": "sakura:block/food_oil"
+    },
+    "level=12": {
+      "model": "sakura:block/food_oil"
+    },
+    "level=13": {
+      "model": "sakura:block/food_oil"
+    },
+    "level=14": {
+      "model": "sakura:block/food_oil"
+    },
+    "level=15": {
       "model": "sakura:block/food_oil"
     }
   }

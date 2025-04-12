@@ -1,13 +1,12 @@
 package com.flechazo.sakura.compat.jei.category;
 
 import com.flechazo.sakura.SakuraFabric;
-import com.flechazo.sakura.block.BlockRegistry;
+import com.flechazo.sakura.init.BlockRegistry;
 import com.flechazo.sakura.block.entity.FermenterBlockEntity;
 import com.flechazo.sakura.compat.jei.JEIPlugin;
 import com.flechazo.sakura.recipes.FermenterRecipe;
 import com.flechazo.sakura.utils.FluidIngredient;
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.fabric.constants.FabricTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;

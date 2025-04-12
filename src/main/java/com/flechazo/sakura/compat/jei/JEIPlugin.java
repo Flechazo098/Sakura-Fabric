@@ -1,7 +1,7 @@
 package com.flechazo.sakura.compat.jei;
 
 import com.flechazo.sakura.SakuraFabric;
-import com.flechazo.sakura.block.BlockRegistry;
+import com.flechazo.sakura.init.BlockRegistry;
 import com.flechazo.sakura.client.gui.CookingPotScreen;
 import com.flechazo.sakura.client.gui.DistillerScreen;
 import com.flechazo.sakura.client.gui.FermenterScreen;

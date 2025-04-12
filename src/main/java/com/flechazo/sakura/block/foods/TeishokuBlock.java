@@ -1,7 +1,7 @@
 package com.flechazo.sakura.block.foods;
 
-import com.flechazo.sakura.block.BlockRegistry;
-import com.flechazo.sakura.item.info.FoodInfo;
+import com.flechazo.sakura.init.BlockRegistry;
+import com.flechazo.sakura.item.food.info.FoodInfo;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;

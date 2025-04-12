@@ -1,16 +1,17 @@
 package com.flechazo.sakura.client.handler;
 
-import com.flechazo.sakura.SakuraFabric;
-import com.flechazo.sakura.block.BlockRegistry;
-import com.flechazo.sakura.block.entity.BlockEntityRegistry;
+import com.flechazo.sakura.init.BlockRegistry;
+import com.flechazo.sakura.init.BlockEntityRegistry;
+import com.flechazo.sakura.client.render.fluid.ClientFluidExtensions;
+import com.flechazo.sakura.client.render.fluid.FluidRenderingRegistry;
 import com.flechazo.sakura.client.gui.ScreensRegistry;
-import com.flechazo.sakura.client.layers.LayerRegistry;
+import com.flechazo.sakura.client.render.layers.LayerRegistry;
 import com.flechazo.sakura.client.particle.FallenLeafParticle;
 import com.flechazo.sakura.client.particle.ParticleRegistry;
-import com.flechazo.sakura.client.render.ChoppingBoardRender;
-import com.flechazo.sakura.client.render.ObonRender;
-import com.flechazo.sakura.client.render.StoneMortarRenderer;
-import com.flechazo.sakura.fluid.FluidRegistry;
+import com.flechazo.sakura.client.render.blockentity.ChoppingBoardRender;
+import com.flechazo.sakura.client.render.blockentity.ObonRender;
+import com.flechazo.sakura.client.render.blockentity.StoneMortarRenderer;
+import com.flechazo.sakura.init.FluidRegistry;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -22,6 +23,11 @@ import net.minecraft.world.level.block.BushBlock;
 public class SakuraClientEventHandler implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
+        ClientFluidExtensions.initialize();
+
+        FluidRenderingRegistry.registerFluidAttributes();
+        FluidRenderingRegistry.registerFluidRenderHandlers();
+
         // 注册屏幕
         ScreensRegistry.register();
 

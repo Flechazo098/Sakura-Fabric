@@ -3,6 +3,7 @@ package com.flechazo.sakura.block.entity;
 import com.flechazo.sakura.api.FluidHandlerComponent;
 import com.flechazo.sakura.api.ItemHandlerComponent;
 import com.flechazo.sakura.container.FermenterContainer;
+import com.flechazo.sakura.init.BlockEntityRegistry;
 import com.flechazo.sakura.inventory.FermenterItemHandler;
 import com.flechazo.sakura.recipes.FermenterRecipe;
 import com.flechazo.sakura.recipes.RecipeTypeRegistry;
@@ -12,7 +13,6 @@ import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTank;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandlerContainer;
-import io.github.fabricators_of_create.porting_lib.transfer.item.RecipeWrapper;
 import io.github.fabricators_of_create.porting_lib.transfer.item.SlottedStackStorage;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
@@ -35,7 +35,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
@@ -177,13 +176,13 @@ public class FermenterBlockEntity extends SyncedBlockEntity implements MenuProvi
         }
         return false;
     }
-    private Optional<FermenterRecipe> getMatchingRecipe(ItemStackHandlerContainer inventoryWrapper) {
+    private Optional<FermenterRecipe> getMatchingRecipe(Container inventoryWrapper) {
         if (level == null) {
             return Optional.empty();
         }
 
         if (lastRecipeID != null) {
-            Recipe<ItemStackHandlerContainer> recipe = level.getRecipeManager()
+            Recipe<Container> recipe = level.getRecipeManager()
                     .getAllRecipesFor(RecipeTypeRegistry.FERMENTER_RECIPE_TYPE).stream()
                     .filter(now -> now.getId().equals(lastRecipeID)).findFirst().get();
             if (recipe instanceof FermenterRecipe cookingRecipe) {

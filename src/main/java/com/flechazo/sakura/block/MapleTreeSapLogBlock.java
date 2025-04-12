@@ -1,5 +1,6 @@
 package com.flechazo.sakura.block;
 
+import com.flechazo.sakura.init.BlockRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -22,12 +23,18 @@ public class MapleTreeSapLogBlock extends RotatedPillarBlock {
                         state -> (state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? MapColor.WOOD
                                 : MapColor.PODZOL))
                 .strength(2.0F).sound(SoundType.WOOD));
-        this.registerDefaultState(this.defaultBlockState().setValue(EXHAUSTION, false));
+        // 确保默认状态包含EXHAUSTION属性
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(AXIS, Direction.Axis.Y)
+                .setValue(EXHAUSTION, false));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(AXIS, EXHAUSTION);
+        // 先调用父类方法，确保AXIS属性被添加
+        super.createBlockStateDefinition(builder);
+        // 然后添加EXHAUSTION属性
+        builder.add(EXHAUSTION);
     }
 
     @Override

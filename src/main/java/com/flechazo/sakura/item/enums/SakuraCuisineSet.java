@@ -1,7 +1,7 @@
 package com.flechazo.sakura.item.enums;
 
-import com.flechazo.sakura.item.ItemRegistry;
-import com.flechazo.sakura.item.info.FoodInfo;
+import com.flechazo.sakura.init.ItemRegistry;
+import com.flechazo.sakura.item.food.info.FoodInfo;
 import net.minecraft.world.item.Item;
 
 

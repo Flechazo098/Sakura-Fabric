@@ -1,7 +1,8 @@
 package com.flechazo.sakura.utils;
 
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
-import io.github.fabricators_of_create.porting_lib.fluids.FluidType;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.material.Fluid;
 
@@ -9,6 +10,7 @@ import net.minecraft.world.level.material.Fluid;
  * Fabric 版本的流体渲染扩展接口
  * 用于获取流体的纹理和颜色信息
  */
+@Environment(EnvType.CLIENT)
 public interface IClientFluidTypeExtensions {
     IClientFluidTypeExtensions DEFAULT = new IClientFluidTypeExtensions() { };
 
@@ -51,8 +53,8 @@ public interface IClientFluidTypeExtensions {
      * 从流体获取扩展接口
      */
     static IClientFluidTypeExtensions of(Fluid fluid) {
-        if (fluid instanceof FluidExtensionProvider provider) {
-            return provider.getExtensions();
+        if (fluid instanceof FluidExtensionProvider clientProvider) {
+            return clientProvider.getExtensions();
         }
         return DEFAULT;
     }
@@ -60,7 +62,8 @@ public interface IClientFluidTypeExtensions {
     /**
      * 流体扩展提供者接口
      */
-    interface FluidExtensionProvider {
+    @Environment(EnvType.CLIENT)
+    interface FluidExtensionProvider extends com.flechazo.sakura.utils.FluidExtensionProvider {
         IClientFluidTypeExtensions getExtensions();
     }
 }

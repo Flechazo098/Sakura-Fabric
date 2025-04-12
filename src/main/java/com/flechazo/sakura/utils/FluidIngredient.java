@@ -111,12 +111,12 @@ public abstract class FluidIngredient implements Predicate<FluidStack> {
 
     public static FluidIngredient deserialize(@Nullable JsonElement je) {
         if (!isFluidIngredient(je))
-            throw new JsonSyntaxException("Invalid fluid ingredient: " + Objects.toString(je));
+            throw new JsonSyntaxException("Invalid fluid ingredient: " + je);
 
         JsonObject json = je.getAsJsonObject();
         if(json.has("null_fluid")) {
             if(!json.get("null_fluid").getAsBoolean())
-                throw new JsonSyntaxException("'null_fluid' can NOT be false, delete it: " + Objects.toString(je));
+                throw new JsonSyntaxException("'null_fluid' can NOT be false, delete it: " + je);
             return FluidIngredient.EMPTY;
         }
         FluidIngredient ingredient = json.has("fluidTag") ? new FluidTagIngredient() : new FluidStackIngredient();

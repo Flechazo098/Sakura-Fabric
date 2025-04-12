@@ -1,6 +1,6 @@
 package com.flechazo.sakura.item.enums;
 
-import com.flechazo.sakura.item.info.FoodInfo;
+import com.flechazo.sakura.item.food.info.FoodInfo;
 
 public enum SakuraFoodSet {
     SHRIMP(FoodInfo.builder().name("shrimp").amountAndCalories(2, 0.6F).water(0.5F).nutrients(0F, 0F, 0F, 2F, 0F)

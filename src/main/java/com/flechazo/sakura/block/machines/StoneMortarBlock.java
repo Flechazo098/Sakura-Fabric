@@ -1,6 +1,6 @@
 package com.flechazo.sakura.block.machines;
 
-import com.flechazo.sakura.block.entity.BlockEntityRegistry;
+import com.flechazo.sakura.init.BlockEntityRegistry;
 import com.flechazo.sakura.block.entity.StoneMortarBlockEntity;
 import io.github.fabricators_of_create.porting_lib.util.NetworkHooks;
 import net.minecraft.core.BlockPos;

@@ -13,5 +13,8 @@ public class LootModifiterRegistry {
 
         // 注册钓鱼战利品表修改器
         FishingModifiter.register();
+
+        // 注册 GlobalLootModifier 序列化器
+        SakuraLootModifiers.register();
     }
 }

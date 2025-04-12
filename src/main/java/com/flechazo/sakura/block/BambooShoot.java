@@ -1,5 +1,6 @@
 package com.flechazo.sakura.block;
 
+import com.flechazo.sakura.init.BlockRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;

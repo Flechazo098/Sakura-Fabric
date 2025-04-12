@@ -1,31 +1,24 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "fabric:load_conditions": [
     {
-      "conditions": [
-        {
-          "type": "forge:mod_loaded",
-          "modid": "farmersdelight"
-        }
-      ],
-      "recipe": {
-        "type": "sakura:stone_mortar",
-        "experience": 0.0,
-        "ingredients": [
-          {
-            "item": "farmersdelight:rice_panicle"
-          }
-        ],
-        "recipeTime": 200,
-        "results": [
-          {
-            "item": "farmersdelight:rice"
-          },
-          {
-            "item": "sakura:straw"
-          }
-        ]
-      }
+      "condition": "fabric:all_mods_loaded",
+      "values": ["farmersdelight"]
+    }
+  ],
+  "type": "sakura:stone_mortar",
+  "experience": 0.0,
+  "ingredients": [
+    {
+      "item": "farmersdelight:rice_panicle"
+    }
+  ],
+  "recipeTime": 200,
+  "results": [
+    {
+      "item": "farmersdelight:rice"
+    },
+    {
+      "item": "sakura:straw"
     }
   ]
 }

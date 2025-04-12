@@ -1,5 +1,6 @@
 package com.flechazo.sakura.block;
 
+import com.flechazo.sakura.init.BlockRegistry;
 import io.github.fabricators_of_create.porting_lib.tool.ToolActions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

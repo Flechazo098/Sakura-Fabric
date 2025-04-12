@@ -1,6 +1,7 @@
 package com.flechazo.sakura.block.entity;
 
 import com.flechazo.sakura.api.ItemHandlerComponent;
+import com.flechazo.sakura.init.BlockEntityRegistry;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
 import io.github.fabricators_of_create.porting_lib.transfer.item.SlottedStackStorage;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
@@ -9,9 +10,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class ObonBlockEntity extends SyncedBlockEntity {
     private final ItemStackHandler inventory;

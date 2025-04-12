@@ -1,6 +1,7 @@
 package com.flechazo.sakura.block.entity;
 
-import com.flechazo.sakura.block.BlockRegistry;
+import com.flechazo.sakura.init.BlockEntityRegistry;
+import com.flechazo.sakura.init.BlockRegistry;
 import com.flechazo.sakura.block.machines.CookingPotBlock;
 import com.flechazo.sakura.container.CookingPotContainer;
 import com.flechazo.sakura.inventory.CookingPotItemHandler;
@@ -22,6 +23,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.Container;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -95,13 +97,13 @@ public class CookingPotBlockEntity extends SyncedBlockEntity implements MenuProv
         return false;
     }
 
-    private Optional<CookingPotRecipe> getMatchingRecipe(ItemStackHandlerContainer inventoryWrapper) {
+    private Optional<CookingPotRecipe> getMatchingRecipe(Container inventoryWrapper) {
         if (level == null) {
             return Optional.empty();
         }
 
         if (lastRecipeID != null) {
-            Recipe<ItemStackHandlerContainer> recipe = level.getRecipeManager().getAllRecipesFor(RecipeTypeRegistry.COOKING_RECIPE_TYPE).stream()
+            Recipe<Container> recipe = level.getRecipeManager().getAllRecipesFor(RecipeTypeRegistry.COOKING_RECIPE_TYPE).stream()
                     .filter(now -> now.getId().equals(lastRecipeID)).findFirst().get();
             if (recipe instanceof CookingPotRecipe cookingRecipe) {
                 if (cookingRecipe.matchesWithFluid(this.fluidTank.orElse(new FluidTank(0)).getFluid(), inventoryWrapper,

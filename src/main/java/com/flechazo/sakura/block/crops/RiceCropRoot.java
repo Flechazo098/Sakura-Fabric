@@ -1,6 +1,6 @@
 package com.flechazo.sakura.block.crops;
 
-import com.flechazo.sakura.block.BlockRegistry;
+import com.flechazo.sakura.init.BlockRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;

@@ -1,5 +1,8 @@
 package com.flechazo.sakura.item;
 
+import com.flechazo.sakura.init.ItemRegistry;
+import com.flechazo.sakura.item.food.FoodRegistry;
+import com.flechazo.sakura.item.food.IFoodLike;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.ComposterBlock;
 

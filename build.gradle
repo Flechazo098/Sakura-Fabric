@@ -99,6 +99,34 @@ dependencies {
     include "dev.onyxstudios.cardinal-components-api:cardinal-components-api:${project.cca_version}"
 }
 
+fabricApi {
+    configureDataGeneration()
+}
+
+loom {
+    runs {
+        datagen {
+            client()
+            name "Data Generation"
+            vmArg "-Dfabric-api.datagen"
+            vmArg "-Dfabric-api.datagen.output-dir=${file("src/main/generated")}"
+            vmArg "-Dfabric-api.datagen.modid=sakura"
+            // 禁用 porting_lib_tool_actions 的数据生成
+            vmArg "-Dfabric-api.datagen.disabled-mods=porting_lib_tool_actions"
+        }
+    }
+}
+
+// 添加清理生成目录的任务
+tasks.register('cleanGenerated', Delete) {
+    delete file('src/main/generated')
+}
+
+// 确保数据生成任务依赖于清理任务
+tasks.named('runDatagen').configure {
+    dependsOn('cleanGenerated')
+}
+
 processResources {
     inputs.property "version", project.version
     inputs.property "minecraft_version", project.minecraft_version

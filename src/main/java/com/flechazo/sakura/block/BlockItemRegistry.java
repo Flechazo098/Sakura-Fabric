@@ -1,7 +1,8 @@
 package com.flechazo.sakura.block;
 
 import com.flechazo.sakura.SakuraFabric;
-import com.flechazo.sakura.item.StoneMortarItem;
+import com.flechazo.sakura.init.BlockRegistry;
+import com.flechazo.sakura.item.tools.StoneMortarItem;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;

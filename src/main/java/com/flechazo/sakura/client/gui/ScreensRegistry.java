@@ -1,6 +1,6 @@
 package com.flechazo.sakura.client.gui;
 
-import com.flechazo.sakura.container.ContainerRegistry;
+import com.flechazo.sakura.init.ContainerRegistry;
 import net.minecraft.client.gui.screens.MenuScreens;
 
 public class ScreensRegistry {

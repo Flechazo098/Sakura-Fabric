@@ -1,7 +1,7 @@
 package com.flechazo.sakura.compat.jei.category;
 
 import com.flechazo.sakura.SakuraFabric;
-import com.flechazo.sakura.block.BlockRegistry;
+import com.flechazo.sakura.init.BlockRegistry;
 import com.flechazo.sakura.compat.jei.JEIPlugin;
 import com.flechazo.sakura.recipes.ChanceResult;
 import com.flechazo.sakura.recipes.ChoppingRecipe;

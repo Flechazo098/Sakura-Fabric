@@ -4,7 +4,6 @@ import com.flechazo.sakura.SakuraFabric;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
 public class RecipeSerializerRegistry {
@@ -28,7 +27,8 @@ public class RecipeSerializerRegistry {
         CHOPPING_RECIPE_SERIALIZER = registerRecipeSerializer(
                 "chopping", new AbstractRecipeSerializer<>(ChoppingRecipe.class));
     }
-    private static <S extends RecipeSerializer<T>, T extends Recipe<?>> S registerRecipeSerializer(String name, S serializer) {
-        return Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, new ResourceLocation(SakuraFabric.MODID, name), serializer);
+    private static <T extends RecipeSerializer<?>> T registerRecipeSerializer(String path, T serializer) {
+        ResourceLocation id = new ResourceLocation(SakuraFabric.MODID, path);
+        return Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, id, serializer);
     }
 }

@@ -9,6 +9,7 @@ import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandlerContainer;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -48,14 +49,14 @@ public class FermenterRecipe extends AbstractRecipe {
         return inputFluid;
     }
 
-    public boolean matchesWithFluid(FluidStack fluid, ItemStackHandlerContainer inv, Level worldIn) {
+    public boolean matchesWithFluid(FluidStack fluid, Container inv, Level worldIn) {
         if(this.getRequiredFluid() == FluidIngredient.EMPTY)
             return fluid.isEmpty() && matches(inv, worldIn);
         return this.getRequiredFluid().test(fluid) && matches(inv, worldIn);
     }
 
     @Override
-    public boolean matches(ItemStackHandlerContainer inv, Level worldIn) {
+    public boolean matches(Container inv, Level worldIn) {
         List<ItemStack> inputs = Lists.newArrayList();
         int i = 0;
         for (int j = 0; j < 3; ++j) {
@@ -69,7 +70,7 @@ public class FermenterRecipe extends AbstractRecipe {
     }
 
     @Override
-    public ItemStack assemble(ItemStackHandlerContainer inv, RegistryAccess pRegistryAccess) {
+    public ItemStack assemble(Container inv, RegistryAccess pRegistryAccess) {
         if(! this.outputItems.isEmpty())
             return this.outputItems.get(0).copy();
         return ItemStack.EMPTY;

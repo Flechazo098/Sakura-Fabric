@@ -1,6 +1,6 @@
 package com.flechazo.sakura.item;
 
-import com.flechazo.sakura.item.info.FoodInfo;
+import com.flechazo.sakura.item.food.info.FoodInfo;
 import com.google.common.collect.Lists;
 
 import java.util.List;

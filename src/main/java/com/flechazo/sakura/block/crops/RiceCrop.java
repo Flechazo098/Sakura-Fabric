@@ -1,7 +1,7 @@
 package com.flechazo.sakura.block.crops;
 
-import com.flechazo.sakura.block.BlockRegistry;
-import com.flechazo.sakura.item.ItemRegistry;
+import com.flechazo.sakura.init.BlockRegistry;
+import com.flechazo.sakura.init.ItemRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
