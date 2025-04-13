@@ -2,12 +2,12 @@
   "schemaVersion": 1,
   "id": "sakura",
   "version": "${version}",
-  "name": "Sakura-Fabric",
+  "name": "Sakura-Orihime",
   "description": "",
   "authors": [],
   "contact": {},
   "license": "MIT",
-  "icon": "assets/sakura-fabric/icon.png",
+  "icon": "logo.png",
   "environment": "*",
   "entrypoints": {
     "client": [

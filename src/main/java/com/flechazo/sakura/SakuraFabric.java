@@ -11,6 +11,7 @@ import com.flechazo.sakura.fluid.FluidBlockRegistry;
 import com.flechazo.sakura.init.FluidRegistry;
 import com.flechazo.sakura.fluid.FluidTypeRegistry;
 import com.flechazo.sakura.init.CreativeModeTabRegistry;
+import com.flechazo.sakura.item.ComposterRegistry;
 import com.flechazo.sakura.item.food.FoodRegistry;
 import com.flechazo.sakura.init.ItemRegistry;
 import com.flechazo.sakura.loot_modifier.LootModifiterRegistry;
@@ -66,6 +67,7 @@ public class SakuraFabric implements ModInitializer {
         // 5. 注册物品相关内容
         ItemRegistry.registerSakuraItem();
         BlockItemRegistry.registerSakuraBlockItem();  // 方块物品依赖于方块和物品系统
+        ComposterRegistry.registerCompost();
 
         // 6. 注册食物系统
         FoodRegistry.initialize();
