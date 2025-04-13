@@ -3,11 +3,11 @@
   "experience": 0.0,
   "fluid": {
     "amount": 500,
-    "fluidTag": "forge:water/water"
+    "fluidTag": "c:water/water"
   },
   "ingredients": [
     {
-      "tag": "forge:raw_fishes"
+      "tag": "c:raw_fishes"
     },
     {
       "item": "minecraft:dried_kelp"

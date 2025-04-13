@@ -73,11 +73,22 @@ public class FermenterCategory implements IRecipeCategory<FermenterRecipe> {
             }
         }
 
-        // 修改输入流体的添加方式
+        // 修改输入流体的添加方式，添加自定义工具提示回调
         if(recipe.getRequiredFluid() != FluidIngredient.EMPTY) {
             var fluidStacks = recipe.getRequiredFluid().getMatchingFluidStacks();
             var fluidSlot = builder.addSlot(RecipeIngredientRole.INPUT, 1, 1)
-                    .setFluidRenderer(FermenterBlockEntity.TANK_CAPACITY, true, 16, 64);
+                    .setFluidRenderer(FermenterBlockEntity.TANK_CAPACITY, false, 16, 64)
+                    .addTooltipCallback((recipeSlotView, tooltip) -> {
+                        // 替换或添加正确的流体量信息
+                        for (int i = 0; i < tooltip.size(); i++) {
+                            Component component = tooltip.get(i);
+                            String text = component.getString();
+                            if (text.contains("mB")) {
+                                tooltip.set(i, Component.literal(recipe.getRequiredFluid().getRequiredAmount() + " mB / " + FermenterBlockEntity.TANK_CAPACITY + " mB"));
+                                break;
+                            }
+                        }
+                    });
 
             // 逐个添加流体
             for (var fluidStack : fluidStacks) {
@@ -93,11 +104,22 @@ public class FermenterCategory implements IRecipeCategory<FermenterRecipe> {
             }
         }
 
-        // 修改输出流体的添加方式
+        // 修改输出流体的添加方式，添加自定义工具提示回调
         if(!recipe.getResultFluid().isEmpty()) {
             var resultFluid = recipe.getResultFluid();
             builder.addSlot(RecipeIngredientRole.OUTPUT, 93, 1)
-                    .setFluidRenderer(FermenterBlockEntity.TANK_CAPACITY, true, 16, 64)
+                    .setFluidRenderer(FermenterBlockEntity.TANK_CAPACITY, false, 16, 64)
+                    .addTooltipCallback((recipeSlotView, tooltip) -> {
+                        // 替换或添加正确的流体量信息
+                        for (int i = 0; i < tooltip.size(); i++) {
+                            Component component = tooltip.get(i);
+                            String text = component.getString();
+                            if (text.contains("mB")) {
+                                tooltip.set(i, Component.literal(resultFluid.getAmount() + " mB / " + FermenterBlockEntity.TANK_CAPACITY + " mB"));
+                                break;
+                            }
+                        }
+                    })
                     .addFluidStack(resultFluid.getFluid(), resultFluid.getAmount(), resultFluid.getTag());
         }
     }

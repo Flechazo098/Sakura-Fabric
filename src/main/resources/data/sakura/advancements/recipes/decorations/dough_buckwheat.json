@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "forge:flour/buckwheat"
+            "tag": "c:flour/buckwheat"
           }
         ]
       },

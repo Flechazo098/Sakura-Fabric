@@ -5,6 +5,7 @@ import com.flechazo.sakura.fluid.FluidBlockRegistry;
 import com.flechazo.sakura.fluid.FluidTypeRegistry;
 import com.flechazo.sakura.utils.FluidExtensionProvider;
 import com.flechazo.sakura.utils.IClientFluidTypeExtensions;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidType;
 import io.github.fabricators_of_create.porting_lib.fluids.extensions.ConvertToSourceFluid;
 import net.fabricmc.api.EnvType;
@@ -198,7 +199,39 @@ public class FluidRegistry {
         public CustomSourceFluid(FluidType fluidType, Supplier<? extends LiquidBlock> block) {
             this.fluidType = fluidType;
             this.block = block;
+
+            // 初始化客户端扩展
+            if (fluidType != null) {
+                this.clientExtensions = new IClientFluidTypeExtensions() {
+                    @Override
+                    public ResourceLocation getStillTexture() {
+                        // 使用默认的水纹理
+                        return new ResourceLocation("minecraft", "block/water_still");
+                    }
+
+                    @Override
+                    public ResourceLocation getFlowingTexture() {
+                        // 使用默认的水流动纹理
+                        return new ResourceLocation("minecraft", "block/water_flow");
+                    }
+
+                    @Override
+                    public int getTintColor(FluidStack stack) {
+                        // 从FluidTypeRegistry获取颜色
+                        int color = FluidTypeRegistry.getFluidColor(fluidType);
+                        return color == -1 ? 0xFFFFFFFF : color;
+                    }
+
+                    @Override
+                    public int getTintColor() {
+                        // 同样从FluidTypeRegistry获取颜色
+                        int color = FluidTypeRegistry.getFluidColor(fluidType);
+                        return color == -1 ? 0xFFFFFFFF : color;
+                    }
+                };
+            }
         }
+
 
         public void setBucketItem(Item bucketItem) {
             this.bucketItem = bucketItem;
@@ -309,6 +342,35 @@ public class FluidRegistry {
             this.fluidType = fluidType;
             this.still = still;
             this.block = block;
+
+            // 初始化客户端扩展
+            if (fluidType != null) {
+                this.clientExtensions = new IClientFluidTypeExtensions() {
+                    @Override
+                    public ResourceLocation getStillTexture() {
+                        return new ResourceLocation("minecraft", "block/water_still");
+                    }
+
+                    @Override
+                    public ResourceLocation getFlowingTexture() {
+                        return new ResourceLocation("minecraft", "block/water_flow");
+                    }
+
+                    @Override
+                    public int getTintColor(FluidStack stack) {
+                        // 从FluidTypeRegistry获取颜色
+                        int color = FluidTypeRegistry.getFluidColor(fluidType);
+                        // 如果颜色为-1，返回默认白色
+                        return color == -1 ? 0xFFFFFFFF : color;
+                    }
+                    @Override
+                    public int getTintColor() {
+                        // 同样从FluidTypeRegistry获取颜色
+                        int color = FluidTypeRegistry.getFluidColor(fluidType);
+                        return color == -1 ? 0xFFFFFFFF : color;
+                    }
+                };
+            }
         }
 
         public void setBucketItem(Item bucketItem) {

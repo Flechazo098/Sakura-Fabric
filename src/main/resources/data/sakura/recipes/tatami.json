@@ -3,10 +3,10 @@
   "category": "misc",
   "key": {
     "#": {
-      "tag": "forge:lumber"
+      "tag": "c:lumber"
     },
     "L": {
-      "tag": "forge:straw"
+      "tag": "c:straw"
     }
   },
   "pattern": [

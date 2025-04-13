@@ -6,7 +6,7 @@
       "tag": "minecraft:logs"
     },
     "S": {
-      "tag": "forge:lumber"
+      "tag": "c:lumber"
     }
   },
   "pattern": [

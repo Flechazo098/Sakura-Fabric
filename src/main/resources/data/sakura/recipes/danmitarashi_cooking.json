@@ -3,17 +3,17 @@
   "experience": 0.0,
   "fluid": {
     "amount": 125,
-    "fluidTag": "forge:water/water"
+    "fluidTag": "c:water/water"
   },
   "ingredients": [
     {
       "item": "sakura:dango"
     },
     {
-      "tag": "forge:sugar"
+      "tag": "c:sugar"
     },
     {
-      "tag": "forge:sugar"
+      "tag": "c:sugar"
     }
   ],
   "recipeTime": 200,

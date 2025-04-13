@@ -3,20 +3,20 @@
   "experience": 0.0,
   "fluid": {
     "amount": 125,
-    "fluidTag": "forge:food_oil"
+    "fluidTag": "c:food_oil"
   },
   "ingredients": [
     {
-      "tag": "forge:eggs"
+      "tag": "c:eggs"
     },
     {
-      "tag": "forge:eggs"
+      "tag": "c:eggs"
     },
     {
-      "tag": "forge:sugar"
+      "tag": "c:sugar"
     },
     {
-      "tag": "forge:dashi"
+      "tag": "c:dashi"
     }
   ],
   "recipeTime": 200,

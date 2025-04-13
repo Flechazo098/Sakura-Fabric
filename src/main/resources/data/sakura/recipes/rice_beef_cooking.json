@@ -3,14 +3,14 @@
   "experience": 0.0,
   "fluid": {
     "amount": 125,
-    "fluidTag": "forge:water/water"
+    "fluidTag": "c:water/water"
   },
   "ingredients": [
     {
       "tag": "sakura:rice/rice"
     },
     {
-      "tag": "forge:raw_beef"
+      "tag": "c:raw_beef"
     }
   ],
   "recipeTime": 200,

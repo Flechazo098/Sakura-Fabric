@@ -4,6 +4,7 @@ import com.flechazo.sakura.init.BlockEntityRegistry;
 import com.flechazo.sakura.block.entity.DistillerBlockEntity;
 import com.flechazo.sakura.tags.SakuraBlockTags;
 import com.flechazo.sakura.utils.TransferFluidUtil;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTank;
 import io.github.fabricators_of_create.porting_lib.transfer.fluid.item.FluidBucketWrapper;
 import io.github.fabricators_of_create.porting_lib.util.NetworkHooks;
@@ -11,6 +12,8 @@ import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -91,25 +94,53 @@ public class DistillerBlock extends BaseEntityBlock {
 
         // 检查是否为流体容器
         if (fluidHandler != null) {
-            // 先尝试与输出流体槽交互
-            if (distiller.getOutputFluidTank().isPresent()) {
-                FluidTank outTank = distiller.getOutputFluidTank().orElse(null);
-                if (outTank != null) {
-                    // 尝试从流体槽中提取流体到物品
-                    boolean success = TransferFluidUtil.tryTransferFluid(player, handIn, outTank, fluidHandler);
-                    if (success) {
-                        return InteractionResult.SUCCESS;
+            boolean success = false;
+
+            // 先检查是否是空桶，如果是空桶则优先从输出槽提取
+            if (fluidHandler.getFluid().isEmpty()) {
+                // 尝试从输出流体槽中提取流体到物品
+                if (distiller.getOutputFluidTank().isPresent()) {
+                    FluidTank outTank = distiller.getOutputFluidTank().orElse(null);
+                    if (outTank != null && !outTank.getFluid().isEmpty()) {
+                        success = TransferFluidUtil.tryTransferFluid(player, handIn, outTank, fluidHandler);
+                        if (success) {
+                            // 播放流体提取声音
+                            level.playSound(null, pos, SoundEvents.BUCKET_FILL,
+                                    SoundSource.BLOCKS, 1.0F, 1.0F);
+                            return InteractionResult.SUCCESS;
+                        }
                     }
                 }
-            }
 
-            // 再尝试与输入流体槽交互
-            if (distiller.getInputFluidTank().isPresent()) {
-                FluidTank inTank = distiller.getInputFluidTank().orElse(null);
-                if (inTank != null) {
-                    boolean success = TransferFluidUtil.tryTransferFluid(player, handIn, inTank, fluidHandler);
-                    if (success) {
-                        return InteractionResult.SUCCESS;
+                // 如果输出槽为空，尝试从输入槽提取
+                if (!success && distiller.getInputFluidTank().isPresent()) {
+                    FluidTank inTank = distiller.getInputFluidTank().orElse(null);
+                    if (inTank != null && !inTank.getFluid().isEmpty()) {
+                        success = TransferFluidUtil.tryTransferFluid(player, handIn, inTank, fluidHandler);
+                        if (success) {
+                            // 播放流体提取声音
+                            level.playSound(null, pos, SoundEvents.BUCKET_FILL,
+                                    SoundSource.BLOCKS, 1.0F, 1.0F);
+                            return InteractionResult.SUCCESS;
+                        }
+                    }
+                }
+            } else {
+                // 如果是装有液体的桶，与输入槽交互
+                if (distiller.getInputFluidTank().isPresent()) {
+                    FluidTank inTank = distiller.getInputFluidTank().orElse(null);
+                    if (inTank != null) {
+                        // 检查流体槽是否可以接受这种流体
+                        FluidStack fluidInItem = new FluidStack(fluidHandler.getResource(), fluidHandler.getAmount());
+                        if (inTank.getFluid().isEmpty() || inTank.getFluid().isFluidEqual(fluidInItem)) {
+                            success = TransferFluidUtil.tryTransferFluid(player, handIn, inTank, fluidHandler);
+                            if (success) {
+                                // 播放流体注入声音
+                                level.playSound(null, pos, SoundEvents.BUCKET_EMPTY,
+                                        SoundSource.BLOCKS, 1.0F, 1.0F);
+                                return InteractionResult.SUCCESS;
+                            }
+                        }
                     }
                 }
             }

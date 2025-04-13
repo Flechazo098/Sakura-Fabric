@@ -1,7 +1,7 @@
 {
   "values": [
-    "#forge:tools/axes",
-    "#forge:tools/pickaxes",
-    "#forge:tools/shovels"
+    "#c:tools/axes",
+    "#c:tools/pickaxes",
+    "#c:tools/shovels"
   ]
 }

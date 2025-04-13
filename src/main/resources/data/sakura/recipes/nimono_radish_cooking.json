@@ -3,14 +3,14 @@
   "experience": 0.0,
   "fluid": {
     "amount": 250,
-    "fluidTag": "forge:water/water"
+    "fluidTag": "c:water/water"
   },
   "ingredients": [
     {
-      "tag": "forge:crops/radish"
+      "tag": "c:crops/radish"
     },
     {
-      "tag": "forge:soysauce"
+      "tag": "c:soysauce"
     },
     {
       "item": "sakura:mirin"

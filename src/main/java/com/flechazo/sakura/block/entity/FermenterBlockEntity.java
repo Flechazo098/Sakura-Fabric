@@ -17,6 +17,8 @@ import io.github.fabricators_of_create.porting_lib.transfer.item.SlottedStackSto
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -401,9 +403,18 @@ public class FermenterBlockEntity extends SyncedBlockEntity implements MenuProvi
 
             @Override
             public boolean isFluidValid(FluidStack stack) {
-                return !stack.getFluid().getFluidType().isLighterThanAir();
+                // 允许所有类型的流体
+                return true;
             }
 
+            // 重写insert方法，确保流体正确插入
+            @Override
+            public long insert(FluidVariant resource, long maxAmount, TransactionContext transaction) {
+                if (!isFluidValid(new FluidStack(resource, maxAmount))) {
+                    return 0;
+                }
+                return super.insert(resource, maxAmount, transaction);
+            }
         };
     }
 
@@ -451,7 +462,17 @@ public class FermenterBlockEntity extends SyncedBlockEntity implements MenuProvi
 
             @Override
             public boolean isFluidValid(FluidStack stack) {
-                return !stack.getFluid().getFluidType().isLighterThanAir();
+                // 允许所有类型的流体
+                return true;
+            }
+
+            // 重写insert方法，确保流体正确插入
+            @Override
+            public long insert(FluidVariant resource, long maxAmount, TransactionContext transaction) {
+                if (!isFluidValid(new FluidStack(resource, maxAmount))) {
+                    return 0;
+                }
+                return super.insert(resource, maxAmount, transaction);
             }
         };
     }

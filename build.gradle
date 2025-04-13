@@ -113,6 +113,9 @@ loom {
             vmArg "-Dfabric-api.datagen.modid=sakura"
             // 禁用 porting_lib_tool_actions 的数据生成
             vmArg "-Dfabric-api.datagen.disabled-mods=porting_lib_tool_actions"
+
+            // 添加调试输出
+            vmArg "-Dfabric-api.datagen.verbose=true"
         }
     }
 }

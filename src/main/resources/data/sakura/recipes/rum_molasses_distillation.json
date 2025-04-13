@@ -3,7 +3,7 @@
   "experience": 0.0,
   "fluid": {
     "amount": 500,
-    "fluidTag": "forge:water/water"
+    "fluidTag": "c:water/water"
   },
   "ingredients": [
     {
@@ -13,7 +13,7 @@
       "item": "sakura:molasses"
     },
     {
-      "tag": "forge:yeast"
+      "tag": "c:yeast"
     }
   ],
   "recipeTime": 400,

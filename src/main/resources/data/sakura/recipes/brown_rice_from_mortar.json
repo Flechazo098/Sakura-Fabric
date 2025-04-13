@@ -3,16 +3,16 @@
   "experience": 0.0,
   "ingredients": [
     {
-      "tag": "forge:seeds/rice"
+      "tag": "c:seeds/rice"
     },
     {
-      "tag": "forge:seeds/rice"
+      "tag": "c:seeds/rice"
     },
     {
-      "tag": "forge:seeds/rice"
+      "tag": "c:seeds/rice"
     },
     {
-      "tag": "forge:seeds/rice"
+      "tag": "c:seeds/rice"
     }
   ],
   "recipeTime": 200,

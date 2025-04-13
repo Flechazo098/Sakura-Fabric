@@ -1,7 +1,7 @@
 {
   "values": [
-    "#forge:dough/wheat",
-    "#forge:dough/buckwheat",
-    "#forge:dough/rice"
+    "#c:dough/wheat",
+    "#c:dough/buckwheat",
+    "#c:dough/rice"
   ]
 }

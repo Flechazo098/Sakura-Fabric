@@ -3,7 +3,7 @@
   "experience": 0.0,
   "ingredients": [
     {
-      "tag": "forge:stone"
+      "tag": "stone"
     }
   ],
   "recipeTime": 200,

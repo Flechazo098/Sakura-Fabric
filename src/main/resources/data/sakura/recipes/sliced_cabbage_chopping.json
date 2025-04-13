@@ -11,7 +11,7 @@
   ],
   "experience": 1.0,
   "ingredient": {
-    "tag": "forge:crops/cabbage"
+    "tag": "c:crops/cabbage"
   },
   "recipeTime": 1,
   "result": {

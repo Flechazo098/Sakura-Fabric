@@ -10,10 +10,10 @@
       "item": "sakura:rice_cooked"
     },
     {
-      "tag": "forge:kouji"
+      "tag": "c:kouji"
     },
     {
-      "tag": "forge:sugar"
+      "tag": "c:sugar"
     }
   ],
   "recipeTime": 800,

@@ -3,10 +3,10 @@
   "category": "misc",
   "ingredients": [
     {
-      "tag": "forge:milk"
+      "tag": "c:milk"
     },
     {
-      "tag": "forge:salt"
+      "tag": "c:salt"
     }
   ],
   "result": {

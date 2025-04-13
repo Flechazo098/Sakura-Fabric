@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "forge:seeds/rapeseed"
+            "tag": "c:seeds/rapeseed"
           }
         ]
       },

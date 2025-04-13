@@ -3,20 +3,20 @@
   "experience": 0.0,
   "fluid": {
     "amount": 250,
-    "fluidTag": "forge:water/water"
+    "fluidTag": "c:water/water"
   },
   "ingredients": [
     {
-      "tag": "forge:raw_chicken"
+      "tag": "c:raw_chicken"
     },
     {
-      "tag": "forge:mushrooms"
+      "tag": "c:mushrooms"
     },
     {
-      "tag": "forge:vegetables"
+      "tag": "c:vegetables"
     },
     {
-      "tag": "forge:soysauce"
+      "tag": "c:soysauce"
     },
     {
       "item": "sakura:mirin"

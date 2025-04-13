@@ -1,7 +1,9 @@
 {
   "values": [
     "sakura:machined_fish",
-    "#forge:slices/raw_fishes/cod",
-    "#forge:slices/raw_fishes/salmon"
+    "#c:cooked_fishes/cod",
+    "#c:foods/cooked_fishes/cod",
+    "#c:cooked_fishes/salmon",
+    "#c:foods/cooked_fishes/salmon"
   ]
 }

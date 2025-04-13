@@ -3,11 +3,11 @@
   "experience": 0.0,
   "fluid": {
     "amount": 125,
-    "fluidTag": "forge:water/water"
+    "fluidTag": "c:water/water"
   },
   "ingredients": [
     {
-      "tag": "forge:dough/rice"
+      "tag": "c:dough/rice"
     },
     {
       "item": "sakura:red_bean_paste"

@@ -3,14 +3,14 @@
   "experience": 0.0,
   "fluid": {
     "amount": 250,
-    "fluidTag": "forge:water/water"
+    "fluidTag": "c:water/water"
   },
   "ingredients": [
     {
       "item": "minecraft:dried_kelp"
     },
     {
-      "tag": "forge:soysauce"
+      "tag": "c:soysauce"
     }
   ],
   "recipeTime": 200,

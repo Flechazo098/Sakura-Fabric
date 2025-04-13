@@ -6,10 +6,10 @@
   },
   "ingredients": [
     {
-      "tag": "forge:raw_beef"
+      "tag": "c:raw_beef"
     },
     {
-      "tag": "forge:bamboo"
+      "tag": "c:bamboo"
     }
   ],
   "recipeTime": 200,

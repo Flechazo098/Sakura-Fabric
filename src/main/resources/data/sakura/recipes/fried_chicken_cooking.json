@@ -3,22 +3,22 @@
   "experience": 0.0,
   "fluid": {
     "amount": 125,
-    "fluidTag": "forge:food_oil"
+    "fluidTag": "c:food_oil"
   },
   "ingredients": [
     {
-      "tag": "forge:raw_chicken"
+      "tag": "c:raw_chicken"
     },
     [
       {
         "item": "sakura:breadcrumbs"
       },
       {
-        "tag": "forge:flour"
+        "tag": "c:flour"
       }
     ],
     {
-      "tag": "forge:eggs"
+      "tag": "c:eggs"
     }
   ],
   "recipeTime": 200,

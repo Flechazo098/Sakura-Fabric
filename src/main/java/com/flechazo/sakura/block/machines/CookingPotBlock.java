@@ -3,6 +3,9 @@ package com.flechazo.sakura.block.machines;
 import com.flechazo.sakura.init.BlockEntityRegistry;
 import com.flechazo.sakura.block.entity.CookingPotBlockEntity;
 import com.flechazo.sakura.tags.SakuraBlockTags;
+import com.flechazo.sakura.utils.TransferFluidUtil;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTank;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.item.FluidBucketWrapper;
 import io.github.fabricators_of_create.porting_lib.util.NetworkHooks;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
@@ -121,12 +124,34 @@ public class CookingPotBlock extends BaseEntityBlock {
     private boolean handleFluidInteraction(Level level, Player player, InteractionHand hand, CookingPotBlockEntity be, BlockHitResult hit) {
         ItemStack stack = player.getItemInHand(hand);
 
-        // 获取物品的流体容器能力
+        // 尝试使用TransferFluidUtil进行流体交互
+        ContainerItemContext itemContext = ContainerItemContext.withConstant(stack);
+        FluidBucketWrapper fluidHandler = new FluidBucketWrapper(itemContext);
+
+        if (fluidHandler != null) {
+            // 获取烹饪锅的流体槽
+            FluidTank fluidTank = be.getFluidTank().orElse(null);
+            if (fluidTank != null) {
+                boolean success = TransferFluidUtil.tryTransferFluid(player, hand, fluidTank, fluidHandler);
+                if (success) {
+                    // 播放适当的声音
+                    if (fluidHandler.getFluid().isEmpty()) {
+                        level.playSound(null, be.getBlockPos(), SoundEvents.BUCKET_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+                    } else {
+                        level.playSound(null, be.getBlockPos(), SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
+                    }
+                    be.setChanged();
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // 如果不是使用TransferFluidUtil，则尝试使用Fabric API的流体交互
         Storage<FluidVariant> itemFluidStorage = FluidStorage.ITEM.find(stack, ContainerItemContext.ofPlayerHand(player, hand));
         if (itemFluidStorage != null) {
             Storage<FluidVariant> blockFluidStorage = FluidStorage.SIDED.find(level, be.getBlockPos(), be.getBlockState(), be, hit.getDirection());
             if (blockFluidStorage != null) {
-                // 执行流体转移 - 修正参数数量
                 if (FluidStorageUtil.interactWithFluidStorage(blockFluidStorage, player, hand)) {
                     be.setChanged();
                     return true;

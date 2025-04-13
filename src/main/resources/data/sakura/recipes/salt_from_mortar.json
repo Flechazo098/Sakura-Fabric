@@ -3,7 +3,7 @@
   "experience": 0.0,
   "ingredients": [
     {
-      "tag": "forge:cobblestone"
+      "tag": "c:cobblestone"
     }
   ],
   "recipeTime": 200,

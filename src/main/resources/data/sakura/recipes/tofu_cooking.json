@@ -3,14 +3,14 @@
   "experience": 0.0,
   "fluid": {
     "amount": 250,
-    "fluidTag": "forge:water/water"
+    "fluidTag": "c:water/water"
   },
   "ingredients": [
     {
-      "tag": "forge:crops/soybean"
+      "tag": "c:crops/soybean"
     },
     {
-      "tag": "forge:salt"
+      "tag": "c:salt"
     }
   ],
   "recipeTime": 200,

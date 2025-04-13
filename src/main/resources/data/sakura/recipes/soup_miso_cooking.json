@@ -3,14 +3,14 @@
   "experience": 0.0,
   "fluid": {
     "amount": 250,
-    "fluidTag": "forge:water/water"
+    "fluidTag": "c:water/water"
   },
   "ingredients": [
     {
-      "tag": "forge:miso"
+      "tag": "c:miso"
     },
     {
-      "tag": "forge:tofu"
+      "tag": "c:tofu"
     }
   ],
   "recipeTime": 200,

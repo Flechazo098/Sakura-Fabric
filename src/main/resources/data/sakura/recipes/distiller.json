@@ -3,13 +3,13 @@
   "category": "misc",
   "key": {
     "I": {
-      "tag": "forge:ingots/iron"
+      "tag": "c:ingots/iron"
     },
     "P": {
       "tag": "minecraft:logs"
     },
     "S": {
-      "tag": "forge:lumber"
+      "tag": "c:lumber"
     }
   },
   "pattern": [

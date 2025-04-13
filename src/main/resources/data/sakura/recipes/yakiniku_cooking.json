@@ -3,22 +3,22 @@
   "experience": 0.0,
   "fluid": {
     "amount": 125,
-    "fluidTag": "forge:food_oil"
+    "fluidTag": "c:food_oil"
   },
   "ingredients": [
     [
       {
-        "tag": "forge:raw_pork"
+        "tag": "c:raw_pork"
       },
       {
-        "tag": "forge:raw_beef"
+        "tag": "c:raw_beef"
       },
       {
-        "tag": "forge:raw_mutton"
+        "tag": "c:raw_mutton"
       }
     ],
     {
-      "tag": "forge:soysauce"
+      "tag": "c:soysauce"
     }
   ],
   "recipeTime": 200,

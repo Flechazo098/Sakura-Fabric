@@ -3,7 +3,7 @@
   "experience": 0.0,
   "ingredients": [
     {
-      "tag": "forge:grain/wheat"
+      "tag": "c:grain/wheat"
     }
   ],
   "recipeTime": 200,

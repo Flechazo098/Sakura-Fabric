@@ -3,14 +3,14 @@
   "experience": 0.0,
   "fluid": {
     "amount": 125,
-    "fluidTag": "forge:food_oil"
+    "fluidTag": "c:food_oil"
   },
   "ingredients": [
     {
-      "tag": "forge:raw_fishes"
+      "tag": "c:raw_fishes"
     },
     {
-      "tag": "forge:soysauce"
+      "tag": "c:soysauce"
     }
   ],
   "recipeTime": 200,

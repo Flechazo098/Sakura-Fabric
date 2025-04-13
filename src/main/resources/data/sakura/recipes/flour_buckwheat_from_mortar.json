@@ -3,7 +3,7 @@
   "experience": 0.0,
   "ingredients": [
     {
-      "tag": "forge:grain/buckwheat"
+      "tag": "c:grain/buckwheat"
     }
   ],
   "recipeTime": 200,

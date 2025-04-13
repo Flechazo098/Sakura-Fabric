@@ -3,10 +3,10 @@
   "category": "misc",
   "key": {
     "#": {
-      "tag": "forge:cobblestone"
+      "tag": "c:cobblestone"
     },
     "L": {
-      "tag": "forge:lumber"
+      "tag": "c:lumber"
     }
   },
   "pattern": [

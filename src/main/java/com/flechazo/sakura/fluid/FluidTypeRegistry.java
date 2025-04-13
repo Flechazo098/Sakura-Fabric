@@ -36,8 +36,8 @@ public class FluidTypeRegistry {
     public static void initialize() {
         FOOD_OIL = register("food_oil", 0xFFFFF050);
         DOBUROKU = register("doburoku", 0xFFCCC299);
-        SAKE = register("sake", 0xDDFFF8CC);
-        SHOUCHU = register("shouchu", 0xBBFFFCF2);
+        SAKE = register("sake", 0xFFFFF8CC);  // 修改为0xFFFFF8CC
+        SHOUCHU = register("shouchu", 0xFFFFFCF2);  // 修改为0xFFFFFCF2
         BEER = register("beer", 0xFFF2A918);
         WHISKEY = register("whiskey", 0xFFA52121);
         RUM = register("rum", 0xFFFFAA32);

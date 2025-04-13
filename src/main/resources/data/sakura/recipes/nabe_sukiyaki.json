@@ -6,25 +6,25 @@
       "item": "sakura:cooking_pot"
     },
     {
-      "tag": "forge:soysauce"
+      "tag": "c:soysauce"
     },
     {
       "item": "sakura:mirin"
     },
     {
-      "tag": "forge:raw_beef"
+      "tag": "c:raw_beef"
     },
     {
-      "tag": "forge:crops/carrot"
+      "tag": "c:crops/carrot"
     },
     {
-      "tag": "forge:mushrooms"
+      "tag": "c:mushrooms"
     },
     {
-      "tag": "forge:vegetables"
+      "tag": "c:vegetables"
     },
     {
-      "tag": "forge:vegetables"
+      "tag": "c:vegetables"
     }
   ],
   "result": {

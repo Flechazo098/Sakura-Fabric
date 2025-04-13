@@ -1,15 +1,15 @@
 {
   "values": [
-    "#forge:crops/cabbage",
-    "#forge:crops/onion",
-    "#forge:crops/buckwheat",
-    "#forge:crops/eggplant",
-    "#forge:crops/radish",
-    "#forge:crops/rice",
-    "#forge:crops/tomato",
-    "#forge:crops/taro",
-    "#forge:seeds/rapeseed",
-    "#forge:crops/redbean",
-    "#forge:crops/pumpkin"
+    "#c:crops/cabbage",
+    "#c:crops/onion",
+    "#c:crops/buckwheat",
+    "#c:crops/eggplant",
+    "#c:crops/radish",
+    "#c:crops/rice",
+    "#c:crops/tomato",
+    "#c:crops/taro",
+    "#c:seeds/rapeseed",
+    "#c:crops/redbean",
+    "#c:crops/pumpkin"
   ]
 }

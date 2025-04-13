@@ -3,20 +3,20 @@
   "experience": 0.0,
   "fluid": {
     "amount": 125,
-    "fluidTag": "forge:food_oil"
+    "fluidTag": "c:food_oil"
   },
   "ingredients": [
     {
       "tag": "sakura:rice/rice"
     },
     {
-      "tag": "forge:eggs"
+      "tag": "c:eggs"
     },
     {
-      "tag": "forge:vegetables"
+      "tag": "c:vegetables"
     },
     {
-      "tag": "forge:salt"
+      "tag": "c:salt"
     }
   ],
   "recipeTime": 200,

@@ -3,7 +3,7 @@
   "experience": 0.0,
   "fluid": {
     "amount": 125,
-    "fluidTag": "forge:food_oil"
+    "fluidTag": "c:food_oil"
   },
   "ingredients": [
     {
@@ -13,7 +13,7 @@
       "item": "sakura:breadcrumbs"
     },
     {
-      "tag": "forge:milk"
+      "tag": "c:milk"
     }
   ],
   "recipeTime": 200,

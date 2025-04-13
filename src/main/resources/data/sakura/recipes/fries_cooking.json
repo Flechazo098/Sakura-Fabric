@@ -3,14 +3,14 @@
   "experience": 0.0,
   "fluid": {
     "amount": 125,
-    "fluidTag": "forge:food_oil"
+    "fluidTag": "c:food_oil"
   },
   "ingredients": [
     {
-      "tag": "forge:crops/potato"
+      "tag": "c:crops/potato"
     },
     {
-      "tag": "forge:salt"
+      "tag": "c:salt"
     }
   ],
   "recipeTime": 200,

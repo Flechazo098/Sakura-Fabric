@@ -3,7 +3,7 @@
   "experience": 0.0,
   "ingredients": [
     {
-      "tag": "forge:fishes"
+      "tag": "c:fishes"
     }
   ],
   "recipeTime": 200,

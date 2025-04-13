@@ -8,7 +8,7 @@
   },
   "ingredients": [
     {
-      "tag": "forge:dust/charcoal"
+      "tag": "c:dust/charcoal"
     }
   ],
   "recipeTime": 500,

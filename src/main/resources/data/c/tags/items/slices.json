@@ -1,6 +1,6 @@
 {
   "values": [
-    "#forge:slices/cabbage",
-    "#forge:slices/raw_fishes"
+    "#c:slices/cabbage",
+    "#c:slices/raw_fishes"
   ]
 }

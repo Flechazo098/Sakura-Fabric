@@ -3,17 +3,17 @@
   "experience": 0.0,
   "fluid": {
     "amount": 125,
-    "fluidTag": "forge:water/water"
+    "fluidTag": "c:water/water"
   },
   "ingredients": [
     {
       "tag": "sakura:rice/rice"
     },
     {
-      "tag": "forge:raw_fishes"
+      "tag": "c:raw_fishes"
     },
     {
-      "tag": "forge:eggs"
+      "tag": "c:eggs"
     }
   ],
   "recipeTime": 200,

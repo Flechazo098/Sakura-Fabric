@@ -47,40 +47,56 @@ public class RenderUtils {
     }
 
     public static void renderFluidStack(int x, int y, int width, int height, float depth, FluidStack fluidStack) {
+        if (fluidStack == null || fluidStack.isEmpty()) {
+            return; // 如果流体为空，直接返回
+        }
+
         RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
         RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        IClientFluidTypeExtensions props = IClientFluidTypeExtensions.of(fluidStack.getFluid());
-        TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(props.getStillTexture());
 
+        // 获取流体属性
+        IClientFluidTypeExtensions props = IClientFluidTypeExtensions.of(fluidStack.getFluid());
+
+        // 获取流体纹理
+        ResourceLocation stillTexture = props.getStillTexture();
+        TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(stillTexture);
+
+        // 获取流体颜色
         int col = props.getTintColor(fluidStack);
+
+        // 如果颜色是0，使用默认颜色
+        if (col == 0) {
+            col = 0xFFFFFFFF; // 默认为白色
+        }
+
+        // 提取颜色分量
+        float red = ((col >> 16) & 0xFF) / 255.0F;
+        float green = ((col >> 8) & 0xFF) / 255.0F;
+        float blue = (col & 0xFF) / 255.0F;
+        float alpha = ((col >> 24) & 0xFF) / 255.0F;
+
+        // 设置渲染颜色
+        RenderSystem.setShaderColor(red, green, blue, alpha);
+
         Tesselator tessellator = Tesselator.getInstance();
         BufferBuilder bufferbuilder = tessellator.getBuilder();
         float u1 = sprite.getU0();
         float v1 = sprite.getV0();
         float u2 = sprite.getU1();
         float v2 = sprite.getV1();
-        do {
-            int currentHeight = Math.min(sprite.getX(), height);
-            height -= currentHeight;
-            int x2 = x;
-            int width2 = width;
-            do {
-                int currentWidth = Math.min(sprite.getY(), width2);
-                width2 -= currentWidth;
-                bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
-                bufferbuilder.vertex(x2, y, depth).uv(u1, v1).color((col >> 16 & 255), (col >> 8 & 255), (col & 255), 255).endVertex();
-                bufferbuilder.vertex(x2, y + currentHeight, depth).uv(u1, v2).color((col >> 16 & 255), (col >> 8 & 255), (col & 255), 255).endVertex();
-                bufferbuilder.vertex(x2 + currentWidth, y + currentHeight, depth).uv(u2, v2).color((col >> 16 & 255), (col >> 8 & 255), (col & 255), 255).endVertex();
-                bufferbuilder.vertex(x2 + currentWidth, y, depth).uv(u2, v1).color((col >> 16 & 255), (col >> 8 & 255), (col & 255), 255).endVertex();
-                tessellator.end();
-                x2 += currentWidth;
-            } while (width2 > 0);
 
-            y += currentHeight;
-        } while (height > 0);
-        bufferbuilder.unsetDefaultColor();
+        // 渲染流体
+        bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
+        bufferbuilder.vertex(x, y, depth).uv(u1, v1).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.vertex(x, y + height, depth).uv(u1, v2).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.vertex(x + width, y + height, depth).uv(u2, v2).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.vertex(x + width, y, depth).uv(u2, v1).color(red, green, blue, alpha).endVertex();
+        tessellator.end();
+
+        // 重置渲染状态
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.disableBlend();
     }
 

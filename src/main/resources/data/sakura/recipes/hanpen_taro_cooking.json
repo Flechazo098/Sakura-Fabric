@@ -3,17 +3,17 @@
   "experience": 0.0,
   "fluid": {
     "amount": 125,
-    "fluidTag": "forge:water/water"
+    "fluidTag": "c:water/water"
   },
   "ingredients": [
     {
-      "tag": "forge:salt"
+      "tag": "c:salt"
     },
     {
-      "tag": "forge:eggs"
+      "tag": "c:eggs"
     },
     {
-      "tag": "forge:crops/taro"
+      "tag": "c:crops/taro"
     },
     {
       "item": "sakura:surimi"

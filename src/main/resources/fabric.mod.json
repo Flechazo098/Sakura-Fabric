@@ -21,6 +21,9 @@
     ],
     "datagen": [
       "com.flechazo.sakura.SakuraFabricDataGen"
+    ],
+    "jei_mod_plugin": [
+      "com.flechazo.sakura.compat.jei.JEIPlugin"
     ]
   },
   "mixins": [

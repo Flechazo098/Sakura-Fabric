@@ -6,10 +6,10 @@
   },
   "ingredients": [
     {
-      "tag": "forge:crops/soybean"
+      "tag": "c:crops/soybean"
     },
     {
-      "tag": "forge:straw"
+      "tag": "c:straw"
     }
   ],
   "recipeTime": 600,

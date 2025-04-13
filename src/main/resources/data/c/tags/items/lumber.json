@@ -1,7 +1,7 @@
 {
   "values": [
-    "#forge:lumber/bamboo",
-    "#forge:lumber/maple",
-    "#forge:lumber/sakura"
+    "#c:lumber/bamboo",
+    "#c:lumber/maple",
+    "#c:lumber/sakura"
   ]
 }

@@ -9,10 +9,10 @@
       "item": "sakura:breadcrumbs"
     },
     {
-      "tag": "forge:crops/onion"
+      "tag": "c:crops/onion"
     },
     {
-      "tag": "forge:eggs"
+      "tag": "c:eggs"
     }
   ],
   "recipeTime": 200,

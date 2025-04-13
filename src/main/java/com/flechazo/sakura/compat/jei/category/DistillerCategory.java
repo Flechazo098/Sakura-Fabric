@@ -63,11 +63,12 @@ public class DistillerCategory implements IRecipeCategory<DistillerRecipe> {
         return icon;
     }
 
+
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, DistillerRecipe recipe, IFocusGroup focuses) {
         NonNullList<Ingredient> recipeIngredients = recipe.getIngredients();
         int borderSlotSize = 18;
-        for (int row = 0; row < 3; ++row) {
+        for (int row = 0; row < 3; ++ row) {
             int inputIndex = row;
             if (inputIndex < recipeIngredients.size()) {
                 builder.addSlot(RecipeIngredientRole.INPUT, 23, 7 + row * borderSlotSize)
@@ -75,19 +76,28 @@ public class DistillerCategory implements IRecipeCategory<DistillerRecipe> {
             }
         }
 
-        // 修改输入流体的添加方式
-        if(recipe.getRequiredFluid() != FluidIngredient.EMPTY) {
+        if (recipe.getRequiredFluid() != FluidIngredient.EMPTY) {
             var fluidStacks = recipe.getRequiredFluid().getMatchingFluidStacks();
             var fluidSlot = builder.addSlot(RecipeIngredientRole.INPUT, 1, 1)
-                    .setFluidRenderer(DistillerBlockEntity.TANK_CAPACITY, true, 16, 64);
+                    .setFluidRenderer(DistillerBlockEntity.TANK_CAPACITY, false, 16, 64)
+                    .addTooltipCallback((recipeSlotView, tooltip) -> {
+                        // 替换或添加正确的流体量信息
+                        for (int i = 0; i < tooltip.size(); i++) {
+                            Component component = tooltip.get(i);
+                            String text = component.getString();
+                            if (text.contains("mB")) {
+                                tooltip.set(i, Component.literal(recipe.getRequiredFluid().getRequiredAmount() + " mB / " + DistillerBlockEntity.TANK_CAPACITY + " mB"));
+                                break;
+                            }
+                        }
+                    });
 
-            // 逐个添加流体
             for (var fluidStack : fluidStacks) {
                 fluidSlot.addFluidStack(fluidStack.getFluid(), fluidStack.getAmount(), fluidStack.getTag());
             }
         }
 
-        for (int row = 0; row < 3; ++row) {
+        for (int row = 0; row < 3; ++ row) {
             int inputIndex = row;
             if (inputIndex < recipe.getResultItemList().size()) {
                 builder.addSlot(RecipeIngredientRole.OUTPUT, 71, 7 + row * borderSlotSize)
@@ -95,11 +105,22 @@ public class DistillerCategory implements IRecipeCategory<DistillerRecipe> {
             }
         }
 
-        // 修改输出流体的添加方式
-        if(!recipe.getResultFluid().isEmpty()) {
+        // 添加自定义工具提示回调，显示正确的流体量
+        if (! recipe.getResultFluid().isEmpty()) {
             var resultFluid = recipe.getResultFluid();
             builder.addSlot(RecipeIngredientRole.OUTPUT, 93, 1)
-                    .setFluidRenderer(DistillerBlockEntity.TANK_CAPACITY, true, 16, 64)
+                    .setFluidRenderer(DistillerBlockEntity.TANK_CAPACITY, false, 16, 64)
+                    .addTooltipCallback((recipeSlotView, tooltip) -> {
+                        // 替换或添加正确的流体量信息
+                        for (int i = 0; i < tooltip.size(); i++) {
+                            Component component = tooltip.get(i);
+                            String text = component.getString();
+                            if (text.contains("mB")) {
+                                tooltip.set(i, Component.literal(resultFluid.getAmount() + " mB / " + DistillerBlockEntity.TANK_CAPACITY + " mB"));
+                                break;
+                            }
+                        }
+                    })
                     .addFluidStack(resultFluid.getFluid(), resultFluid.getAmount(), resultFluid.getTag());
         }
     }

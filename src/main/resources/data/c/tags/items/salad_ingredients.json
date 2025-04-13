@@ -1,6 +1,6 @@
 {
   "values": [
-    "#forge:salad_ingredients/cabbage",
-    "#forge:salad_ingredients/tomato"
+    "#c:salad_ingredients/cabbage",
+    "#c:salad_ingredients/tomato"
   ]
 }

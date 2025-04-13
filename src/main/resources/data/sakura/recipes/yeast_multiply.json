@@ -3,17 +3,17 @@
   "experience": 0.0,
   "fluid": {
     "amount": 100,
-    "fluidTag": "forge:water/water"
+    "fluidTag": "c:water/water"
   },
   "ingredients": [
     {
-      "tag": "forge:yeast"
+      "tag": "c:yeast"
     },
     {
-      "tag": "forge:sugar"
+      "tag": "c:sugar"
     },
     {
-      "tag": "forge:sugar"
+      "tag": "c:sugar"
     }
   ],
   "recipeTime": 200,

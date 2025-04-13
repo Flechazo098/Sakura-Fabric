@@ -3,11 +3,11 @@
   "experience": 0.0,
   "fluid": {
     "amount": 125,
-    "fluidTag": "forge:food_oil"
+    "fluidTag": "c:food_oil"
   },
   "ingredients": [
     {
-      "tag": "forge:salt"
+      "tag": "c:salt"
     },
     {
       "item": "sakura:surimi"

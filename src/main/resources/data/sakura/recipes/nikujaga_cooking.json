@@ -3,25 +3,25 @@
   "experience": 0.0,
   "fluid": {
     "amount": 125,
-    "fluidTag": "forge:water/water"
+    "fluidTag": "c:water/water"
   },
   "ingredients": [
     [
       {
-        "tag": "forge:raw_pork"
+        "tag": "c:raw_pork"
       },
       {
-        "tag": "forge:raw_beef"
+        "tag": "c:raw_beef"
       }
     ],
     {
-      "tag": "forge:crops/carrot"
+      "tag": "c:crops/carrot"
     },
     {
-      "tag": "forge:crops/potato"
+      "tag": "c:crops/potato"
     },
     {
-      "tag": "forge:soysauce"
+      "tag": "c:soysauce"
     },
     {
       "item": "sakura:mirin"

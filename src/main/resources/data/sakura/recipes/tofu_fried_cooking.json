@@ -3,14 +3,14 @@
   "experience": 0.0,
   "fluid": {
     "amount": 125,
-    "fluidTag": "forge:food_oil"
+    "fluidTag": "c:food_oil"
   },
   "ingredients": [
     {
-      "tag": "forge:tofu"
+      "tag": "c:tofu"
     },
     {
-      "tag": "forge:flour"
+      "tag": "c:flour"
     }
   ],
   "recipeTime": 200,

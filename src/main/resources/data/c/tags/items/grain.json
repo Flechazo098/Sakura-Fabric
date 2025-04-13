@@ -1,7 +1,7 @@
 {
   "values": [
-    "#forge:grain/wheat",
-    "#forge:grain/rice",
-    "#forge:grain/buckwheat"
+    "#c:grain/wheat",
+    "#c:grain/rice",
+    "#c:grain/buckwheat"
   ]
 }
