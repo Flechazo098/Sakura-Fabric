@@ -1,5 +1,8 @@
 package com.flechazo.sakura.utils;
 
+import com.flechazo.sakura.SakuraFabric;
+import com.flechazo.sakura.fluid.FluidTypeRegistry;
+import com.flechazo.sakura.init.FluidRegistry;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
@@ -11,6 +14,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.level.material.Fluids;
 
 public class RenderUtils {
     /**
@@ -66,9 +70,19 @@ public class RenderUtils {
         // 获取流体颜色
         int col = props.getTintColor(fluidStack);
 
-        // 如果颜色是0，使用默认颜色
-        if (col == 0) {
-            col = 0xFFFFFFFF; // 默认为白色
+        // 处理原版流体的颜色
+        if (col == 0 || col == -1) {
+            // 为原版流体设置默认颜色
+            if (fluidStack.getFluid() == Fluids.WATER) {
+                col = 0xFF3F76E4; // 水的蓝色
+            } else if (fluidStack.getFluid() == Fluids.LAVA) {
+                col = 0xFFFF4500; // 岩浆的橙红色
+            } else if (fluidStack.getFluid() instanceof FluidRegistry.CustomSourceFluid sourceFluid) {
+                // 尝试从流体类型获取颜色
+                col = FluidTypeRegistry.getFluidColor(sourceFluid.getFluidType());
+            } else {
+                col = 0xFFFFFFFF; // 默认为白色
+            }
         }
 
         // 提取颜色分量

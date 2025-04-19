@@ -103,6 +103,7 @@ loom {
             vmArg "-Dfabric-api.datagen.verbose=true"
         }
     }
+    accessWidenerPath = file("src/main/resources/sakura.accesswidener")
 }
 
 // 添加清理生成目录的任务

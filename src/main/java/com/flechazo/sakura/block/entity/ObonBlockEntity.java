@@ -1,6 +1,6 @@
 package com.flechazo.sakura.block.entity;
 
-import com.flechazo.sakura.api.ItemHandlerComponent;
+import com.flechazo.sakura.capability.ItemHandlerComponent;
 import com.flechazo.sakura.init.BlockEntityRegistry;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
 import io.github.fabricators_of_create.porting_lib.transfer.item.SlottedStackStorage;

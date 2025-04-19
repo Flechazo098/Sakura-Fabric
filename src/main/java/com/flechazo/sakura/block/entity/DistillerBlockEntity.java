@@ -1,7 +1,7 @@
 package com.flechazo.sakura.block.entity;
 
-import com.flechazo.sakura.api.FluidHandlerComponent;
-import com.flechazo.sakura.api.ItemHandlerComponent;
+import com.flechazo.sakura.capability.FluidHandlerComponent;
+import com.flechazo.sakura.capability.ItemHandlerComponent;
 import com.flechazo.sakura.container.DistillerContainer;
 import com.flechazo.sakura.init.BlockEntityRegistry;
 import com.flechazo.sakura.inventory.FermenterItemHandler;
@@ -17,6 +17,7 @@ import io.github.fabricators_of_create.porting_lib.transfer.item.SlottedStackSto
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -265,27 +266,36 @@ public class DistillerBlockEntity extends SyncedBlockEntity implements MenuProvi
             }
         }
 
-        if (recipe.getRequiredFluid() != FluidIngredient.EMPTY) {
-            FluidTank inputTank = this.inputfluidTank.orElse(new FluidTank(0));
-            long requiredAmount = recipe.getRequiredFluid().getRequiredAmount();
+        // 使用 Fabric 的事务 API 处理流体操作
+        try (var transaction = Transaction.openOuter()) {
+            if (recipe.getRequiredFluid() != FluidIngredient.EMPTY) {
+                FluidTank inputTank = this.inputfluidTank.orElse(new FluidTank(0));
+                long requiredAmount = recipe.getRequiredFluid().getRequiredAmount();
 
-            inputTank.extract(
-                    inputTank.getFluid().getType(),
-                    requiredAmount,
-                    null
-            );
+                // 在事务中提取流体
+                inputTank.extract(
+                        inputTank.getFluid().getType(),
+                        requiredAmount,
+                        transaction
+                );
+            }
+
+            if (!recipe.getResultFluid().isEmpty()) {
+                FluidTank outputTank = this.outputfluidTank.orElse(new FluidTank(0));
+                FluidStack resultFluid = recipe.getResultFluid();
+
+                // 在事务中插入流体
+                outputTank.insert(
+                        resultFluid.getType(),
+                        resultFluid.getAmount(),
+                        transaction
+                );
+            }
+
+            // 提交事务
+            transaction.commit();
         }
 
-        if (!recipe.getResultFluid().isEmpty()) {
-            FluidTank outputTank = this.outputfluidTank.orElse(new FluidTank(0));
-            FluidStack resultFluid = recipe.getResultFluid();
-
-            outputTank.insert(
-                    resultFluid.getType(),
-                    resultFluid.getAmount(),
-                    null
-            );
-        }
         trackRecipeExperience(recipe);
 
         for (int i = 0; i < 3; ++i) {

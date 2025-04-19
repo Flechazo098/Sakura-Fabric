@@ -13,27 +13,27 @@ public class TransferFluidUtil {
     /**
      * 尝试在流体槽和物品之间传输流体
      *
-     * @param player 玩家
-     * @param hand 交互的手
-     * @param tank 流体槽
+     * @param player  玩家
+     * @param hand    交互的手
+     * @param tank    流体槽
      * @param handler 流体容器包装器
      * @return 是否成功传输流体
      */
-    public static boolean tryTransferFluid(Player player, InteractionHand hand, FluidTank tank, FluidBucketWrapper handler) {
+    public static boolean tryTransferFluid (Player player, InteractionHand hand, FluidTank tank, FluidBucketWrapper handler) {
         return tryTransferFluid(player, hand, tank, handler, 8);
     }
 
     /**
      * 尝试在流体槽和物品之间传输流体，可指定分段数
      *
-     * @param player 玩家
-     * @param hand 交互的手
-     * @param tank 流体槽
-     * @param handler 流体容器包装器
+     * @param player   玩家
+     * @param hand     交互的手
+     * @param tank     流体槽
+     * @param handler  流体容器包装器
      * @param segments 将容器容量分成几份
      * @return 是否成功传输流体
      */
-    public static boolean tryTransferFluid(Player player, InteractionHand hand, FluidTank tank, FluidBucketWrapper handler, int segments) {
+    public static boolean tryTransferFluid (Player player, InteractionHand hand, FluidTank tank, FluidBucketWrapper handler, int segments) {
         ItemStack originalStack = player.getItemInHand(hand);
         boolean success = false;
 
@@ -43,7 +43,7 @@ public class TransferFluidUtil {
         }
 
         // 尝试从物品中提取流体到流体槽
-        if (!handler.getFluid().isEmpty()) {
+        if (! handler.getFluid().isEmpty()) {
             try (Transaction transaction = Transaction.openOuter()) {
                 FluidStack fluidInItem = new FluidStack(handler.getResource(), handler.getAmount());
 
@@ -65,6 +65,12 @@ public class TransferFluidUtil {
                             // 如果成功插入流体，则提取物品中的流体
                             handler.extract(handler.getResource(), inserted, transaction);
                             transaction.commit();
+
+                            // 更新玩家手中的物品 - 使用空桶替换
+                            if (! player.getAbilities().instabuild) {
+                                player.setItemInHand(hand, new ItemStack(net.minecraft.world.item.Items.BUCKET));
+                            }
+
                             success = true;
                         }
                     }
@@ -75,7 +81,7 @@ public class TransferFluidUtil {
             }
         }
         // 尝试从流体槽中提取流体到物品
-        else if (!tank.getFluid().isEmpty()) {
+        else if (! tank.getFluid().isEmpty()) {
             try (Transaction transaction = Transaction.openOuter()) {
                 FluidStack tankFluid = tank.getFluid();
 
@@ -89,6 +95,14 @@ public class TransferFluidUtil {
                             // 如果成功插入流体到物品，则从流体槽中提取流体
                             tank.extract(tankFluid.getType(), extracted, transaction);
                             transaction.commit();
+
+                            // 更新玩家手中的物品 - 使用装满的桶替换
+                            if (! player.getAbilities().instabuild) {
+                                // 使用 FluidBucketWrapper 的 getFilledBucket 方法获取装满的桶
+                                ItemStack filledBucket = handler.getFilledBucket(tankFluid);
+                                player.setItemInHand(hand, filledBucket);
+                            }
+
                             success = true;
                         }
                     }

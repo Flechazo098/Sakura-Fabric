@@ -17,7 +17,7 @@
       "com.flechazo.sakura.SakuraFabric"
     ],
     "cardinal-components": [
-      "com.flechazo.sakura.api.SakuraComponents"
+      "com.flechazo.sakura.capability.SakuraComponents"
     ],
     "datagen": [
       "com.flechazo.sakura.SakuraFabricDataGen"
@@ -39,5 +39,6 @@
       "sakura:item_handler",
       "sakura:fluid_handler"
     ]
-  }
+  },
+  "accessWidener" : "sakura.accesswidener"
 }

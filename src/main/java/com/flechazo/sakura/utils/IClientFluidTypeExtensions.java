@@ -1,6 +1,10 @@
 package com.flechazo.sakura.utils;
 
+import com.flechazo.sakura.SakuraFabric;
+import com.flechazo.sakura.fluid.FluidTypeRegistry;
+import com.flechazo.sakura.init.FluidRegistry;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
+import io.github.fabricators_of_create.porting_lib.fluids.FluidType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.resources.ResourceLocation;
@@ -53,12 +57,70 @@ public interface IClientFluidTypeExtensions {
      * 从流体获取扩展接口
      */
     static IClientFluidTypeExtensions of(Fluid fluid) {
+        // 首先尝试从流体获取扩展
         if (fluid instanceof FluidExtensionProvider clientProvider) {
-            return clientProvider.getExtensions();
+            IClientFluidTypeExtensions extensions = clientProvider.getExtensions();
+            if (extensions != null) {
+                return extensions;
+            }
         }
+
+        // 如果流体不是 FluidExtensionProvider 的实例，尝试创建一个基于流体类型的扩展
+        if (fluid instanceof FluidRegistry.CustomSourceFluid sourceFluid) {
+            FluidType fluidType = sourceFluid.getFluidType();
+            int color = FluidTypeRegistry.getFluidColor(fluidType);
+
+            return new IClientFluidTypeExtensions() {
+                @Override
+                public ResourceLocation getStillTexture() {
+                    return new ResourceLocation("block/water_still");
+                }
+
+                @Override
+                public ResourceLocation getFlowingTexture() {
+                    return new ResourceLocation("block/water_flow");
+                }
+
+                @Override
+                public int getTintColor() {
+                    return color;
+                }
+
+                @Override
+                public int getTintColor(FluidStack stack) {
+                    return color;
+                }
+            };
+        } else if (fluid instanceof FluidRegistry.CustomFlowingFluid flowingFluid) {
+            FluidType fluidType = flowingFluid.getFluidType();
+            int color = FluidTypeRegistry.getFluidColor(fluidType);
+
+            return new IClientFluidTypeExtensions() {
+                @Override
+                public ResourceLocation getStillTexture() {
+                    return new ResourceLocation("block/water_still");
+                }
+
+                @Override
+                public ResourceLocation getFlowingTexture() {
+                    return new ResourceLocation("block/water_flow");
+                }
+
+                @Override
+                public int getTintColor() {
+                    return color;
+                }
+
+                @Override
+                public int getTintColor(FluidStack stack) {
+                    return color;
+                }
+            };
+        }
+
+        // 如果以上方法都失败，使用默认扩展
         return DEFAULT;
     }
-
     /**
      * 流体扩展提供者接口
      */

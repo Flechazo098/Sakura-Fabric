@@ -5,7 +5,6 @@ import com.flechazo.sakura.fluid.FluidBlockRegistry;
 import com.flechazo.sakura.fluid.FluidTypeRegistry;
 import com.flechazo.sakura.utils.FluidExtensionProvider;
 import com.flechazo.sakura.utils.IClientFluidTypeExtensions;
-import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidType;
 import io.github.fabricators_of_create.porting_lib.fluids.extensions.ConvertToSourceFluid;
 import net.fabricmc.api.EnvType;
@@ -21,10 +20,12 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
@@ -37,6 +38,7 @@ public class FluidRegistry {
 
     // 存储所有流体方块的集合
     public static final List<LiquidBlock> FLUIDS = new ArrayList<>();
+
 
     public static FlowingFluid FOOD_OIL;
     public static FlowingFluid FOOD_OIL_FLOWING;
@@ -189,49 +191,17 @@ public class FluidRegistry {
     }
 
     // 自定义源流体类
-    public static class CustomSourceFluid extends net.minecraft.world.level.material.FlowingFluid implements ConvertToSourceFluid, FluidExtensionProvider {
+    public static class CustomSourceFluid extends FlowingFluid implements ConvertToSourceFluid, FluidExtensionProvider {
         private final FluidType fluidType;
         private final Supplier<? extends LiquidBlock> block;
         private FlowingFluid flowing;
-        private IClientFluidTypeExtensions clientExtensions;
         private Item bucketItem;
+        private IClientFluidTypeExtensions clientExtensions;
 
         public CustomSourceFluid(FluidType fluidType, Supplier<? extends LiquidBlock> block) {
             this.fluidType = fluidType;
             this.block = block;
-
-            // 初始化客户端扩展
-            if (fluidType != null) {
-                this.clientExtensions = new IClientFluidTypeExtensions() {
-                    @Override
-                    public ResourceLocation getStillTexture() {
-                        // 使用默认的水纹理
-                        return new ResourceLocation("minecraft", "block/water_still");
-                    }
-
-                    @Override
-                    public ResourceLocation getFlowingTexture() {
-                        // 使用默认的水流动纹理
-                        return new ResourceLocation("minecraft", "block/water_flow");
-                    }
-
-                    @Override
-                    public int getTintColor(FluidStack stack) {
-                        // 从FluidTypeRegistry获取颜色
-                        int color = FluidTypeRegistry.getFluidColor(fluidType);
-                        return color == -1 ? 0xFFFFFFFF : color;
-                    }
-
-                    @Override
-                    public int getTintColor() {
-                        // 同样从FluidTypeRegistry获取颜色
-                        int color = FluidTypeRegistry.getFluidColor(fluidType);
-                        return color == -1 ? 0xFFFFFFFF : color;
-                    }
-                };
-            }
         }
-
 
         public void setBucketItem(Item bucketItem) {
             this.bucketItem = bucketItem;
@@ -243,7 +213,7 @@ public class FluidRegistry {
         }
 
         @Override
-        public net.minecraft.world.level.material.FlowingFluid getFlowing() {
+        public FlowingFluid getFlowing() {
             return flowing; // Return the flowing fluid
         }
 
@@ -269,12 +239,12 @@ public class FluidRegistry {
         }
 
         @Override
-        protected int getSlopeFindDistance(net.minecraft.world.level.LevelReader level) {
+        protected int getSlopeFindDistance(LevelReader level) {
             return 4;
         }
 
         @Override
-        protected int getDropOff(net.minecraft.world.level.LevelReader level) {
+        protected int getDropOff(LevelReader level) {
             return 1;
         }
 
@@ -285,11 +255,11 @@ public class FluidRegistry {
 
         @Override
         protected boolean canBeReplacedWith(FluidState state, BlockGetter level, BlockPos pos, Fluid fluid, Direction direction) {
-            return !fluid.is(FluidTags.WATER);
+            return direction == Direction.DOWN && !fluid.is(FluidTags.WATER);
         }
 
         @Override
-        public int getTickDelay(net.minecraft.world.level.LevelReader level) {
+        public int getTickDelay(LevelReader level) {
             return 5;
         }
 
@@ -299,17 +269,17 @@ public class FluidRegistry {
         }
 
         @Override
-        protected net.minecraft.world.level.block.state.BlockState createLegacyBlock(net.minecraft.world.level.material.FluidState state) {
+        protected BlockState createLegacyBlock(FluidState state) {
             return block.get().defaultBlockState().setValue(LiquidBlock.LEVEL, getLegacyLevel(state));
         }
 
         @Override
-        public boolean isSource(net.minecraft.world.level.material.FluidState state) {
+        public boolean isSource(FluidState state) {
             return true;
         }
 
         @Override
-        public int getAmount(net.minecraft.world.level.material.FluidState state) {
+        public int getAmount(FluidState state) {
             return 8;
         }
 
@@ -318,7 +288,6 @@ public class FluidRegistry {
             return fluid == this;
         }
 
-        // 添加实现方法
         @Environment(EnvType.CLIENT)
         public void setClientExtensions(IClientFluidTypeExtensions extensions) {
             this.clientExtensions = extensions;
@@ -331,7 +300,7 @@ public class FluidRegistry {
     }
 
     // 自定义流动流体类
-    public static class CustomFlowingFluid extends net.minecraft.world.level.material.FlowingFluid implements ConvertToSourceFluid, FluidExtensionProvider {
+    public static class CustomFlowingFluid extends FlowingFluid implements ConvertToSourceFluid, FluidExtensionProvider {
         private final FluidType fluidType;
         private final Supplier<? extends Fluid> still;
         private final Supplier<? extends LiquidBlock> block;
@@ -342,35 +311,6 @@ public class FluidRegistry {
             this.fluidType = fluidType;
             this.still = still;
             this.block = block;
-
-            // 初始化客户端扩展
-            if (fluidType != null) {
-                this.clientExtensions = new IClientFluidTypeExtensions() {
-                    @Override
-                    public ResourceLocation getStillTexture() {
-                        return new ResourceLocation("minecraft", "block/water_still");
-                    }
-
-                    @Override
-                    public ResourceLocation getFlowingTexture() {
-                        return new ResourceLocation("minecraft", "block/water_flow");
-                    }
-
-                    @Override
-                    public int getTintColor(FluidStack stack) {
-                        // 从FluidTypeRegistry获取颜色
-                        int color = FluidTypeRegistry.getFluidColor(fluidType);
-                        // 如果颜色为-1，返回默认白色
-                        return color == -1 ? 0xFFFFFFFF : color;
-                    }
-                    @Override
-                    public int getTintColor() {
-                        // 同样从FluidTypeRegistry获取颜色
-                        int color = FluidTypeRegistry.getFluidColor(fluidType);
-                        return color == -1 ? 0xFFFFFFFF : color;
-                    }
-                };
-            }
         }
 
         public void setBucketItem(Item bucketItem) {
@@ -378,7 +318,7 @@ public class FluidRegistry {
         }
 
         @Override
-        protected void createFluidStateDefinition(net.minecraft.world.level.block.state.StateDefinition.Builder<net.minecraft.world.level.material.Fluid, net.minecraft.world.level.material.FluidState> builder) {
+        protected void createFluidStateDefinition(StateDefinition.Builder<Fluid, FluidState> builder) {
             super.createFluidStateDefinition(builder);
             builder.add(LEVEL);
         }
@@ -405,27 +345,27 @@ public class FluidRegistry {
         }
 
         @Override
-        protected int getSlopeFindDistance(net.minecraft.world.level.LevelReader level) {
+        protected int getSlopeFindDistance(LevelReader level) {
             return 4;
         }
 
         @Override
-        protected int getDropOff(net.minecraft.world.level.LevelReader level) {
+        protected int getDropOff(LevelReader level) {
             return 1;
         }
 
         @Override
         public Item getBucket() {
-            return ((CustomSourceFluid)still.get()).getBucket();
+            return still.get().getBucket();
         }
 
         @Override
         protected boolean canBeReplacedWith(FluidState state, BlockGetter level, BlockPos pos, Fluid fluid, Direction direction) {
-            return !fluid.is(FluidTags.WATER);
+            return direction == Direction.DOWN && !fluid.is(FluidTags.WATER);
         }
 
         @Override
-        public int getTickDelay(net.minecraft.world.level.LevelReader level) {
+        public int getTickDelay(LevelReader level) {
             return 5;
         }
 
@@ -435,17 +375,17 @@ public class FluidRegistry {
         }
 
         @Override
-        protected net.minecraft.world.level.block.state.BlockState createLegacyBlock(net.minecraft.world.level.material.FluidState state) {
+        protected BlockState createLegacyBlock(FluidState state) {
             return block.get().defaultBlockState().setValue(LiquidBlock.LEVEL, Integer.valueOf(getLegacyLevel(state)));
         }
 
         @Override
-        public boolean isSource(net.minecraft.world.level.material.FluidState state) {
+        public boolean isSource(FluidState state) {
             return false;
         }
 
         @Override
-        public int getAmount(net.minecraft.world.level.material.FluidState state) {
+        public int getAmount(FluidState state) {
             return state.getValue(LEVEL);
         }
 
@@ -455,8 +395,37 @@ public class FluidRegistry {
         }
 
         @Override
-        public net.minecraft.world.level.material.FlowingFluid getFlowing() {
+        public FlowingFluid getFlowing() {
             return this;
+        }
+
+        @Override
+        protected void spread(Level world, BlockPos blockPos, FluidState fluidState) {
+            if (!fluidState.isEmpty()) {
+                int bottomFluidLevel = fluidState.getValue(LEVEL);
+                if(bottomFluidLevel == 0) {
+                    BlockState blockState = world.getBlockState(blockPos);
+                    BlockPos belowBlockPos = blockPos.below();
+                    BlockState belowBlockState = world.getBlockState(belowBlockPos);
+                    FluidState belowFluidState = this.getNewLiquid(world, belowBlockPos, belowBlockState);
+                    if (!belowBlockState.getFluidState().is(FluidTags.WATER) && this.canSpreadTo(world, blockPos, blockState, Direction.DOWN, belowBlockPos, belowBlockState, world.getFluidState(belowBlockPos), belowFluidState.getType())) {
+                        this.spreadDown(world, belowBlockPos, belowBlockState, Direction.DOWN, belowFluidState);
+                        if (this.sourceNeighborCount(world, blockPos) >= 3) {
+                            this.spreadToSides(world, blockPos, fluidState, blockState);
+                        }
+                    }
+                    else if (fluidState.isSource() || !belowBlockState.getFluidState().getType().isSame(this)) {
+                        this.spreadToSides(world, blockPos, fluidState, blockState);
+                    }
+                }
+            }
+        }
+
+        protected void spreadDown(LevelAccessor world, BlockPos blockPos, BlockState blockState, Direction direction, FluidState fluidState) {
+            if (!blockState.isAir()) {
+                this.beforeDestroyingBlock(world, blockPos, blockState);
+            }
+            world.setBlock(blockPos, fluidState.createLegacyBlock(), 3);
         }
 
         @Environment(EnvType.CLIENT)

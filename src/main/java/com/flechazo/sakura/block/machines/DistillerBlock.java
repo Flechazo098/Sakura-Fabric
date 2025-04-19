@@ -9,6 +9,7 @@ import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTank;
 import io.github.fabricators_of_create.porting_lib.transfer.fluid.item.FluidBucketWrapper;
 import io.github.fabricators_of_create.porting_lib.util.NetworkHooks;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
@@ -18,7 +19,9 @@ import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -86,22 +89,22 @@ public class DistillerBlock extends BaseEntityBlock {
             return InteractionResult.FAIL;
         }
 
-        // 创建一个 ContainerItemContext 来处理物品和流体的交互
-        ContainerItemContext itemContext = ContainerItemContext.withConstant(stack);
+        // 检查是否为桶或流体容器
+        boolean isBucket = stack.getItem() == Items.BUCKET;
+        boolean isFluidContainer = stack.getItem() instanceof BucketItem;
 
-        // 尝试获取流体处理器
-        FluidBucketWrapper fluidHandler = new FluidBucketWrapper(itemContext);
-
-        // 检查是否为流体容器
-        if (fluidHandler != null) {
+        if (isBucket || isFluidContainer) {
+            // 创建一个 ContainerItemContext 来处理物品和流体的交互
+            ContainerItemContext itemContext = ContainerItemContext.withConstant(stack);
+            FluidBucketWrapper fluidHandler = new FluidBucketWrapper(itemContext);
             boolean success = false;
 
-            // 先检查是否是空桶，如果是空桶则优先从输出槽提取
-            if (fluidHandler.getFluid().isEmpty()) {
+            // 如果是空桶，尝试从输出槽提取流体
+            if (isBucket) {
                 // 尝试从输出流体槽中提取流体到物品
                 if (distiller.getOutputFluidTank().isPresent()) {
                     FluidTank outTank = distiller.getOutputFluidTank().orElse(null);
-                    if (outTank != null && !outTank.getFluid().isEmpty()) {
+                    if (outTank != null && !outTank.getFluid().isEmpty() && outTank.getFluid().getAmount() >= FluidConstants.BUCKET) {
                         success = TransferFluidUtil.tryTransferFluid(player, handIn, outTank, fluidHandler);
                         if (success) {
                             // 播放流体提取声音
@@ -112,10 +115,10 @@ public class DistillerBlock extends BaseEntityBlock {
                     }
                 }
 
-                // 如果输出槽为空，尝试从输入槽提取
+                // 如果输出槽为空或不足一桶，尝试从输入槽提取
                 if (!success && distiller.getInputFluidTank().isPresent()) {
                     FluidTank inTank = distiller.getInputFluidTank().orElse(null);
-                    if (inTank != null && !inTank.getFluid().isEmpty()) {
+                    if (inTank != null && !inTank.getFluid().isEmpty() && inTank.getFluid().getAmount() >= FluidConstants.BUCKET) {
                         success = TransferFluidUtil.tryTransferFluid(player, handIn, inTank, fluidHandler);
                         if (success) {
                             // 播放流体提取声音
@@ -125,8 +128,9 @@ public class DistillerBlock extends BaseEntityBlock {
                         }
                     }
                 }
-            } else {
-                // 如果是装有液体的桶，与输入槽交互
+            }
+            // 如果是装有液体的桶，与输入槽交互
+            else if (isFluidContainer && !fluidHandler.getFluid().isEmpty()) {
                 if (distiller.getInputFluidTank().isPresent()) {
                     FluidTank inTank = distiller.getInputFluidTank().orElse(null);
                     if (inTank != null) {

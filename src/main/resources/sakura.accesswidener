@@ -1,0 +1,4 @@
+accessWidener v2 named
+
+accessible method net/minecraft/world/level/material/FlowingFluid sourceNeighborCount (Lnet/minecraft/world/level/LevelReader;Lnet/minecraft/core/BlockPos;)I
+accessible method net/minecraft/world/level/material/FlowingFluid spreadToSides (Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/material/FluidState;Lnet/minecraft/world/level/block/state/BlockState;)V

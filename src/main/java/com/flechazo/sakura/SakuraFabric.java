@@ -48,6 +48,7 @@ public class SakuraFabric implements ModInitializer {
     }
     @Override
     public void onInitialize() {
+
         // 1. 首先注册配方类型和序列化器，因为这些是基础系统
         RecipeTypeRegistry.initialize();
         RecipeSerializerRegistry.initialize();

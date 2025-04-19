@@ -1,4 +1,4 @@
-package com.flechazo.sakura.api;
+package com.flechazo.sakura.capability;
 
 import com.flechazo.sakura.SakuraFabric;
 import com.flechazo.sakura.block.entity.*;

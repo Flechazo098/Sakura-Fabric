@@ -48,6 +48,11 @@ public class FluidTypeRegistry {
     }
 
     private static FluidType register(String name, int color) {
+        // 确保颜色包含 alpha 通道
+        if ((color & 0xFF000000) == 0) {
+            color = color | 0xFF000000; // 添加完全不透明的 alpha 通道
+        }
+
         // 创建基本的流体类型
         FluidType fluidType = new FluidType(FluidType.Properties.create()
                 .temperature(27)
@@ -65,11 +70,22 @@ public class FluidTypeRegistry {
         // 存储流体类型和对应的颜色
         FLUID_COLORS.put(registeredType, color);
         FLUID_TYPES.add(registeredType);
+
+
         return registeredType;
     }
 
-    // 获取流体类型的颜色
+    // 添加一个公共方法来获取流体颜色
     public static int getFluidColor(FluidType fluidType) {
-        return FLUID_COLORS.getOrDefault(fluidType, -1);
+        // 确保颜色包含 alpha 通道
+        int color = FLUID_COLORS.getOrDefault(fluidType, 0xFFFFFFFF);
+
+        // 如果颜色没有 alpha 通道，添加完全不透明的 alpha
+        if ((color & 0xFF000000) == 0) {
+            color = color | 0xFF000000;
+        }
+
+
+        return color;
     }
 }

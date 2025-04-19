@@ -74,18 +74,14 @@ public class FluidRenderingRegistry {
 
                 FluidRenderHandlerRegistry.INSTANCE.register(
                         still, flowing,
-                        new SimpleFluidRenderHandler(stillTexture, flowingTexture, tintColor)
+                        new SimpleFluidRenderHandler(
+                                stillTexture != null ? stillTexture : new ResourceLocation("block/water_still"),
+                                flowingTexture != null ? flowingTexture : new ResourceLocation("block/water_flow"),
+                                tintColor
+                        )
                 );
+
             }
         }
-    }
-
-    /**
-     * 初始化客户端流体渲染
-     */
-    @Environment(EnvType.CLIENT)
-    public static void initialize() {
-        registerFluidAttributes();
-        registerFluidRenderHandlers();
     }
 }

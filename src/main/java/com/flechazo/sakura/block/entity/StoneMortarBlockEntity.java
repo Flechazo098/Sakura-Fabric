@@ -1,6 +1,6 @@
 package com.flechazo.sakura.block.entity;
 
-import com.flechazo.sakura.api.ItemHandlerComponent;
+import com.flechazo.sakura.capability.ItemHandlerComponent;
 import com.flechazo.sakura.container.StoneMortarContainer;
 import com.flechazo.sakura.init.BlockEntityRegistry;
 import com.flechazo.sakura.inventory.StoneMortarItemHandler;

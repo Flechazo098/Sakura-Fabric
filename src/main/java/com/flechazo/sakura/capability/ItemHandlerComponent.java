@@ -1,4 +1,4 @@
-package com.flechazo.sakura.api;
+package com.flechazo.sakura.capability;
 
 import dev.onyxstudios.cca.api.v3.component.Component;
 import io.github.fabricators_of_create.porting_lib.transfer.item.SlottedStackStorage;
