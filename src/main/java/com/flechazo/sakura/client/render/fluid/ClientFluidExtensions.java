@@ -9,12 +9,8 @@ import net.fabricmc.api.Environment;
 @Environment(EnvType.CLIENT)
 public class ClientFluidExtensions {
 
-    /**
-     * 初始化客户端流体扩展
-     */
     @Environment(EnvType.CLIENT)
     public static void initialize() {
-        // 初始化客户端流体属性
         ClientFluidRegistry.initialize();
     }
 }

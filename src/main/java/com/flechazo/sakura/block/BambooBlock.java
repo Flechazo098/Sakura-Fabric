@@ -15,8 +15,8 @@ import net.minecraft.world.level.material.MapColor;
 public class BambooBlock extends RotatedPillarBlock {
 
     public BambooBlock() {
-        super(Properties.of().mapColor((p_152624_) -> {
-                    return p_152624_.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? MapColor.SAND : MapColor.PLANT;
+        super(Properties.of().mapColor((blockState) -> {
+                    return blockState.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? MapColor.SAND : MapColor.PLANT;
                 }).instrument(NoteBlockInstrument.BASS)
                 .strength(2.0F).sound(SoundType.BAMBOO).randomTicks());
     }

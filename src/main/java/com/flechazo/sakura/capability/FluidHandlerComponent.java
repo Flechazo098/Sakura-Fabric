@@ -5,7 +5,7 @@ import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTank;
 import net.minecraft.core.Direction;
 
 /**
- * 流体处理组件接口，用于替代Forge的FluidHandler能力
+ * 流体处理组件接口
  */
 public interface FluidHandlerComponent extends Component {
     /**

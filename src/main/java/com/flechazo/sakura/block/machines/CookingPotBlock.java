@@ -181,16 +181,14 @@ public class CookingPotBlock extends BaseEntityBlock {
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor world,
-                                  BlockPos currentPos, BlockPos facingPos) {
+    public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor world, BlockPos currentPos, BlockPos facingPos) {
         BlockState belowBlock = world.getBlockState(currentPos.below());
         return state.setValue(TRAY_SUPPORT, belowBlock.is(SakuraBlockTags.TRAY_HEAT_SOURCES));
     }
 
     @Override
     @Nullable
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state,
-                                                                  BlockEntityType<T> blockEntity) {
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntity) {
         return createTickerHelper(blockEntity, BlockEntityRegistry.COOKING_POT,
                 CookingPotBlockEntity::workingTick);
     }

@@ -1,7 +1,6 @@
-package com.flechazo.sakura.block;
+package com.flechazo.sakura.init;
 
 import com.flechazo.sakura.SakuraFabric;
-import com.flechazo.sakura.init.BlockRegistry;
 import com.flechazo.sakura.item.tools.StoneMortarItem;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -140,6 +139,6 @@ public class BlockItemRegistry {
     }
 
     public static void registerSakuraBlockItem() {
-        SakuraFabric.LOGGER.info("Registering Mod Blockitems for " + SakuraFabric.MODID);
+//        SakuraFabric.LOGGER.info("Registering Mod Blockitems for " + SakuraFabric.MODID);
     }
 }

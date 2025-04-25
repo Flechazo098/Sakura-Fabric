@@ -226,6 +226,6 @@ public class BlockRegistry {
     }
 
     public static void registrySakuraBlocks() {
-        SakuraFabric.LOGGER.info("Registering Mod Blocks for" + SakuraFabric.MODID);
+//        SakuraFabric.LOGGER.info("Registering Mod Blocks for" + SakuraFabric.MODID);
     }
 }

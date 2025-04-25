@@ -24,7 +24,6 @@ public class CookingPotItemHandler implements SlottedStackStorage {
         this.direction = direction;
     }
 
-    // 核心方法实现
     @Override
     public long insertSlot(int slot, ItemVariant resource, long maxAmount, TransactionContext transaction) {
         // 只允许从上方插入输入槽（0-8）
@@ -33,7 +32,7 @@ public class CookingPotItemHandler implements SlottedStackStorage {
                 return storage.insertSlot(slot, resource, maxAmount, transaction);
             }
         }
-        return 0; // 拒绝插入
+        return 0;
     }
 
     @Override
@@ -48,10 +47,9 @@ public class CookingPotItemHandler implements SlottedStackStorage {
                 return storage.extractSlot(slot, resource, maxAmount, transaction);
             }
         }
-        return 0; // 拒绝提取
+        return 0;
     }
 
-    // 代理方法实现
     @Override
     public ItemStack getStackInSlot(int slot) {
         return storage.getStackInSlot(slot);
@@ -72,7 +70,6 @@ public class CookingPotItemHandler implements SlottedStackStorage {
         return storage.isItemValid(slot, resource, count);
     }
 
-    // SlottedStorage 接口要求的方法
     @Override
     public int getSlotCount() {
         return storage.getSlotCount();
@@ -148,7 +145,7 @@ public class CookingPotItemHandler implements SlottedStackStorage {
         return storage.iterator();
     }
 
-    // 可选：添加事务包装方法
+    // 事务包装方法
     public static ItemStack extractItemWrapper(SlottedStackStorage storage, int slot, int amount) {
         try (Transaction tx = Transaction.openOuter()) {
             long extracted = storage.extractSlot(

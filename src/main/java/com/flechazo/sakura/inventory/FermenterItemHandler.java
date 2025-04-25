@@ -24,7 +24,6 @@ public class FermenterItemHandler implements SlottedStackStorage {
         this.direction = direction;
     }
 
-    // 核心方法实现
     @Override
     public long insert(ItemVariant resource, long maxAmount, TransactionContext transaction) {
         // 只允许从上方插入输入槽
@@ -91,7 +90,7 @@ public class FermenterItemHandler implements SlottedStackStorage {
         return 0;
     }
 
-    // 辅助方法：从指定槽位提取
+    // 从指定槽位提取
     private long extractFromSlot(int slot, ItemVariant resource, long maxAmount, TransactionContext transaction) {
         StorageView<ItemVariant> view = getSlot(slot);
         if (view.getResource().matches(resource.toStack())) {
@@ -100,7 +99,6 @@ public class FermenterItemHandler implements SlottedStackStorage {
         return 0;
     }
 
-    // 代理方法实现
     @Override public ItemStack getStackInSlot(int slot) { return storage.getStackInSlot(slot); }
     @Override public void setStackInSlot(int slot, ItemStack stack) { storage.setStackInSlot(slot, stack); }
     @Override public int getSlotLimit(int slot) { return storage.getSlotLimit(slot); }

@@ -1,4 +1,4 @@
-package com.flechazo.sakura.fluid;
+package com.flechazo.sakura.init.fluid;
 
 import com.flechazo.sakura.SakuraFabric;
 import com.flechazo.sakura.init.FluidRegistry;
@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FluidBlockRegistry {
-    // 存储所有注册的流体方块
     public static final List<LiquidBlock> BLOCKS = new ArrayList<>();
 
     public static LiquidBlock FOOD_OIL_BLOCK;

@@ -1,4 +1,4 @@
-package com.flechazo.sakura.fluid;
+package com.flechazo.sakura.init.fluid;
 
 import com.flechazo.sakura.SakuraFabric;
 import com.flechazo.sakura.init.FluidRegistry;
@@ -28,90 +28,70 @@ public class BucketItemRegistry {
     public static Item BRANDY_BUCKET;
 
     public static void initialize() {
-        // 创建并注册食用油桶
+
         FOOD_OIL_BUCKET = registerItem("food_oil_bucket",
                 new BucketItem(FluidRegistry.FOOD_OIL, new Item.Properties().craftRemainder(Items.BUCKET)));
-        // 设置对应流体的桶物品
         if (FluidRegistry.FOOD_OIL instanceof FluidRegistry.CustomSourceFluid sourceFluid) {
             sourceFluid.setBucketItem(FOOD_OIL_BUCKET);
         }
 
-        // 创建并注册浊酒桶
         DOBUROKU_BUCKET = registerItem("doburoku_bucket",
                 new BucketItem(FluidRegistry.DOBUROKU, new Item.Properties().craftRemainder(Items.BUCKET)));
-        // 设置对应流体的桶物品
         if (FluidRegistry.DOBUROKU instanceof FluidRegistry.CustomSourceFluid sourceFluid) {
             sourceFluid.setBucketItem(DOBUROKU_BUCKET);
         }
 
-        // 创建并注册清酒桶
         SAKE_BUCKET = registerItem("sake_bucket",
                 new BucketItem(FluidRegistry.SAKE, new Item.Properties().craftRemainder(Items.BUCKET)));
-        // 设置对应流体的桶物品
         if (FluidRegistry.SAKE instanceof FluidRegistry.CustomSourceFluid sourceFluid) {
             sourceFluid.setBucketItem(SAKE_BUCKET);
         }
 
-        // 创建并注册烧酒桶
         SHOUCHU_BUCKET = registerItem("shouchu_bucket",
                 new BucketItem(FluidRegistry.SHOUCHU, new Item.Properties().craftRemainder(Items.BUCKET)));
-        // 设置对应流体的桶物品
         if (FluidRegistry.SHOUCHU instanceof FluidRegistry.CustomSourceFluid sourceFluid) {
             sourceFluid.setBucketItem(SHOUCHU_BUCKET);
         }
 
-        // 创建并注册啤酒桶
         BEER_BUCKET = registerItem("beer_bucket",
                 new BucketItem(FluidRegistry.BEER, new Item.Properties().craftRemainder(Items.BUCKET)));
-        // 设置对应流体的桶物品
         if (FluidRegistry.BEER instanceof FluidRegistry.CustomSourceFluid sourceFluid) {
             sourceFluid.setBucketItem(BEER_BUCKET);
         }
 
-        // 创建并注册威士忌桶
         WHISKEY_BUCKET = registerItem("whiskey_bucket",
                 new BucketItem(FluidRegistry.WHISKEY, new Item.Properties().craftRemainder(Items.BUCKET)));
-        // 设置对应流体的桶物品
+
         if (FluidRegistry.WHISKEY instanceof FluidRegistry.CustomSourceFluid sourceFluid) {
             sourceFluid.setBucketItem(WHISKEY_BUCKET);
         }
 
-        // 创建并注册红酒桶
         RED_WINE_BUCKET = registerItem("red_wine_bucket",
                 new BucketItem(FluidRegistry.RED_WINE, new Item.Properties().craftRemainder(Items.BUCKET)));
-        // 设置对应流体的桶物品
         if (FluidRegistry.RED_WINE instanceof FluidRegistry.CustomSourceFluid sourceFluid) {
             sourceFluid.setBucketItem(RED_WINE_BUCKET);
         }
 
-        // 创建并注册白酒桶
         WHITE_WINE_BUCKET = registerItem("white_wine_bucket",
                 new BucketItem(FluidRegistry.WHITE_WINE, new Item.Properties().craftRemainder(Items.BUCKET)));
-        // 设置对应流体的桶物品
         if (FluidRegistry.WHITE_WINE instanceof FluidRegistry.CustomSourceFluid sourceFluid) {
             sourceFluid.setBucketItem(WHITE_WINE_BUCKET);
         }
 
-        // 创建并注册香槟桶
         CHAMPAGNE_BUCKET = registerItem("champagne_bucket",
                 new BucketItem(FluidRegistry.CHAMPAGNE, new Item.Properties().craftRemainder(Items.BUCKET)));
-        // 设置对应流体的桶物品
         if (FluidRegistry.CHAMPAGNE instanceof FluidRegistry.CustomSourceFluid sourceFluid) {
             sourceFluid.setBucketItem(CHAMPAGNE_BUCKET);
         }
 
-        // 创建并注册朗姆酒桶
         RUM_BUCKET = registerItem("rum_bucket",
                 new BucketItem(FluidRegistry.RUM, new Item.Properties().craftRemainder(Items.BUCKET)));
-        // 设置对应流体的桶物品
         if (FluidRegistry.RUM instanceof FluidRegistry.CustomSourceFluid sourceFluid) {
             sourceFluid.setBucketItem(RUM_BUCKET);
         }
 
-        // 创建并注册白兰地桶
         BRANDY_BUCKET = registerItem("brandy_bucket",
                 new BucketItem(FluidRegistry.BRANDY, new Item.Properties().craftRemainder(Items.BUCKET)));
-        // 设置对应流体的桶物品
         if (FluidRegistry.BRANDY instanceof FluidRegistry.CustomSourceFluid sourceFluid) {
             sourceFluid.setBucketItem(BRANDY_BUCKET);
         }

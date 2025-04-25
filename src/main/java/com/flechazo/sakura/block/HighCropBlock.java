@@ -21,11 +21,11 @@ import java.util.function.Supplier;
 
 public class HighCropBlock extends BaseCropBlock {
     public static final BooleanProperty UPPER = BooleanProperty.create("upper");
-    private static final VoxelShape[] SHAPE_BY_AGE = new VoxelShape[]{Block.box((double)0.0F, (double)0.0F, (double)0.0F, (double)16.0F, (double)4.0F, (double)16.0F), Block.box((double)0.0F, (double)0.0F, (double)0.0F, (double)16.0F, (double)8.0F, (double)16.0F), Block.box((double)0.0F, (double)0.0F, (double)0.0F, (double)16.0F, (double)12.0F, (double)16.0F), Block.box((double)0.0F, (double)0.0F, (double)0.0F, (double)16.0F, (double)16.0F, (double)16.0F), Block.box((double)0.0F, (double)0.0F, (double)0.0F, (double)16.0F, (double)16.0F, (double)16.0F), Block.box((double)0.0F, (double)0.0F, (double)0.0F, (double)16.0F, (double)16.0F, (double)16.0F), Block.box((double)0.0F, (double)0.0F, (double)0.0F, (double)16.0F, (double)16.0F, (double)16.0F), Block.box((double)0.0F, (double)0.0F, (double)0.0F, (double)16.0F, (double)16.0F, (double)16.0F)};
+    private static final VoxelShape[] SHAPE_BY_AGE = new VoxelShape[]{Block.box(0.0F, 0.0F, 0.0F, 16.0F, 4.0F, 16.0F), Block.box(0.0F, 0.0F, 0.0F, 16.0F, 8.0F, 16.0F), Block.box(0.0F, 0.0F, 0.0F, 16.0F, 12.0F, 16.0F), Block.box(0.0F, 0.0F, 0.0F, 16.0F, 16.0F, 16.0F), Block.box(0.0F, 0.0F, 0.0F, 16.0F, 16.0F, 16.0F), Block.box(0.0F, 0.0F, 0.0F, 16.0F, 16.0F, 16.0F), Block.box(0.0F, 0.0F, 0.0F, 16.0F, 16.0F, 16.0F), Block.box(0.0F, 0.0F, 0.0F, 16.0F, 16.0F, 16.0F)};
 
     public HighCropBlock(BlockBehaviour.Properties proper, Supplier<? extends ItemLike> seed) {
         super(proper, seed);
-        this.registerDefaultState((BlockState)((BlockState)((BlockState)this.stateDefinition.any()).setValue(AGE, 0)).setValue(UPPER, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(AGE, 0).setValue(UPPER, false));
     }
 
     public BooleanProperty getUpperProperty() {
@@ -37,11 +37,11 @@ public class HighCropBlock extends BaseCropBlock {
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(new Property[]{AGE, UPPER});
+        builder.add(AGE, UPPER);
     }
 
     public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
-        return SHAPE_BY_AGE[(Integer)state.getValue(this.getAgeProperty())];
+        return SHAPE_BY_AGE[state.getValue(this.getAgeProperty())];
     }
 
     public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
@@ -62,12 +62,12 @@ public class HighCropBlock extends BaseCropBlock {
             float f = getGrowthSpeed(this, worldIn, pos);
             int age = this.getAge(state);
             if (worldIn.getRawBrightness(pos, 0) >= 9 && age < this.getMaxAge() && rand.nextInt((int)(25.0F / f) + 1) == 0) {
-                worldIn.setBlock(pos, (BlockState)this.getStateForAge(age + 1).setValue(this.getUpperProperty(), (Boolean)state.getValue(this.getUpperProperty())), 2);
+                worldIn.setBlock(pos, this.getStateForAge(age + 1).setValue(this.getUpperProperty(), state.getValue(this.getUpperProperty())), 2);
             }
 
             if (!(Boolean)state.getValue(this.getUpperProperty())) {
                 if (age >= this.getGrowUpperAge() &&  rand.nextInt((int)(25.0F / f) + 1) == 0 && this.defaultBlockState().canSurvive(worldIn, pos.above()) && worldIn.isEmptyBlock(pos.above())) {
-                    worldIn.setBlockAndUpdate(pos.above(), (BlockState)this.defaultBlockState().setValue(this.getUpperProperty(), true));
+                    worldIn.setBlockAndUpdate(pos.above(), this.defaultBlockState().setValue(this.getUpperProperty(), true));
                 }
 
             }
@@ -78,7 +78,7 @@ public class HighCropBlock extends BaseCropBlock {
         BlockState upperState = worldIn.getBlockState(pos.above());
         if (upperState.is(this)) {
             return !this.isMaxAge(upperState);
-        } else if ((Boolean)state.getValue(this.getUpperProperty())) {
+        } else if (state.getValue(this.getUpperProperty())) {
             return !this.isMaxAge(state);
         } else {
             return true;
@@ -92,10 +92,10 @@ public class HighCropBlock extends BaseCropBlock {
     public void performBonemeal(ServerLevel worldIn, RandomSource rand, BlockPos pos, BlockState state) {
         int ageGrowth = Math.min(this.getAge(state) + this.getBonemealAgeIncrease(worldIn), 15);
         if (ageGrowth <= this.getMaxAge()) {
-            worldIn.setBlockAndUpdate(pos, (BlockState)state.setValue(AGE, ageGrowth));
+            worldIn.setBlockAndUpdate(pos, state.setValue(AGE, ageGrowth));
         } else {
-            worldIn.setBlockAndUpdate(pos, (BlockState)state.setValue(AGE, this.getMaxAge()));
-            if ((Boolean)state.getValue(this.getUpperProperty())) {
+            worldIn.setBlockAndUpdate(pos, state.setValue(AGE, this.getMaxAge()));
+            if (state.getValue(this.getUpperProperty())) {
                 return;
             }
 
@@ -108,7 +108,7 @@ public class HighCropBlock extends BaseCropBlock {
             } else {
                 int remainingGrowth = ageGrowth - this.getMaxAge() - 1;
                 if (this.defaultBlockState().canSurvive(worldIn, pos.above()) && worldIn.isEmptyBlock(pos.above())) {
-                    worldIn.setBlock(pos.above(), (BlockState)((BlockState)this.defaultBlockState().setValue(this.getUpperProperty(), true)).setValue(this.getAgeProperty(), remainingGrowth), 3);
+                    worldIn.setBlock(pos.above(), this.defaultBlockState().setValue(this.getUpperProperty(), true).setValue(this.getAgeProperty(), remainingGrowth), 3);
                 }
             }
         }

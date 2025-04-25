@@ -6,7 +6,7 @@ import com.flechazo.sakura.container.FermenterContainer;
 import com.flechazo.sakura.init.BlockEntityRegistry;
 import com.flechazo.sakura.inventory.FermenterItemHandler;
 import com.flechazo.sakura.recipes.FermenterRecipe;
-import com.flechazo.sakura.recipes.RecipeTypeRegistry;
+import com.flechazo.sakura.init.RecipeTypeRegistry;
 import com.flechazo.sakura.utils.FluidIngredient;
 import com.flechazo.sakura.utils.LevelUtils;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
@@ -72,7 +72,6 @@ public class FermenterBlockEntity extends SyncedBlockEntity implements MenuProvi
         this.experienceTracker = new Object2IntOpenHashMap<>();
     }
 
-    // 创建物品处理组件
     public static ItemHandlerComponent createItemHandlerComponent(FermenterBlockEntity blockEntity) {
         return new ItemHandlerComponent() {
             @Override
@@ -96,12 +95,11 @@ public class FermenterBlockEntity extends SyncedBlockEntity implements MenuProvi
         };
     }
 
-    // 创建流体处理组件
+
     public static FluidHandlerComponent createFluidHandlerComponent(FermenterBlockEntity blockEntity) {
         return new FluidHandlerComponent() {
             @Override
             public void readFromNbt(CompoundTag compoundTag) {
-                // 从NBT中读取流体罐数据
                 if (compoundTag.contains("InputFluidTank")) {
                     blockEntity.inputfluidTank.ifPresent(tank ->
                             tank.readFromNBT(compoundTag.getCompound("InputFluidTank")));
@@ -114,7 +112,6 @@ public class FermenterBlockEntity extends SyncedBlockEntity implements MenuProvi
 
             @Override
             public void writeToNbt(CompoundTag compoundTag) {
-                // 将流体罐数据写入NBT
                 blockEntity.inputfluidTank.ifPresent(tank -> {
                     CompoundTag inputTankTag = new CompoundTag();
                     tank.writeToNBT(inputTankTag);
@@ -411,11 +408,9 @@ public class FermenterBlockEntity extends SyncedBlockEntity implements MenuProvi
 
             @Override
             public boolean isFluidValid(FluidStack stack) {
-                // 允许所有类型的流体
                 return true;
             }
 
-            // 重写insert方法，确保流体正确插入
             @Override
             public long insert(FluidVariant resource, long maxAmount, TransactionContext transaction) {
                 if (!isFluidValid(new FluidStack(resource, maxAmount))) {
@@ -470,11 +465,9 @@ public class FermenterBlockEntity extends SyncedBlockEntity implements MenuProvi
 
             @Override
             public boolean isFluidValid(FluidStack stack) {
-                // 允许所有类型的流体
                 return true;
             }
 
-            // 重写insert方法，确保流体正确插入
             @Override
             public long insert(FluidVariant resource, long maxAmount, TransactionContext transaction) {
                 if (!isFluidValid(new FluidStack(resource, maxAmount))) {

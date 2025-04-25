@@ -1,7 +1,7 @@
 package com.flechazo.sakura.client.render.fluid;
 
 import com.flechazo.sakura.init.FluidRegistry;
-import com.flechazo.sakura.fluid.FluidTypeRegistry;
+import com.flechazo.sakura.init.fluid.FluidTypeRegistry;
 import com.flechazo.sakura.utils.IClientFluidTypeExtensions;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidType;
 import io.github.fabricators_of_create.porting_lib.fluids.wrapper.FabricFluidTypeWrapper;
@@ -19,12 +19,8 @@ import net.minecraft.world.level.material.Fluid;
 @Environment(EnvType.CLIENT)
 public class FluidRenderingRegistry {
 
-    /**
-     * 为流体注册属性处理器
-     */
     @Environment(EnvType.CLIENT)
     public static void registerFluidAttributes() {
-        // 为每个流体注册 FluidVariantAttributeHandler
         registerFluidAttribute(FluidRegistry.FOOD_OIL, FluidTypeRegistry.FOOD_OIL);
         registerFluidAttribute(FluidRegistry.DOBUROKU, FluidTypeRegistry.DOBUROKU);
         registerFluidAttribute(FluidRegistry.SAKE, FluidTypeRegistry.SAKE);
@@ -40,16 +36,11 @@ public class FluidRenderingRegistry {
 
     @Environment(EnvType.CLIENT)
     private static void registerFluidAttribute(Fluid fluid, FluidType type) {
-        // 使用 FabricFluidTypeWrapper 将 FluidType 包装为 FluidVariantAttributeHandler
         FluidVariantAttributes.register(fluid, new FabricFluidTypeWrapper(type));
     }
 
-    /**
-     * 注册流体渲染处理器
-     */
     @Environment(EnvType.CLIENT)
     public static void registerFluidRenderHandlers() {
-        // 为每个流体注册渲染处理器
         registerFluidRenderHandler(FluidRegistry.FOOD_OIL, FluidRegistry.FOOD_OIL_FLOWING);
         registerFluidRenderHandler(FluidRegistry.DOBUROKU, FluidRegistry.DOBUROKU_FLOWING);
         registerFluidRenderHandler(FluidRegistry.SAKE, FluidRegistry.SAKE_FLOWING);
@@ -80,7 +71,6 @@ public class FluidRenderingRegistry {
                                 tintColor
                         )
                 );
-
             }
         }
     }

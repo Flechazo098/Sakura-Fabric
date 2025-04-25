@@ -98,7 +98,7 @@ public class TransferFluidUtil {
 
                             // 更新玩家手中的物品 - 使用装满的桶替换
                             if (! player.getAbilities().instabuild) {
-                                // 使用 FluidBucketWrapper 的 getFilledBucket 方法获取装满的桶
+                                // 获取装满的桶
                                 ItemStack filledBucket = handler.getFilledBucket(tankFluid);
                                 player.setItemInHand(hand, filledBucket);
                             }

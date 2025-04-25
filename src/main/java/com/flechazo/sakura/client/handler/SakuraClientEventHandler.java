@@ -28,24 +28,18 @@ public class SakuraClientEventHandler implements ClientModInitializer {
         FluidRenderingRegistry.registerFluidAttributes();
         FluidRenderingRegistry.registerFluidRenderHandlers();
 
-        // 注册屏幕
         ScreensRegistry.register();
 
-        // 注册模型层
         LayerRegistry.register();
 
-        // 注册粒子
         registerParticles();
 
-        // 设置方块渲染层
         setRenderLayers();
 
-        // 注册方块实体渲染器
         registerBlockEntityRenderers();
     }
 
     private static void setRenderLayers() {
-        // 设置方块渲染层
         BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.SAKURA_SAPLING, RenderType.cutoutMipped());
         BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.RICE_CROP_ROOT, RenderType.cutoutMipped());
         BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.BAMBOO_PLANT, RenderType.cutoutMipped());
@@ -55,28 +49,24 @@ public class SakuraClientEventHandler implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.NABE_ODEN, RenderType.cutoutMipped());
         BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.NABE_SUKIYAKI, RenderType.cutoutMipped());
 
-        // 为所有灌木类方块设置渲染层
         BlockRegistry.BLOCKS.forEach(block -> {
             if (block instanceof BushBlock) {
                 BlockRenderLayerMap.INSTANCE.putBlock(block, RenderType.cutoutMipped());
             }
         });
 
-        // 为所有流体设置渲染层
         FluidRegistry.FLUIDS.forEach(fluid -> {
             BlockRenderLayerMap.INSTANCE.putBlock(fluid, RenderType.translucent());
         });
     }
 
     private static void registerBlockEntityRenderers() {
-        // 注册方块实体渲染器
         BlockEntityRenderers.register(BlockEntityRegistry.STONE_MORTAR, StoneMortarRenderer::new);
         BlockEntityRenderers.register(BlockEntityRegistry.CHOPPING_BOARD, ChoppingBoardRender::new);
         BlockEntityRenderers.register(BlockEntityRegistry.OBON, ObonRender::new);
     }
 
     private static void registerParticles() {
-        // 注册粒子工厂
         ParticleFactoryRegistry.getInstance().register(ParticleRegistry.SAKURA_LEAF, FallenLeafParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(ParticleRegistry.RED_MAPLE_LEAF, FallenLeafParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(ParticleRegistry.YELLOW_MAPLE_LEAF, FallenLeafParticle.Factory::new);

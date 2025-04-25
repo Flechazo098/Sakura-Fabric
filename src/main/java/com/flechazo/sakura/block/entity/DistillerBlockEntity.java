@@ -6,7 +6,7 @@ import com.flechazo.sakura.container.DistillerContainer;
 import com.flechazo.sakura.init.BlockEntityRegistry;
 import com.flechazo.sakura.inventory.FermenterItemHandler;
 import com.flechazo.sakura.recipes.DistillerRecipe;
-import com.flechazo.sakura.recipes.RecipeTypeRegistry;
+import com.flechazo.sakura.init.RecipeTypeRegistry;
 import com.flechazo.sakura.utils.FluidIngredient;
 import com.flechazo.sakura.utils.LevelUtils;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
@@ -70,7 +70,6 @@ public class DistillerBlockEntity extends SyncedBlockEntity implements MenuProvi
         this.experienceTracker = new Object2IntOpenHashMap<>();
     }
 
-    // 创建物品处理组件
     public static ItemHandlerComponent createItemHandlerComponent(DistillerBlockEntity blockEntity) {
         return new ItemHandlerComponent() {
             @Override
@@ -94,12 +93,10 @@ public class DistillerBlockEntity extends SyncedBlockEntity implements MenuProvi
         };
     }
 
-    // 创建流体处理组件
     public static FluidHandlerComponent createFluidHandlerComponent(DistillerBlockEntity blockEntity) {
         return new FluidHandlerComponent() {
             @Override
             public void readFromNbt(CompoundTag compoundTag) {
-                // 从NBT中读取流体罐数据
                 if (compoundTag.contains("InputFluidTank")) {
                     blockEntity.inputfluidTank.ifPresent(tank ->
                             tank.readFromNBT(compoundTag.getCompound("InputFluidTank")));
@@ -112,7 +109,6 @@ public class DistillerBlockEntity extends SyncedBlockEntity implements MenuProvi
 
             @Override
             public void writeToNbt(CompoundTag compoundTag) {
-                // 将流体罐数据写入NBT
                 blockEntity.inputfluidTank.ifPresent(tank -> {
                     CompoundTag inputTankTag = new CompoundTag();
                     compoundTag.put("InputFluidTank", tank.writeToNBT(inputTankTag));
@@ -126,13 +122,11 @@ public class DistillerBlockEntity extends SyncedBlockEntity implements MenuProvi
 
             @Override
             public FluidTank getFluidHandler(Direction direction) {
-                // 其余代码保持不变
                 if (direction == Direction.UP) {
                     return blockEntity.getInputFluidTank().orElse(new FluidTank(0));
                 } else if (direction == Direction.DOWN) {
                     return blockEntity.getOutputFluidTank().orElse(new FluidTank(0));
                 } else {
-                    // 对于其他方向，返回输入流体罐
                     return blockEntity.getInputFluidTank().orElse(new FluidTank(0));
                 }
             }

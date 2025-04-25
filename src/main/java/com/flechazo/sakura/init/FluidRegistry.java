@@ -1,8 +1,8 @@
 package com.flechazo.sakura.init;
 
 import com.flechazo.sakura.SakuraFabric;
-import com.flechazo.sakura.fluid.FluidBlockRegistry;
-import com.flechazo.sakura.fluid.FluidTypeRegistry;
+import com.flechazo.sakura.init.fluid.FluidBlockRegistry;
+import com.flechazo.sakura.init.fluid.FluidTypeRegistry;
 import com.flechazo.sakura.utils.FluidExtensionProvider;
 import com.flechazo.sakura.utils.IClientFluidTypeExtensions;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidType;
@@ -190,7 +190,6 @@ public class FluidRegistry {
         return Registry.register(BuiltInRegistries.FLUID, new ResourceLocation(SakuraFabric.MODID, name), fluid);
     }
 
-    // 自定义源流体类
     public static class CustomSourceFluid extends FlowingFluid implements ConvertToSourceFluid, FluidExtensionProvider {
         private final FluidType fluidType;
         private final Supplier<? extends LiquidBlock> block;
@@ -207,14 +206,13 @@ public class FluidRegistry {
             this.bucketItem = bucketItem;
         }
 
-        // Add this method to set the flowing fluid
         public void setFlowing(FlowingFluid flowing) {
             this.flowing = flowing;
         }
 
         @Override
         public FlowingFluid getFlowing() {
-            return flowing; // Return the flowing fluid
+            return flowing;
         }
 
         @Override
@@ -229,7 +227,7 @@ public class FluidRegistry {
 
         @Override
         protected boolean canConvertToSource(Level level) {
-            return true; // 允许转换为源流体
+            return true;
         }
 
         @Override
@@ -299,7 +297,6 @@ public class FluidRegistry {
         }
     }
 
-    // 自定义流动流体类
     public static class CustomFlowingFluid extends FlowingFluid implements ConvertToSourceFluid, FluidExtensionProvider {
         private final FluidType fluidType;
         private final Supplier<? extends Fluid> still;
@@ -335,7 +332,7 @@ public class FluidRegistry {
 
         @Override
         protected boolean canConvertToSource(Level level) {
-            return true; // 允许转换为源流体
+            return true;
         }
 
         @Override

@@ -5,7 +5,7 @@ import io.github.fabricators_of_create.porting_lib.transfer.item.SlottedStackSto
 import net.minecraft.core.Direction;
 
 /**
- * 物品处理组件接口，用于替代Forge的ItemHandler能力
+ * 物品处理组件接口
  */
 public interface ItemHandlerComponent extends Component {
     /**

@@ -56,7 +56,6 @@ public class MapleTreeLogBlock extends RotatedPillarBlock implements BlockExtens
         }
     }
 
-    // 实现 BlockExtensions 接口的方法
     @Override
     @Nullable
     public BlockState getToolModifiedState(BlockState state, UseOnContext context, ToolAction toolAction, boolean simulate) {

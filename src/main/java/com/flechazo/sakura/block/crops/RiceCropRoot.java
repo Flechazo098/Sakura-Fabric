@@ -75,18 +75,15 @@ public class RiceCropRoot extends BushBlock implements BonemealableBlock, Liquid
             int age = this.getAge(state);
             if (age <= this.getMaxAge()) {
                 float chance = 10;
-                // 移除ForgeHooks.onCropsGrowPre调用，直接使用随机逻辑
                 if (rand.nextInt((int) (25.0F / chance) + 1) == 0) {
                     if (age == this.getMaxAge()) {
                         RiceCrop riceUpper = (RiceCrop) BlockRegistry.RICE_CROP;
                         if (riceUpper.defaultBlockState().canSurvive(worldIn, pos.above())
                                 && worldIn.isEmptyBlock(pos.above())) {
                             worldIn.setBlockAndUpdate(pos.above(), riceUpper.defaultBlockState());
-                            // 移除ForgeHooks.onCropsGrowPost调用
                         }
                     } else {
                         worldIn.setBlock(pos, this.withAge(age + 1), 2);
-                        // 移除ForgeHooks.onCropsGrowPost调用
                     }
                 }
             }

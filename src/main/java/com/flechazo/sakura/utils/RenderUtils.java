@@ -1,7 +1,6 @@
 package com.flechazo.sakura.utils;
 
-import com.flechazo.sakura.SakuraFabric;
-import com.flechazo.sakura.fluid.FluidTypeRegistry;
+import com.flechazo.sakura.init.fluid.FluidTypeRegistry;
 import com.flechazo.sakura.init.FluidRegistry;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
@@ -70,18 +69,16 @@ public class RenderUtils {
         // 获取流体颜色
         int col = props.getTintColor(fluidStack);
 
-        // 处理原版流体的颜色
+        // TODO 直接渲染纹理
         if (col == 0 || col == -1) {
-            // 为原版流体设置默认颜色
             if (fluidStack.getFluid() == Fluids.WATER) {
-                col = 0xFF3F76E4; // 水的蓝色
+                col = 0xFF3F76E4;
             } else if (fluidStack.getFluid() == Fluids.LAVA) {
-                col = 0xFFFF4500; // 岩浆的橙红色
+                col = 0xFFFF4500;
             } else if (fluidStack.getFluid() instanceof FluidRegistry.CustomSourceFluid sourceFluid) {
-                // 尝试从流体类型获取颜色
                 col = FluidTypeRegistry.getFluidColor(sourceFluid.getFluidType());
             } else {
-                col = 0xFFFFFFFF; // 默认为白色
+                col = 0xFFFFFFFF;
             }
         }
 

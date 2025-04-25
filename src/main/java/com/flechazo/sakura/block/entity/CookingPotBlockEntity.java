@@ -6,7 +6,7 @@ import com.flechazo.sakura.block.machines.CookingPotBlock;
 import com.flechazo.sakura.container.CookingPotContainer;
 import com.flechazo.sakura.inventory.CookingPotItemHandler;
 import com.flechazo.sakura.recipes.CookingPotRecipe;
-import com.flechazo.sakura.recipes.RecipeTypeRegistry;
+import com.flechazo.sakura.init.RecipeTypeRegistry;
 import com.flechazo.sakura.utils.FluidIngredient;
 import com.flechazo.sakura.utils.LevelUtils;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
@@ -198,12 +198,10 @@ public class CookingPotBlockEntity extends SyncedBlockEntity implements MenuProv
         return true;
     }
 
-    // 添加辅助方法检查物品是否有合成剩余物
     private boolean hasRecipeRemainder(ItemStack stack) {
         return !stack.isEmpty() && stack.getItem().hasCraftingRemainingItem();
     }
 
-    // 添加辅助方法获取合成剩余物
     private ItemStack getRecipeRemainder(ItemStack stack) {
         if (stack.isEmpty()) return ItemStack.EMPTY;
 
@@ -296,7 +294,6 @@ public class CookingPotBlockEntity extends SyncedBlockEntity implements MenuProv
         };
     }
 
-    // 修改 FluidTank 创建方法
     private FluidTank createFluidHandler() {
         return new FluidTank(TANK_CAPACITY) {
             @Override
@@ -312,7 +309,6 @@ public class CookingPotBlockEntity extends SyncedBlockEntity implements MenuProv
                         !stack.getFluid().getFluidType().isLighterThanAir();
             }
 
-            // 获取可用空间
             public long getSpace() {
                 return getCapacity() - getFluidAmount();
             }

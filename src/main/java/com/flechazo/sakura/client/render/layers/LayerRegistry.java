@@ -8,8 +8,6 @@ import net.minecraft.resources.ResourceLocation;
 
 public class LayerRegistry {
     public static final ModelLayerLocation STONE_MORTAR = register("stone_mortar");
-
-    // 注册所有模型层
     public static void register() {
         EntityModelLayerRegistry.registerModelLayer(STONE_MORTAR, StoneMortarRenderer::createLayer);
     }

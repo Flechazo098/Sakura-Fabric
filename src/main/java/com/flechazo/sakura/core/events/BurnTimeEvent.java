@@ -1,6 +1,6 @@
 package com.flechazo.sakura.core.events;
 
-import com.flechazo.sakura.block.BlockItemRegistry;
+import com.flechazo.sakura.init.BlockItemRegistry;
 import com.flechazo.sakura.init.ItemRegistry;
 import com.flechazo.sakura.item.enums.SakuraNormalItemSet;
 import net.fabricmc.fabric.api.registry.FuelRegistry;

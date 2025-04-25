@@ -1,7 +1,6 @@
 package com.flechazo.sakura.utils;
 
-import com.flechazo.sakura.SakuraFabric;
-import com.flechazo.sakura.fluid.FluidTypeRegistry;
+import com.flechazo.sakura.init.fluid.FluidTypeRegistry;
 import com.flechazo.sakura.init.FluidRegistry;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidType;
@@ -121,9 +120,8 @@ public interface IClientFluidTypeExtensions {
         // 如果以上方法都失败，使用默认扩展
         return DEFAULT;
     }
-    /**
-     * 流体扩展提供者接口
-     */
+
+
     @Environment(EnvType.CLIENT)
     interface FluidExtensionProvider extends com.flechazo.sakura.utils.FluidExtensionProvider {
         IClientFluidTypeExtensions getExtensions();

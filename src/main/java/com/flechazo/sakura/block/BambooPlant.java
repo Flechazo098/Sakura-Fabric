@@ -40,38 +40,35 @@ public class BambooPlant extends Block implements BonemealableBlock {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> p_48928_) {
-        p_48928_.add(LEAVES);
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(LEAVES);
     }
 
     @Override
-    public boolean propagatesSkylightDown(BlockState p_48941_, BlockGetter p_48942_, BlockPos p_48943_) {
+    public boolean propagatesSkylightDown(BlockState state, BlockGetter level, BlockPos pos) {
         return true;
     }
 
     @Override
-    public VoxelShape getShape(BlockState p_48945_, BlockGetter p_48946_, BlockPos p_48947_,
-                               CollisionContext p_48948_) {
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 
     @Override
-    public boolean isPathfindable(BlockState p_48906_, BlockGetter p_48907_, BlockPos p_48908_,
-                                  PathComputationType p_48909_) {
+    public boolean isPathfindable(BlockState state, BlockGetter level, BlockPos pos, PathComputationType type) {
         return false;
     }
 
     @Override
-    public boolean isCollisionShapeFullBlock(BlockState p_181159_, BlockGetter p_181160_, BlockPos p_181161_) {
+    public boolean isCollisionShapeFullBlock(BlockState state, BlockGetter level, BlockPos pos) {
         return false;
     }
 
     @Override
-    public void tick(BlockState p_48896_, ServerLevel p_48897_, BlockPos p_48898_, RandomSource p_48899_) {
-        if (!p_48896_.canSurvive(p_48897_, p_48898_)) {
-            p_48897_.destroyBlock(p_48898_, true);
+    public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        if (!state.canSurvive(level, pos)) {
+            level.destroyBlock(pos, true);
         }
-
     }
 
     @Override
@@ -80,28 +77,24 @@ public class BambooPlant extends Block implements BonemealableBlock {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel levelIn, BlockPos pos, RandomSource random) {
-        if (random.nextInt(3) == 0) {
-            if (levelIn.getRawBrightness(pos.above(), 0) >= 6) {
-                growingTick(state, levelIn, pos, random);
-                spreadingTick(levelIn, pos, random);
-            }
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        if (random.nextInt(3) == 0 && level.getRawBrightness(pos.above(), 0) >= 6) {
+            growingTick(state, level, pos, random);
+            spreadingTick(level, pos, random);
         }
     }
 
-    public void spreadingTick(ServerLevel levelIn, BlockPos pos, RandomSource random) {
-        int j = this.getHeightAboveUpToMax(levelIn, pos) + 1;
-        if(j >= 16) {
-            if (levelIn.isRaining() || random.nextFloat() < 0.15) {
-                growBambooShoot(levelIn, pos, random);
-            }
+    public void spreadingTick(ServerLevel level, BlockPos pos, RandomSource random) {
+        int heightAbove = this.getHeightAboveUpToMax(level, pos) + 1;
+        if(heightAbove >= MAX_HEIGHT && (level.isRaining() || random.nextFloat() < 0.15)) {
+            growBambooShoot(level, pos, random);
         }
     }
 
-    public void growingTick(BlockState state, ServerLevel levelIn, BlockPos pos, RandomSource random) {
-        int i = this.getHeightBelowUpToMax(levelIn, pos) + 1;
-        if(i < 16 && levelIn.isEmptyBlock(pos.above())) {
-            this.growBamboo(state, levelIn, pos, random, i);
+    public void growingTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        int heightBelow = this.getHeightBelowUpToMax(level, pos) + 1;
+        if(heightBelow < MAX_HEIGHT && level.isEmptyBlock(pos.above())) {
+            this.growBamboo(state, level, pos, random, heightBelow);
         }
     }
 
@@ -113,95 +106,93 @@ public class BambooPlant extends Block implements BonemealableBlock {
     }
 
     @Override
-    public BlockState updateShape(BlockState p_48921_, Direction p_48922_, BlockState p_48923_, LevelAccessor p_48924_,
-                                  BlockPos p_48925_, BlockPos p_48926_) {
-        if (!p_48921_.canSurvive(p_48924_, p_48925_)) {
-            p_48924_.scheduleTick(p_48925_, this, 1);
+    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
+                                  LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+        if (!state.canSurvive(level, pos)) {
+            level.scheduleTick(pos, this, 1);
         }
-        return super.updateShape(p_48921_, p_48922_, p_48923_, p_48924_, p_48925_, p_48926_);
+        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
     }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader p_48886_, BlockPos p_48887_, BlockState p_48888_,
-                                         boolean p_48889_) {
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, boolean isClient) {
         return true;
     }
 
     @Override
-    public boolean isBonemealSuccess(Level p_48891_, RandomSource p_48892_, BlockPos p_48893_, BlockState p_48894_) {
+    public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos pos, BlockState state) {
         return true;
     }
 
     @Override
-    public void performBonemeal(ServerLevel p_48876_, RandomSource p_48877_, BlockPos p_48878_, BlockState p_48879_) {
-        int i = this.getHeightAboveUpToMax(p_48876_, p_48878_);
-        int j = this.getHeightBelowUpToMax(p_48876_, p_48878_);
-        int k = i + j + 1;
-        int l = 1 + p_48877_.nextInt(2);
+    public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
+        int heightAbove = this.getHeightAboveUpToMax(level, pos);
+        int heightBelow = this.getHeightBelowUpToMax(level, pos);
+        int totalHeight = heightAbove + heightBelow + 1;
+        int growAttempts = 1 + random.nextInt(2);
 
-        for (int i1 = 0; i1 < l; ++i1) {
-            BlockPos blockpos = p_48878_.above(i);
-            BlockState blockstate = p_48876_.getBlockState(blockpos);
-            if (k >= 16 || !p_48876_.isEmptyBlock(blockpos.above())) {
-                this.growBambooShoot(p_48876_, p_48878_, p_48877_);
+        for (int i = 0; i < growAttempts; ++i) {
+            BlockPos growPos = pos.above(heightAbove);
+            if (totalHeight >= MAX_HEIGHT || !level.isEmptyBlock(growPos.above())) {
+                growBambooShoot(level, pos, random);
                 return;
             }
-
-            this.growBamboo(blockstate, p_48876_, blockpos, p_48877_, k);
-
-            ++i;
-            ++k;
+            growBamboo(level.getBlockState(growPos), level, growPos, random, totalHeight);
+            heightAbove++;
+            totalHeight++;
         }
-
     }
 
     @Override
-    public float getDestroyProgress(BlockState p_48901_, Player p_48902_, BlockGetter p_48903_, BlockPos p_48904_) {
-        return p_48902_.getMainHandItem().canPerformAction(ToolActions.AXE_DIG) ? 1.0F
-                : super.getDestroyProgress(p_48901_, p_48902_, p_48903_, p_48904_);
+    public float getDestroyProgress(BlockState state, Player player, BlockGetter level, BlockPos pos) {
+        return player.getMainHandItem().canPerformAction(ToolActions.AXE_DIG) ? 1.0F
+                : super.getDestroyProgress(state, player, level, pos);
     }
 
-    public void growBamboo(BlockState p_48911_, Level level, BlockPos pos, RandomSource p_48914_, int p_48915_) {
-        BlockState blockstate = level.getBlockState(pos.below());
-        BlockPos blockpos = pos.below(2);
-        BlockState blockstate1 = level.getBlockState(blockpos);
-        BambooLeaves bambooleaves = BambooLeaves.NONE;
-        if (p_48915_ >= 1) {
-            if (blockstate.is(this) && blockstate.getValue(LEAVES) != BambooLeaves.NONE) {
-                bambooleaves = BambooLeaves.LARGE;
-                if (blockstate1.is(this)) {
-                    level.setBlock(pos.below(), blockstate.setValue(LEAVES, BambooLeaves.SMALL), 3);
-                    level.setBlock(blockpos, blockstate1.setValue(LEAVES, BambooLeaves.NONE), 3);
+    public void growBamboo(BlockState state, Level level, BlockPos pos, RandomSource random, int height) {
+        BlockState blockStateBelow = level.getBlockState(pos.below());
+        BlockPos posBelowTwo = pos.below(2);
+        BlockState blockStateBelowTwo = level.getBlockState(posBelowTwo);
+        BambooLeaves bambooLeaves = BambooLeaves.NONE;
+
+        if (height >= 1) {
+            if (blockStateBelow.is(this) && blockStateBelow.getValue(LEAVES) != BambooLeaves.NONE) {
+                bambooLeaves = BambooLeaves.LARGE;
+                if (blockStateBelowTwo.is(this)) {
+                    level.setBlock(pos.below(), blockStateBelow.setValue(LEAVES, BambooLeaves.SMALL), 3);
+                    level.setBlock(posBelowTwo, blockStateBelowTwo.setValue(LEAVES, BambooLeaves.NONE), 3);
                 }
             } else {
-                bambooleaves = BambooLeaves.SMALL;
+                bambooLeaves = BambooLeaves.SMALL;
             }
         }
 
-        level.setBlock(pos.above(), this.defaultBlockState().setValue(LEAVES, bambooleaves), 3);
+        level.setBlock(pos.above(), this.defaultBlockState().setValue(LEAVES, bambooLeaves), 3);
     }
 
-    public void growBambooShoot(ServerLevel levelIn, BlockPos pos, RandomSource random) {
-        BlockPos blockpos1 = pos.offset(random.nextInt(3) - 1, random.nextInt(2) - random.nextInt(2),
+    public void growBambooShoot(ServerLevel level, BlockPos pos, RandomSource random) {
+        BlockPos shootPos = pos.offset(random.nextInt(3) - 1, random.nextInt(2) - random.nextInt(2),
                 random.nextInt(3) - 1);
-        if (BlockRegistry.BAMBOOSHOOT.defaultBlockState().canSurvive(levelIn, blockpos1)
-                && levelIn.isEmptyBlock(blockpos1.above()) && levelIn.isEmptyBlock(blockpos1)) {
-            levelIn.setBlockAndUpdate(blockpos1, BlockRegistry.BAMBOOSHOOT.defaultBlockState());
+        if (BlockRegistry.BAMBOOSHOOT.defaultBlockState().canSurvive(level, shootPos)
+                && level.isEmptyBlock(shootPos.above()) && level.isEmptyBlock(shootPos)) {
+            level.setBlockAndUpdate(shootPos, BlockRegistry.BAMBOOSHOOT.defaultBlockState());
         }
     }
 
-    protected int getHeightAboveUpToMax(BlockGetter p_48883_, BlockPos p_48884_) {
-        int i;
-        for (i = 0; i < 16 && p_48883_.getBlockState(p_48884_.above(i + 1)).is(this); ++i) ;
-
-        return i;
+    protected int getHeightAboveUpToMax(BlockGetter level, BlockPos pos) {
+        int height = 0;
+        while (height < MAX_HEIGHT && level.getBlockState(pos.above(height + 1)).is(this)) {
+            height++;
+        }
+        return height;
     }
 
-    protected int getHeightBelowUpToMax(BlockGetter p_48933_, BlockPos p_48934_) {
-        int i;
-        for (i = 0; i < 16 && p_48933_.getBlockState(p_48934_.below(i + 1)).is(this); ++i) ;
-
-        return i;
+    protected int getHeightBelowUpToMax(BlockGetter level, BlockPos pos) {
+        int height = 0;
+        while (height < MAX_HEIGHT && level.getBlockState(pos.below(height + 1)).is(this)) {
+            height++;
+        }
+        return height;
     }
 
     @Override

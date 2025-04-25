@@ -159,8 +159,7 @@ public class FermenterBlock extends BaseEntityBlock {
 
     @Override
     @Nullable
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state,
-                                                                  BlockEntityType<T> blockEntity) {
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntity) {
         return createTickerHelper(blockEntity, BlockEntityRegistry.FERMENTER, FermenterBlockEntity::workingTick);
     }
 }

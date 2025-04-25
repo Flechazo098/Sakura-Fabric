@@ -8,8 +8,8 @@ import net.minecraft.world.level.block.state.StateDefinition;
 
 public class BaseHorizonBlock extends HorizontalDirectionalBlock {
 
-    public BaseHorizonBlock(Properties p_54120_) {
-        super(p_54120_);
+    public BaseHorizonBlock(Properties properties) {
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 

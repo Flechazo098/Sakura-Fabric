@@ -1,4 +1,4 @@
-package com.flechazo.sakura.fluid;
+package com.flechazo.sakura.init.fluid;
 
 import com.flechazo.sakura.SakuraFabric;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidType;
@@ -14,12 +14,9 @@ import java.util.List;
 import java.util.Map;
 
 public class FluidTypeRegistry {
-    // 存储所有注册的流体类型
     public static final List<FluidType> FLUID_TYPES = new ArrayList<>();
-    // 存储流体类型对应的颜色
     private static final Map<FluidType, Integer> FLUID_COLORS = new HashMap<>();
 
-    // 声明静态字段但不初始化
     public static FluidType FOOD_OIL;
     public static FluidType DOBUROKU;
     public static FluidType SAKE;
@@ -32,12 +29,11 @@ public class FluidTypeRegistry {
     public static FluidType CHAMPAGNE;
     public static FluidType BRANDY;
 
-    // 添加初始化方法
     public static void initialize() {
         FOOD_OIL = register("food_oil", 0xFFFFF050);
         DOBUROKU = register("doburoku", 0xFFCCC299);
-        SAKE = register("sake", 0xFFFFF8CC);  // 修改为0xFFFFF8CC
-        SHOUCHU = register("shouchu", 0xFFFFFCF2);  // 修改为0xFFFFFCF2
+        SAKE = register("sake", 0xFFFFF8CC);
+        SHOUCHU = register("shouchu", 0xFFFFFCF2);
         BEER = register("beer", 0xFFF2A918);
         WHISKEY = register("whiskey", 0xFFA52121);
         RUM = register("rum", 0xFFFFAA32);
@@ -53,14 +49,12 @@ public class FluidTypeRegistry {
             color = color | 0xFF000000; // 添加完全不透明的 alpha 通道
         }
 
-        // 创建基本的流体类型
         FluidType fluidType = new FluidType(FluidType.Properties.create()
                 .temperature(27)
                 .sound(SoundActions.BUCKET_FILL, SoundEvents.BUCKET_FILL)
                 .sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY)
                 .density(3000).viscosity(1000));
 
-        // 注册流体类型
         FluidType registeredType = Registry.register(
                 PortingLibFluids.FLUID_TYPES,
                 new ResourceLocation(SakuraFabric.MODID, name),
@@ -75,7 +69,6 @@ public class FluidTypeRegistry {
         return registeredType;
     }
 
-    // 添加一个公共方法来获取流体颜色
     public static int getFluidColor(FluidType fluidType) {
         // 确保颜色包含 alpha 通道
         int color = FLUID_COLORS.getOrDefault(fluidType, 0xFFFFFFFF);

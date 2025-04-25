@@ -4,7 +4,7 @@ import com.flechazo.sakura.capability.ItemHandlerComponent;
 import com.flechazo.sakura.container.StoneMortarContainer;
 import com.flechazo.sakura.init.BlockEntityRegistry;
 import com.flechazo.sakura.inventory.StoneMortarItemHandler;
-import com.flechazo.sakura.recipes.RecipeTypeRegistry;
+import com.flechazo.sakura.init.RecipeTypeRegistry;
 import com.flechazo.sakura.recipes.StoneMortarRecipe;
 import com.flechazo.sakura.utils.LevelUtils;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
@@ -60,7 +60,6 @@ public class StoneMortarBlockEntity extends SyncedBlockEntity implements MenuPro
         this.experienceTracker = new Object2IntOpenHashMap<>();
     }
 
-    // 创建物品处理组件
     public static ItemHandlerComponent createItemHandlerComponent(StoneMortarBlockEntity blockEntity) {
         return new ItemHandlerComponent() {
             @Override

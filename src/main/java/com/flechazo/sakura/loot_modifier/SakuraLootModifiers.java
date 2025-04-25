@@ -1,7 +1,7 @@
 package com.flechazo.sakura.loot_modifier;
 
 import com.flechazo.sakura.SakuraFabric;
-import com.flechazo.sakura.item.food.FoodRegistry;
+import com.flechazo.sakura.init.FoodRegistry;
 import com.flechazo.sakura.init.ItemRegistry;
 import com.flechazo.sakura.item.enums.SakuraFoodSet;
 import com.mojang.serialization.Codec;
@@ -19,7 +19,6 @@ import org.jetbrains.annotations.NotNull;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 public class SakuraLootModifiers {
-    // 注册序列化器
     public static void register() {
         Registry.register(
                 PortingLibLoot.GLOBAL_LOOT_MODIFIER_SERIALIZERS.get(),
@@ -34,14 +33,11 @@ public class SakuraLootModifiers {
         );
     }
 
-    // 钓鱼战利品修改器
     public static class FishingLootModifier extends LootModifier {
-        // 修改CODEC定义，避免使用不存在的方法
         public static final Codec<FishingLootModifier> CODEC = RecordCodecBuilder.create(inst ->
                 inst.group(
-                        // 使用空条件数组，因为我们不需要条件检查
                         RecordCodecBuilder.point(new LootItemCondition[0])
-                ).apply(inst, FishingLootModifier::new)
+                        ).apply(inst, FishingLootModifier::new)
         );
 
         public FishingLootModifier(LootItemCondition[] conditionsIn) {
@@ -51,7 +47,6 @@ public class SakuraLootModifiers {
         @NotNull
         @Override
         protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
-            // 添加虾到钓鱼战利品
             if (FoodRegistry.FOODSET.containsKey(SakuraFoodSet.SHRIMP) && context.getRandom().nextFloat() < 0.05f) {
                 generatedLoot.add(new ItemStack(FoodRegistry.FOODSET.get(SakuraFoodSet.SHRIMP)));
             }
@@ -64,12 +59,9 @@ public class SakuraLootModifiers {
         }
     }
 
-    // 草方块掉落种子修改器
     public static class GrassDropsModifier extends LootModifier {
-        // 修改CODEC定义，避免使用不存在的方法
         public static final Codec<GrassDropsModifier> CODEC = RecordCodecBuilder.create(inst ->
                 inst.group(
-                        // 使用空条件数组，因为我们不需要条件检查
                         RecordCodecBuilder.point(new LootItemCondition[0])
                 ).apply(inst, GrassDropsModifier::new)
         );

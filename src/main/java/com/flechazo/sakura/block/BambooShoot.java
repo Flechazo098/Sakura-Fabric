@@ -18,65 +18,80 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 @SuppressWarnings("deprecation")
 public class BambooShoot extends BushBlock implements BonemealableBlock {
     private static final VoxelShape SHAPE = Block.box(6D, 0.0D, 6D, 10D, 4.0D, 10D);
+    private static final int GROWTH_LIGHT_LEVEL = 6;
+    private static final float GROWTH_CHANCE = 0.33F; // 1/3的生长概率
 
     public BambooShoot() {
         super(Properties.copy(Blocks.BAMBOO_SAPLING));
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter levelIn, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource rand) {
-        super.randomTick(state, worldIn, pos, rand);
-        if (!worldIn.isAreaLoaded(pos, 1)) {
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        super.randomTick(state, level, pos, random);
+        if (!level.isAreaLoaded(pos, 1)) {
             return;
         }
-        if (worldIn.getRawBrightness(pos.above(), 0) > 6) {
-            if (worldIn.getBrightness(LightLayer.BLOCK, pos) > 0) {
-                if (rand.nextInt(3) == 0) {
-                        growBamboo(worldIn, pos);
-                }
-            }
+
+        // 检查生长条件
+        if (canGrow(level, pos) && random.nextFloat() < GROWTH_CHANCE) {
+            growBamboo(level, pos);
         }
     }
 
-    @Override
-    public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
-        BlockState ground = worldIn.getBlockState(pos.below());
-        return ground.is(BlockTags.BAMBOO_PLANTABLE_ON) && !(ground.is(Blocks.BAMBOO))
-                && !(ground.is(Blocks.BAMBOO_SAPLING)) && !(ground.is(BlockRegistry.BAMBOO_PLANT))
-                && !(ground.is(this));
+    private boolean canGrow(ServerLevel level, BlockPos pos) {
+        return level.getRawBrightness(pos.above(), 0) > GROWTH_LIGHT_LEVEL
+                && level.getBrightness(LightLayer.BLOCK, pos) > 0;
     }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader p_50897_, BlockPos p_50898_, BlockState p_50899_,
-                                         boolean p_50900_) {
+    public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+        BlockState ground = level.getBlockState(pos.below());
+        return ground.is(BlockTags.BAMBOO_PLANTABLE_ON)
+                && !ground.is(Blocks.BAMBOO)
+                && !ground.is(Blocks.BAMBOO_SAPLING)
+                && !ground.is(BlockRegistry.BAMBOO_PLANT)
+                && !ground.is(this);
+    }
+
+    @Override
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, boolean isClient) {
         return true;
     }
 
     @Override
-    public boolean isBonemealSuccess(Level p_50901_, RandomSource p_50902_, BlockPos p_50903_, BlockState p_50904_) {
+    public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos pos, BlockState state) {
         return true;
     }
 
     @Override
-    public void performBonemeal(ServerLevel worldIn, RandomSource rand, BlockPos pos, BlockState state) {
-        growBamboo(worldIn, pos);
+    public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
+        growBamboo(level, pos);
     }
 
-    private void growBamboo(ServerLevel worldIn, BlockPos pos) {
-        if (!worldIn.isEmptyBlock(pos.above())) {
+    private void growBamboo(ServerLevel level, BlockPos pos) {
+        // 检查生长空间
+        if (!level.isEmptyBlock(pos.above())) {
             return;
         }
-        if (worldIn.isEmptyBlock(pos.above(2))) {
-            worldIn.setBlockAndUpdate(pos.above(2), BlockRegistry.BAMBOO_PLANT.defaultBlockState()
-                    .setValue(BambooStalkBlock.LEAVES, BambooLeaves.LARGE));
+
+        // 生长竹子
+        if (level.isEmptyBlock(pos.above(2))) {
+            // 如果有两格空间，生长带大叶子的竹子
+            level.setBlockAndUpdate(pos.above(2),
+                    BlockRegistry.BAMBOO_PLANT.defaultBlockState()
+                            .setValue(BambooStalkBlock.LEAVES, BambooLeaves.LARGE));
         }
-        worldIn.setBlockAndUpdate(pos.above(),
-                BlockRegistry.BAMBOO_PLANT.defaultBlockState().setValue(BambooStalkBlock.LEAVES, BambooLeaves.SMALL));
-        worldIn.setBlockAndUpdate(pos, BlockRegistry.BAMBOO_PLANT.defaultBlockState());
+
+        // 设置中间和底部的竹子方块
+        level.setBlockAndUpdate(pos.above(),
+                BlockRegistry.BAMBOO_PLANT.defaultBlockState()
+                        .setValue(BambooStalkBlock.LEAVES, BambooLeaves.SMALL));
+        level.setBlockAndUpdate(pos,
+                BlockRegistry.BAMBOO_PLANT.defaultBlockState());
     }
 }

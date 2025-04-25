@@ -4,7 +4,7 @@ import com.flechazo.sakura.capability.ItemHandlerComponent;
 import com.flechazo.sakura.block.machines.ChoppingBoardBlock;
 import com.flechazo.sakura.init.BlockEntityRegistry;
 import com.flechazo.sakura.recipes.ChoppingRecipe;
-import com.flechazo.sakura.recipes.RecipeTypeRegistry;
+import com.flechazo.sakura.init.RecipeTypeRegistry;
 import com.flechazo.sakura.utils.LevelUtils;
 import io.github.fabricators_of_create.porting_lib.tags.Tags;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandlerContainer;
@@ -46,7 +46,6 @@ public class ChoppingBoardBlockEntity extends SyncedBlockEntity {
         inputHandler = LazyOptional.of(() -> inventory);
     }
 
-    // 创建物品处理组件
     public static ItemHandlerComponent createItemHandlerComponent(ChoppingBoardBlockEntity blockEntity) {
         return new ItemHandlerComponent() {
             @Override
@@ -238,10 +237,10 @@ public class ChoppingBoardBlockEntity extends SyncedBlockEntity {
     }
 
     private ItemStackHandlerContainer createHandler () {
-        return new ItemStackHandlerContainer(1) { // 初始槽位数为1
+        return new ItemStackHandlerContainer(1) {
             @Override
             public int getSlotLimit (int slot) {
-                return 1; // 保持每个槽位最大堆叠数为1
+                return 1;
             }
 
             @Override

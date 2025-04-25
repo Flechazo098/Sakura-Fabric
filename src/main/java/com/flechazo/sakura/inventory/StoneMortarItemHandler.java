@@ -70,7 +70,6 @@ public class StoneMortarItemHandler implements SlottedStackStorage {
         return 0;
     }
 
-    // 实现 SlottedStorage 接口的必须方法
     @Override
     public int getSlotCount() {
         return storage.getSlotCount();

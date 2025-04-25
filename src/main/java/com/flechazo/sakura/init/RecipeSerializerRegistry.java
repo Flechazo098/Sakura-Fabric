@@ -1,6 +1,7 @@
-package com.flechazo.sakura.recipes;
+package com.flechazo.sakura.init;
 
 import com.flechazo.sakura.SakuraFabric;
+import com.flechazo.sakura.recipes.*;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;

@@ -78,7 +78,6 @@ public class ItemFoodBase extends Item implements IFoodLike {
             food.fast();
         }
 
-        // 修复：将 Supplier 转换为 MobEffectInstance
         this.getFoodInfo().getEffects().forEach((k) -> {
             MobEffectInstance effect = k.getFirst() instanceof Supplier ? k.getFirst().get() : (MobEffectInstance)k.getFirst();
             food.effect(effect, k.getSecond());

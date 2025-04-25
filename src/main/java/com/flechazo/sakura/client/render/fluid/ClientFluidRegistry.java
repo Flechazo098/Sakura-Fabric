@@ -1,8 +1,7 @@
 package com.flechazo.sakura.client.render.fluid;
 
-import com.flechazo.sakura.SakuraFabric;
 import com.flechazo.sakura.init.FluidRegistry;
-import com.flechazo.sakura.fluid.FluidTypeRegistry;
+import com.flechazo.sakura.init.fluid.FluidTypeRegistry;
 import com.flechazo.sakura.utils.IClientFluidTypeExtensions;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import net.fabricmc.api.EnvType;
@@ -17,21 +16,13 @@ import net.minecraft.world.level.material.Fluid;
 @Environment(EnvType.CLIENT)
 public class ClientFluidRegistry {
 
-    /**
-     * 初始化客户端流体属性
-     */
     @Environment(EnvType.CLIENT)
     public static void initialize() {
-        // 为每个流体设置客户端扩展
         setupFluidExtensions();
     }
 
-    /**
-     * 设置流体的客户端扩展
-     */
     @Environment(EnvType.CLIENT)
     private static void setupFluidExtensions() {
-        // 为源流体设置客户端扩展
         setupSourceFluidExtensions(FluidRegistry.FOOD_OIL, "food_oil");
         setupSourceFluidExtensions(FluidRegistry.DOBUROKU, "doburoku");
         setupSourceFluidExtensions(FluidRegistry.SAKE, "sake");
@@ -44,7 +35,6 @@ public class ClientFluidRegistry {
         setupSourceFluidExtensions(FluidRegistry.CHAMPAGNE, "champagne");
         setupSourceFluidExtensions(FluidRegistry.BRANDY, "brandy");
 
-        // 为流动流体设置客户端扩展
         setupFlowingFluidExtensions(FluidRegistry.FOOD_OIL_FLOWING, "food_oil");
         setupFlowingFluidExtensions(FluidRegistry.DOBUROKU_FLOWING, "doburoku");
         setupFlowingFluidExtensions(FluidRegistry.SAKE_FLOWING, "sake");
@@ -63,7 +53,6 @@ public class ClientFluidRegistry {
         if (fluid instanceof FluidRegistry.CustomSourceFluid sourceFluid) {
             int color = FluidTypeRegistry.getFluidColor(sourceFluid.getFluidType());
 
-            // 使用默认的水纹理，但应用自定义颜色
             sourceFluid.setClientExtensions(new IClientFluidTypeExtensions() {
                 @Override
                 public ResourceLocation getStillTexture() {

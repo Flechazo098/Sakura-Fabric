@@ -68,6 +68,6 @@ public class ItemRegistry {
     }
 
     public static void registerSakuraItem() {
-        SakuraFabric.LOGGER.info("Registering Mod Items for " + SakuraFabric.MODID);
+//        SakuraFabric.LOGGER.info("Registering Mod Items for " + SakuraFabric.MODID);
     }
 }

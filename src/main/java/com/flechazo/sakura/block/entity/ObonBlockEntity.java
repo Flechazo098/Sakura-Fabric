@@ -23,7 +23,6 @@ public class ObonBlockEntity extends SyncedBlockEntity {
     }
 
 
-    // 创建物品处理组件
     public static ItemHandlerComponent createItemHandlerComponent(ObonBlockEntity blockEntity) {
         return new ItemHandlerComponent() {
             @Override

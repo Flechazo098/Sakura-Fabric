@@ -11,6 +11,7 @@ import com.flechazo.sakura.container.CookingPotContainer;
 import com.flechazo.sakura.container.DistillerContainer;
 import com.flechazo.sakura.container.FermenterContainer;
 import com.flechazo.sakura.container.StoneMortarContainer;
+import com.flechazo.sakura.init.RecipeTypeRegistry;
 import com.flechazo.sakura.recipes.*;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;

@@ -42,7 +42,7 @@ public class Age3CropBlock extends BaseCropBlock {
 
     @Override
     public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource rand) {
-        if (rand.nextInt(3) != 0) {
+        if (rand.nextInt(MAX_AGE) != 0) {
             super.randomTick(state, worldIn, pos, rand);
         }
     }

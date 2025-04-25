@@ -15,13 +15,11 @@ public class StoneMortarItem extends BlockItem {
     public StoneMortarItem() {
         super(BlockRegistry.STONE_MORTAR, SakuraFabric.defaultItemProperties());
 
-        // 在客户端初始化时注册自定义渲染器
         if (SakuraFabric.isClientSide()) {
             registerRenderer();
         }
     }
 
-    // 在客户端侧调用此方法注册渲染器
     private void registerRenderer() {
         BuiltinItemRendererRegistry.INSTANCE.register(this, (stack, mode, matrices, vertexConsumers, light, overlay) -> {
             if (blockEntity == null) {
