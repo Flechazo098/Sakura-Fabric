@@ -36,6 +36,7 @@ public class ItemFoodBase extends Item implements IFoodLike {
         }
     }
 
+
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
         ItemStack itemstack = super.finishUsingItem(stack, level, entity);
         if (stack.getCount() > 0) {
@@ -44,16 +45,25 @@ public class ItemFoodBase extends Item implements IFoodLike {
                     return itemstack;
                 }
 
-                ItemStack remainingItem = this.getCraftingRemainingItem().getDefaultInstance();
-                if (!entityplayer.addItem(remainingItem)) {
-                    entityplayer.drop(remainingItem, true);
+                Item remainingItem = this.getCraftingRemainingItem();
+                if (remainingItem != null) {
+                    ItemStack remainingStack = remainingItem.getDefaultInstance();
+                    if (!entityplayer.addItem(remainingStack)) {
+                        entityplayer.drop(remainingStack, true);
+                    }
                 }
             }
 
             return itemstack;
         } else {
-            return entity instanceof Player && ((Player)entity).getAbilities().instabuild ?
-                    itemstack : this.getCraftingRemainingItem().getDefaultInstance();
+            Item remainingItem = this.getCraftingRemainingItem();
+            if (entity instanceof Player && ((Player)entity).getAbilities().instabuild) {
+                return itemstack;
+            } else if (remainingItem != null) {
+                return remainingItem.getDefaultInstance();
+            } else {
+                return itemstack;
+            }
         }
     }
 

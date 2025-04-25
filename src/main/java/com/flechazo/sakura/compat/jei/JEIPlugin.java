@@ -16,13 +16,17 @@ import com.flechazo.sakura.recipes.*;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.registration.*;
+import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @JeiPlugin
@@ -31,8 +35,16 @@ public class JEIPlugin implements IModPlugin {
 
     private static final Minecraft MC = Minecraft.getInstance();
 
+
     private static <C extends Container, T extends Recipe<C>> List<T> findRecipesByType(RecipeType<T> type) {
-        return MC.level.getRecipeManager().getAllRecipesFor(type);
+        if (MC == null || MC.level == null) {
+            return Collections.emptyList();
+        }
+        RecipeManager recipeManager = MC.level.getRecipeManager();
+        if (recipeManager == null) {
+            return Collections.emptyList();
+        }
+        return recipeManager.getAllRecipesFor(type);
     }
 
     public static final mezz.jei.api.recipe.RecipeType<CookingPotRecipe> COOKING_POT_JEI_TYPE =
@@ -97,5 +109,4 @@ public class JEIPlugin implements IModPlugin {
     public ResourceLocation getPluginUid() {
         return PLUGIN_ID;
     }
-
 }

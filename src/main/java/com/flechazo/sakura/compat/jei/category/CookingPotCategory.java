@@ -81,13 +81,11 @@ public class CookingPotCategory implements IRecipeCategory<CookingPotRecipe> {
             }
         }
 
-        // 修改流体成分的添加方式，添加自定义工具提示回调
         if(recipe.getRequiredFluid() != FluidIngredient.EMPTY) {
             List<FluidStack> fluidStacks = recipe.getRequiredFluid().getMatchingFluidStacks();
             IRecipeSlotBuilder fluidSlot = builder.addSlot(RecipeIngredientRole.INPUT, 1, 1)
                     .setFluidRenderer(CookingPotBlockEntity.TANK_CAPACITY, false, 16, 52)
                     .addTooltipCallback((recipeSlotView, tooltip) -> {
-                        // 替换或添加正确的流体量信息
                         for (int i = 0; i < tooltip.size(); i++) {
                             Component component = tooltip.get(i);
                             String text = component.getString();
@@ -98,7 +96,6 @@ public class CookingPotCategory implements IRecipeCategory<CookingPotRecipe> {
                         }
                     });
 
-            // 使用正确的方法添加流体成分
             for (FluidStack fluidStack : fluidStacks) {
                 fluidSlot.addFluidStack(fluidStack.getFluid(), fluidStack.getAmount(), fluidStack.getTag());
             }
