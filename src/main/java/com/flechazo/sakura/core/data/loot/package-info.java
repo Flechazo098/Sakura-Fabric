@@ -1,1 +1,0 @@
-package com.flechazo.sakura.core.data.loot;
