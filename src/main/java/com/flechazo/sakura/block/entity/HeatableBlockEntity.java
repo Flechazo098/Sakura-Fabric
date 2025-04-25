@@ -7,7 +7,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import vectorwing.farmersdelight.common.tag.ModTags;
 
 /**
  * Copy and improve from Farmer's Delight, add require tags for other magic jobs.
@@ -16,12 +15,12 @@ public interface HeatableBlockEntity {
 
     default boolean isHeated(Level level, BlockPos pos) {
         BlockState stateBelow = level.getBlockState(pos.below());
-        if (stateBelow.is(ModTags.HEAT_SOURCES)) {
+        if (stateBelow.is(this.heatSourceTag())) {
             return stateBelow.hasProperty(BlockStateProperties.LIT) ? (Boolean)stateBelow.getValue(BlockStateProperties.LIT) : true;
         } else {
-            if (!this.requiresDirectHeat() && stateBelow.is(ModTags.HEAT_CONDUCTORS)) {
+            if (!this.requiresDirectHeat() && stateBelow.is(this.heatConductorTag())) {
                 BlockState stateFurtherBelow = level.getBlockState(pos.below(2));
-                if (stateFurtherBelow.is(ModTags.HEAT_SOURCES)) {
+                if (stateFurtherBelow.is(this.heatSourceTag())) {
                     if (stateFurtherBelow.hasProperty(BlockStateProperties.LIT)) {
                         return (Boolean)stateFurtherBelow.getValue(BlockStateProperties.LIT);
                     }
