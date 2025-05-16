@@ -1,14 +1,19 @@
 package com.flechazo.sakura.loot_modifier;
 
+import com.flechazo.sakura.SakuraConfig;
 import com.flechazo.sakura.SakuraFabric;
 import com.flechazo.sakura.init.ItemRegistry;
+import com.google.common.collect.ImmutableMap;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+
+import java.util.Map;
 
 public class SeedsDrop {
     private static final ResourceLocation GRASS_ID = new ResourceLocation("minecraft", "blocks/grass");
@@ -38,30 +43,40 @@ public class SeedsDrop {
         });
     }
 
+    // 一个 Map<String, Double>，key 是种子，value 是权重
+    static final Map<Item, Double> seedWeights = ImmutableMap.<Item, Double>builder()
+            .put(ItemRegistry.CABBAGE_SEEDS,  1.0)
+            .put(ItemRegistry.EGGPLANT_SEEDS, 1.0)
+            .put(ItemRegistry.ONION_SEEDS,    1.0)
+            .put(ItemRegistry.RADISH_SEEDS,   1.0)
+            .put(ItemRegistry.TOMATO_SEEDS,   1.0)
+            .put(ItemRegistry.RICE_SEEDS,     1.0)
+            .put(ItemRegistry.RAPESEEDS,      1.0)
+            .put(ItemRegistry.TARO,           0.5)
+            .put(ItemRegistry.BUCKWHEAT,      0.5)
+            .put(ItemRegistry.SOYBEAN,        0.2)
+            .put(ItemRegistry.RED_BEAN,       0.2)
+            .build();
+
+    // 读总基础掉率 R
+     static double R = SakuraFabric.INSTANCE.seedDropConfig.globalDropRate;
+
+    // 计算权重之和 W
+     static double W = seedWeights.values().stream().mapToDouble(Double::doubleValue).sum();
+
+    // 在创建 LootPool 时按公式分配每个 p_i
     private static LootPool.Builder createSeedsLootPool() {
-        return LootPool.lootPool()
-                .setRolls(ConstantValue.exactly(1))
-                .add(LootItem.lootTableItem(ItemRegistry.CABBAGE_SEEDS)
-                        .when(LootItemRandomChanceCondition.randomChance(0.08f)))
-                .add(LootItem.lootTableItem(ItemRegistry.EGGPLANT_SEEDS)
-                        .when(LootItemRandomChanceCondition.randomChance(0.08f)))
-                .add(LootItem.lootTableItem(ItemRegistry.ONION_SEEDS)
-                        .when(LootItemRandomChanceCondition.randomChance(0.08f)))
-                .add(LootItem.lootTableItem(ItemRegistry.RADISH_SEEDS)
-                        .when(LootItemRandomChanceCondition.randomChance(0.08f)))
-                .add(LootItem.lootTableItem(ItemRegistry.TOMATO_SEEDS)
-                        .when(LootItemRandomChanceCondition.randomChance(0.08f)))
-                .add(LootItem.lootTableItem(ItemRegistry.RICE_SEEDS)
-                        .when(LootItemRandomChanceCondition.randomChance(0.08f)))
-                .add(LootItem.lootTableItem(ItemRegistry.RAPESEEDS)
-                        .when(LootItemRandomChanceCondition.randomChance(0.08f)))
-                .add(LootItem.lootTableItem(ItemRegistry.TARO)
-                        .when(LootItemRandomChanceCondition.randomChance(0.05f)))
-                .add(LootItem.lootTableItem(ItemRegistry.BUCKWHEAT)
-                        .when(LootItemRandomChanceCondition.randomChance(0.05f)))
-                .add(LootItem.lootTableItem(ItemRegistry.SOYBEAN)
-                        .when(LootItemRandomChanceCondition.randomChance(0.05f)))
-                .add(LootItem.lootTableItem(ItemRegistry.RED_BEAN)
-                        .when(LootItemRandomChanceCondition.randomChance(0.05f)));
+        LootPool.Builder pool = LootPool.lootPool()
+                .setRolls(ConstantValue.exactly(1));
+
+        seedWeights.forEach((seedRegObj, weight) -> {
+            float pi = (float)(R * (weight / W));
+            pool.add(
+                    LootItem.lootTableItem(seedRegObj)
+                            .when(LootItemRandomChanceCondition.randomChance(pi))
+            );
+        });
+
+        return pool;
     }
 }

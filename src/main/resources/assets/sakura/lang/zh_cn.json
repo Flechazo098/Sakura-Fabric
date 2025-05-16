@@ -678,14 +678,19 @@
 
 	"wailaharvestability.toolclass.forging_hammer": "锻造锤",
 
-	"sakuratooltip.campfire.fire_remain": "剩余燃料: %1$s Ticks",
-	"sakuratooltip.campfire.item_in": "篝火里的物品: %1$s",
+	"sakura.tooltip.campfire.fire_remain": "剩余燃料: %1$s Ticks",
+	"sakura.tooltip.campfire.item_in": "篝火里的物品: %1$s",
 
-	"sakuraeffect.scorpion": "蝎毒",
-	"sakuraeffect.cannon": "大炮",
-	"sakuraeffect.exp_up": "经验提升",
-	"sakuraeffect.fire_blade": "火焰之刃",
-	"sakuraeffect.golden_heart": "金色生命",
-	"sakuraeffect.poisom": "毒药"
+	"sakura.effect.scorpion": "蝎毒",
+	"sakura.effect.cannon": "大炮",
+	"sakura.effect.exp_up": "经验提升",
+	"sakura.effect.fire_blade": "火焰之刃",
+	"sakura.effect.golden_heart": "金色生命",
+	"sakura.effect.poisom": "毒药",
+
+	"text.autoconfig.sakura.title": "樱 配置",
+	"text.autoconfig.sakura.option.seedDropConfig": "种子掉落率配置",
+	"text.autoconfig.sakura.option.seedDropConfig.globalDropRate": "全局种子掉落率配置",
+	"text.autoconfig.sakura.option.seedDropConfig.globalDropRate.@Tooltip": "(默认: 0.1) - 降低此值将减少所有种子的掉落概率"
 
 }

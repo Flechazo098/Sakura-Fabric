@@ -1,7 +1,6 @@
 package com.flechazo.sakura.init;
 
 import com.flechazo.sakura.loot_modifier.FishingModifiter;
-import com.flechazo.sakura.loot_modifier.SakuraLootModifiers;
 import com.flechazo.sakura.loot_modifier.SeedsDrop;
 
 public class LootModifiterRegistry {
@@ -11,6 +10,6 @@ public class LootModifiterRegistry {
 
         FishingModifiter.register();
 
-        SakuraLootModifiers.register();
+//        SakuraLootModifiers.register();
     }
 }

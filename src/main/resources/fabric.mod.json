@@ -7,7 +7,7 @@
   "authors": [],
   "contact": {},
   "license": "MIT",
-  "icon": "logo.png",
+  "icon": "icon.png",
   "environment": "*",
   "entrypoints": {
     "client": [
@@ -24,6 +24,9 @@
     ],
     "jei_mod_plugin": [
       "com.flechazo.sakura.compat.jei.JEIPlugin"
+    ],
+    "modmenu": [
+      "com.flechazo.sakura.compat.modmenu.ModMenuIntegration"
     ]
   },
   "mixins": [

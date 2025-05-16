@@ -18,6 +18,8 @@ import com.flechazo.sakura.init.LootModifiterRegistry;
 import com.flechazo.sakura.init.RecipeSerializerRegistry;
 import com.flechazo.sakura.init.RecipeTypeRegistry;
 import com.mojang.logging.LogUtils;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
@@ -33,6 +35,7 @@ import org.slf4j.Logger;
 public class SakuraFabric implements ModInitializer {
     public static final String MODID = "sakura";
     public static final Logger LOGGER = LogUtils.getLogger();
+    public static SakuraConfig INSTANCE;
 
     public static FabricItemSettings defaultItemProperties() {
         return new FabricItemSettings();
@@ -73,6 +76,9 @@ public class SakuraFabric implements ModInitializer {
 
         BurnTimeEvent.registerBurnTime();
         TreeEvent.register();
+
+        AutoConfig.register(SakuraConfig.class, JanksonConfigSerializer::new);
+        INSTANCE = AutoConfig.getConfigHolder(SakuraConfig.class).getConfig();
         LootModifiterRegistry.register();
 
         registerBiomeModifications();
