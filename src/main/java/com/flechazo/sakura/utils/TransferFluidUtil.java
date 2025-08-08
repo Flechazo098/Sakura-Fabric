@@ -37,7 +37,6 @@ public class TransferFluidUtil {
         ItemStack originalStack = player.getItemInHand(hand);
         boolean success = false;
 
-        // 检查物品栈是否为空
         if (originalStack.isEmpty()) {
             return false;
         }
@@ -59,7 +58,7 @@ public class TransferFluidUtil {
                     transferAmount = Math.min(transferAmount, tank.getCapacity() - tank.getAmount());
 
                     if (transferAmount > 0) {
-                        // 使用insert方法将流体插入到流体槽中
+                        // 将流体插入到流体槽中
                         long inserted = tank.insert(fluidInItem.getType(), transferAmount, transaction);
                         if (inserted > 0) {
                             // 如果成功插入流体，则提取物品中的流体

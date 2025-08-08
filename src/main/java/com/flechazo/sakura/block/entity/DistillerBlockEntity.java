@@ -74,7 +74,6 @@ public class DistillerBlockEntity extends SyncedBlockEntity implements MenuProvi
         return new ItemHandlerComponent() {
             @Override
             public void readFromNbt(CompoundTag compoundTag) {
-                // 从NBT中读取物品栏数据
                 if (compoundTag.contains("Inventory")) {
                     blockEntity.inventory.deserializeNBT(compoundTag.getCompound("Inventory"));
                 }
@@ -82,7 +81,6 @@ public class DistillerBlockEntity extends SyncedBlockEntity implements MenuProvi
 
             @Override
             public void writeToNbt(CompoundTag compoundTag) {
-                // 将物品栏数据写入NBT
                 compoundTag.put("Inventory", blockEntity.inventory.serializeNBT());
             }
 
@@ -260,13 +258,11 @@ public class DistillerBlockEntity extends SyncedBlockEntity implements MenuProvi
             }
         }
 
-        // 使用 Fabric 的事务 API 处理流体操作
         try (var transaction = Transaction.openOuter()) {
             if (recipe.getRequiredFluid() != FluidIngredient.EMPTY) {
                 FluidTank inputTank = this.inputfluidTank.orElse(new FluidTank(0));
                 long requiredAmount = recipe.getRequiredFluid().getRequiredAmount();
 
-                // 在事务中提取流体
                 inputTank.extract(
                         inputTank.getFluid().getType(),
                         requiredAmount,
@@ -278,7 +274,6 @@ public class DistillerBlockEntity extends SyncedBlockEntity implements MenuProvi
                 FluidTank outputTank = this.outputfluidTank.orElse(new FluidTank(0));
                 FluidStack resultFluid = recipe.getResultFluid();
 
-                // 在事务中插入流体
                 outputTank.insert(
                         resultFluid.getType(),
                         resultFluid.getAmount(),
@@ -286,7 +281,6 @@ public class DistillerBlockEntity extends SyncedBlockEntity implements MenuProvi
                 );
             }
 
-            // 提交事务
             transaction.commit();
         }
 

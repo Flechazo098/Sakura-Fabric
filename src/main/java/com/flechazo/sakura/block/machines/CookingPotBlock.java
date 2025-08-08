@@ -100,19 +100,16 @@ public class CookingPotBlock extends BaseEntityBlock {
             return InteractionResult.FAIL;
         }
 
-        // 流体交互部分（需使用 Fabric Transfer API）
         if (handleFluidInteraction(world, player, hand, cookingPot, hit)) {
             return InteractionResult.sidedSuccess(world.isClientSide);
         }
 
-        // 潜行右键切换 OPEN 状态
         if (stack.isEmpty() && player.isShiftKeyDown()) {
             world.setBlock(pos, state.setValue(OPEN, !state.getValue(OPEN)), 3);
             world.playSound(null, pos, SoundEvents.WOOD_PLACE, SoundSource.BLOCKS, 0.7F, 1.0F);
             return InteractionResult.sidedSuccess(world.isClientSide);
         }
 
-        // 非客户端打开 GUI
         if (!world.isClientSide && player instanceof ServerPlayer serverPlayer) {
             NetworkHooks.openScreen(serverPlayer, cookingPot, pos);
         }
@@ -129,12 +126,10 @@ public class CookingPotBlock extends BaseEntityBlock {
         FluidBucketWrapper fluidHandler = new FluidBucketWrapper(itemContext);
 
         if (fluidHandler != null) {
-            // 获取烹饪锅的流体槽
             FluidTank fluidTank = be.getFluidTank().orElse(null);
             if (fluidTank != null) {
                 boolean success = TransferFluidUtil.tryTransferFluid(player, hand, fluidTank, fluidHandler);
                 if (success) {
-                    // 播放适当的声音
                     if (fluidHandler.getFluid().isEmpty()) {
                         level.playSound(null, be.getBlockPos(), SoundEvents.BUCKET_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
                     } else {
