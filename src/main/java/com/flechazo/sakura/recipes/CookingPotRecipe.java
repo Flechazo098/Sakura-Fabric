@@ -45,7 +45,7 @@ public class CookingPotRecipe extends AbstractRecipe {
     }
 
     public boolean matchesWithFluid(FluidStack fluid, Container inv, Level worldIn) {
-        if(this.getRequiredFluid() == FluidIngredient.EMPTY)
+        if (this.getRequiredFluid() == FluidIngredient.EMPTY)
             return fluid.isEmpty() && matches(inv, worldIn);
         return this.getRequiredFluid().test(fluid) && matches(inv, worldIn);
     }

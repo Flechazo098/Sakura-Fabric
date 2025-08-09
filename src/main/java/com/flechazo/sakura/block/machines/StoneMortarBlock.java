@@ -1,7 +1,7 @@
 package com.flechazo.sakura.block.machines;
 
-import com.flechazo.sakura.init.BlockEntityRegistry;
 import com.flechazo.sakura.block.entity.StoneMortarBlockEntity;
+import com.flechazo.sakura.init.BlockEntityRegistry;
 import io.github.fabricators_of_create.porting_lib.util.NetworkHooks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
@@ -67,7 +67,7 @@ public class StoneMortarBlock extends BaseEntityBlock {
     @Override
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntity) {
-        return createTickerHelper(blockEntity, BlockEntityRegistry.STONE_MORTAR ,
+        return createTickerHelper(blockEntity, BlockEntityRegistry.STONE_MORTAR,
                 StoneMortarBlockEntity::workingTick);
     }
 }

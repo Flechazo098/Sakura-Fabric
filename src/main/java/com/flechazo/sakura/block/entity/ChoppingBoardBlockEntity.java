@@ -1,10 +1,10 @@
 package com.flechazo.sakura.block.entity;
 
-import com.flechazo.sakura.capability.ItemHandlerComponent;
 import com.flechazo.sakura.block.machines.ChoppingBoardBlock;
+import com.flechazo.sakura.capability.ItemHandlerComponent;
 import com.flechazo.sakura.init.BlockEntityRegistry;
-import com.flechazo.sakura.recipes.ChoppingRecipe;
 import com.flechazo.sakura.init.RecipeTypeRegistry;
+import com.flechazo.sakura.recipes.ChoppingRecipe;
 import com.flechazo.sakura.utils.LevelUtils;
 import io.github.fabricators_of_create.porting_lib.tags.Tags;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandlerContainer;
@@ -40,7 +40,7 @@ public class ChoppingBoardBlockEntity extends SyncedBlockEntity {
     private int recipeTime;
     private int recipeTimeTotal;
 
-    public ChoppingBoardBlockEntity (BlockPos pos, BlockState state) {
+    public ChoppingBoardBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegistry.CHOPPING_BOARD, pos, state);
         inventory = createHandler();
         inputHandler = LazyOptional.of(() -> inventory);
@@ -68,8 +68,9 @@ public class ChoppingBoardBlockEntity extends SyncedBlockEntity {
             }
         };
     }
+
     @Override
-    public void load (CompoundTag compound) {
+    public void load(CompoundTag compound) {
         super.load(compound);
         inventory.deserializeNBT(compound.getCompound("Inventory"));
         recipeTime = compound.getInt("RecipeTime");
@@ -77,18 +78,18 @@ public class ChoppingBoardBlockEntity extends SyncedBlockEntity {
     }
 
     @Override
-    public void saveAdditional (CompoundTag compound) {
+    public void saveAdditional(CompoundTag compound) {
         super.saveAdditional(compound);
         compound.put("Inventory", inventory.serializeNBT());
         compound.putInt("RecipeTime", this.recipeTime);
         compound.putInt("RecipeTimeTotal", this.recipeTimeTotal);
     }
 
-    public int getRecipeTime () {
+    public int getRecipeTime() {
         return recipeTime;
     }
 
-    public boolean processStoredItemUsingTool (ItemStack toolStack, @Nullable Player player) {
+    public boolean processStoredItemUsingTool(ItemStack toolStack, @Nullable Player player) {
         if (level == null)
             return false;
 
@@ -117,7 +118,7 @@ public class ChoppingBoardBlockEntity extends SyncedBlockEntity {
             if (this.recipeTime < recipeTimeTotal - 1) {
                 this.recipeTime++;
             } else {
-                if (! setResult(recipe))
+                if (!setResult(recipe))
                     removeItem();
             }
         });
@@ -125,8 +126,8 @@ public class ChoppingBoardBlockEntity extends SyncedBlockEntity {
         return matchingRecipe.isPresent();
     }
 
-    private Optional<ChoppingRecipe> getMatchingRecipe (ItemStackHandlerContainer recipeWrapper, ItemStack toolStack,
-                                                        @Nullable Player player) {
+    private Optional<ChoppingRecipe> getMatchingRecipe(ItemStackHandlerContainer recipeWrapper, ItemStack toolStack,
+                                                       @Nullable Player player) {
         if (level == null)
             return Optional.empty();
 
@@ -149,7 +150,7 @@ public class ChoppingBoardBlockEntity extends SyncedBlockEntity {
         }
         Optional<ChoppingRecipe> recipe = recipeList.stream()
                 .filter(cuttingRecipe -> cuttingRecipe.getTool().test(toolStack)).findFirst();
-        if (! recipe.isPresent()) {
+        if (!recipe.isPresent()) {
             if (player != null)
                 player.displayClientMessage(Component.translatable("sakura.block.chopping_board.invalid_tool"), true);
             return Optional.empty();
@@ -158,7 +159,7 @@ public class ChoppingBoardBlockEntity extends SyncedBlockEntity {
         return recipe;
     }
 
-    public void playProcessingSound (ItemStack tool, ItemStack boardItem) {
+    public void playProcessingSound(ItemStack tool, ItemStack boardItem) {
         if (tool.is(Tags.Items.SHEARS)) {
             playSound(SoundEvents.SHEEP_SHEAR, 1.0F, 1.0F);
         } else if (boardItem.getItem() instanceof BlockItem blockItem) {
@@ -170,14 +171,14 @@ public class ChoppingBoardBlockEntity extends SyncedBlockEntity {
         }
     }
 
-    public void playSound (SoundEvent sound, float volume, float pitch) {
+    public void playSound(SoundEvent sound, float volume, float pitch) {
         if (level != null)
             level.playSound(null, worldPosition.getX() + 0.5F, worldPosition.getY() + 0.5F, worldPosition.getZ() + 0.5F,
                     sound, SoundSource.BLOCKS, volume, pitch);
     }
 
-    public boolean addItem (ItemStack itemStack) {
-        if (isEmpty() && ! itemStack.isEmpty()) {
+    public boolean addItem(ItemStack itemStack) {
+        if (isEmpty() && !itemStack.isEmpty()) {
             inventory.setStackInSlot(0, itemStack.split(1));
             inventoryChanged();
             return true;
@@ -185,9 +186,9 @@ public class ChoppingBoardBlockEntity extends SyncedBlockEntity {
         return false;
     }
 
-    public boolean setResult (ChoppingRecipe recipe) {
+    public boolean setResult(ChoppingRecipe recipe) {
         ItemStack resultItem = recipe.getResultItem(null);
-        if (! resultItem.isEmpty()) {
+        if (!resultItem.isEmpty()) {
             if (resultItem.getCount() > 1) {
                 for (int i = 1; i < resultItem.getCount(); i++) {
                     Direction direction = getBlockState().getValue(ChoppingBoardBlock.FACING).getCounterClockWise();
@@ -204,8 +205,8 @@ public class ChoppingBoardBlockEntity extends SyncedBlockEntity {
         return false;
     }
 
-    public ItemStack removeItem () {
-        if (! isEmpty()) {
+    public ItemStack removeItem() {
+        if (!isEmpty()) {
             ItemStack item = getStoredItem().split(1);
             inventoryChanged();
             return item;
@@ -213,38 +214,38 @@ public class ChoppingBoardBlockEntity extends SyncedBlockEntity {
         return ItemStack.EMPTY;
     }
 
-    public SlottedStackStorage getInventory () {
+    public SlottedStackStorage getInventory() {
         return inventory;
     }
 
-    public ItemStack getStoredItem () {
+    public ItemStack getStoredItem() {
         return inventory.getStackInSlot(0);
     }
 
-    public boolean isEmpty () {
+    public boolean isEmpty() {
         return inventory.getStackInSlot(0).isEmpty();
     }
 
     @Override
-    protected void inventoryChanged () {
+    protected void inventoryChanged() {
         this.recipeTime = 0;
         super.inventoryChanged();
     }
 
     @Override
-    public void setRemoved () {
+    public void setRemoved() {
         super.setRemoved();
     }
 
-    private ItemStackHandlerContainer createHandler () {
+    private ItemStackHandlerContainer createHandler() {
         return new ItemStackHandlerContainer(1) {
             @Override
-            public int getSlotLimit (int slot) {
+            public int getSlotLimit(int slot) {
                 return 1;
             }
 
             @Override
-            protected void onContentsChanged (int slot) {
+            protected void onContentsChanged(int slot) {
                 inventoryChanged();
             }
         };

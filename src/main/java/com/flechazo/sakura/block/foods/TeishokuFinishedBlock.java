@@ -22,6 +22,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public class TeishokuFinishedBlock extends Block {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     protected static final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 3.0D, 16.0D);
+
     public TeishokuFinishedBlock() {
         super(Properties.copy(Blocks.OAK_SLAB));
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));

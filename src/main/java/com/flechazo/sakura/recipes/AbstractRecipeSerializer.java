@@ -12,6 +12,7 @@ public class AbstractRecipeSerializer<T extends AbstractRecipe> implements Recip
     public AbstractRecipeSerializer(Class<T> recipeClass) {
         this.recipeClass = recipeClass;
     }
+
     @Override
     public T fromJson(ResourceLocation recipeID, JsonObject recipeJson) {
         T result = DataGenUtil.NETWORK_GSON.fromJson(recipeJson, recipeClass);

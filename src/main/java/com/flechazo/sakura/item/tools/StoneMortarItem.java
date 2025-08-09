@@ -1,9 +1,9 @@
 package com.flechazo.sakura.item.tools;
 
 import com.flechazo.sakura.SakuraFabric;
-import com.flechazo.sakura.init.BlockRegistry;
-import com.flechazo.sakura.init.BlockEntityRegistry;
 import com.flechazo.sakura.block.entity.StoneMortarBlockEntity;
+import com.flechazo.sakura.init.BlockEntityRegistry;
+import com.flechazo.sakura.init.BlockRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;

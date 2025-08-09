@@ -11,8 +11,10 @@ import java.lang.reflect.Type;
 
 public class NonNullListDeserializer implements JsonDeserializer<NonNullList<?>> {
     private static final NonNullListDeserializer INSTANCE = new NonNullListDeserializer();
+
     private NonNullListDeserializer() {
     }
+
     @Override
     public NonNullList<?> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {
@@ -24,6 +26,7 @@ public class NonNullListDeserializer implements JsonDeserializer<NonNullList<?>>
         }
         return list;
     }
+
     public static NonNullListDeserializer getInstance() {
         return INSTANCE;
     }

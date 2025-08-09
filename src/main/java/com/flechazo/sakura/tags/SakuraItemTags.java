@@ -7,8 +7,8 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 
 public class SakuraItemTags {
-    public static final TagKey<Item> OFFHAND_EQUIPMENT = TagUtils.modItemTag(SakuraFabric.MODID,"offhand_equipment");
-    public static final TagKey<Item> SOUPS = TagUtils.modItemTag(SakuraFabric.MODID,"soups");
+    public static final TagKey<Item> OFFHAND_EQUIPMENT = TagUtils.modItemTag(SakuraFabric.MODID, "offhand_equipment");
+    public static final TagKey<Item> SOUPS = TagUtils.modItemTag(SakuraFabric.MODID, "soups");
 
     public static final TagKey<Item> SALT = TagUtils.forgeItemTag("salt");
     public static final TagKey<Item> DUST_SALT = TagUtils.forgeItemTag("dust/salt");
@@ -180,8 +180,8 @@ public class SakuraItemTags {
     public static final TagKey<Item> TOOLS_AXES = TagUtils.forgeItemTag("tools/axes");
     public static final TagKey<Item> TOOLS_HOES = TagUtils.forgeItemTag("tools/hoes");
     public static final TagKey<Item> TOOLS_KNIVES = TagUtils.forgeItemTag("tools/knives");
-    public static final TagKey<Item> TOOLS_KNIVES_FISH = TagUtils.modItemTag(SakuraFabric.MODID,"tools/knives/fish");
-    public static final TagKey<Item> TOOLS_KNIVES_NOODLE = TagUtils.modItemTag(SakuraFabric.MODID,"tools/knives/noodle");
+    public static final TagKey<Item> TOOLS_KNIVES_FISH = TagUtils.modItemTag(SakuraFabric.MODID, "tools/knives/fish");
+    public static final TagKey<Item> TOOLS_KNIVES_NOODLE = TagUtils.modItemTag(SakuraFabric.MODID, "tools/knives/noodle");
     public static final TagKey<Item> TOOLS_PICKAXES = TagUtils.forgeItemTag("tools/pickaxes");
     public static final TagKey<Item> TOOLS_SHOVELS = TagUtils.forgeItemTag("tools/shovels");
 }

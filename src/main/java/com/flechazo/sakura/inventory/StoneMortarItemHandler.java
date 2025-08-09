@@ -46,7 +46,6 @@ public class StoneMortarItemHandler implements SlottedStackStorage {
 
     @Override
     public long insertSlot(int slot, ItemVariant resource, long maxAmount, TransactionContext transaction) {
-        // 限制输入方向：只能从上方插入输入槽
         if (direction == null || direction == Direction.UP) {
             if (slot < SLOTS_INPUT) {
                 return storage.insertSlot(slot, resource, maxAmount, transaction);
@@ -57,7 +56,6 @@ public class StoneMortarItemHandler implements SlottedStackStorage {
 
     @Override
     public long extractSlot(int slot, ItemVariant resource, long maxAmount, TransactionContext transaction) {
-        // 输出限制：只能从侧面提取输出槽
         if (direction == null || direction == Direction.UP) {
             if (slot < SLOTS_INPUT) {
                 return storage.extractSlot(slot, resource, maxAmount, transaction);
@@ -82,10 +80,8 @@ public class StoneMortarItemHandler implements SlottedStackStorage {
 
     @Override
     public long insert(ItemVariant resource, long maxAmount, TransactionContext transaction) {
-        // 如果没有指定方向或者是从上方插入，则尝试插入到输入槽
         if (direction == null || direction == Direction.UP) {
             long inserted = 0;
-            // 尝试按顺序插入到每个输入槽
             for (int slot = 0; slot < SLOTS_INPUT; slot++) {
                 inserted += storage.insertSlot(slot, resource, maxAmount - inserted, transaction);
                 if (inserted >= maxAmount) {
@@ -94,15 +90,13 @@ public class StoneMortarItemHandler implements SlottedStackStorage {
             }
             return inserted;
         }
-        return 0; // 其他方向不允许插入
+        return 0;
     }
 
     @Override
     public long extract(ItemVariant resource, long maxAmount, TransactionContext transaction) {
-        // 如果没有指定方向或者是从上方提取，则允许从输入槽提取
         if (direction == null || direction == Direction.UP) {
             long extracted = 0;
-            // 尝试从每个输入槽提取
             for (int slot = 0; slot < SLOTS_INPUT; slot++) {
                 extracted += storage.extractSlot(slot, resource, maxAmount - extracted, transaction);
                 if (extracted >= maxAmount) {
@@ -111,7 +105,6 @@ public class StoneMortarItemHandler implements SlottedStackStorage {
             }
             return extracted;
         } else {
-            // 从侧面只能提取输出槽
             long extracted = storage.extractSlot(SLOT_OUTPUT, resource, maxAmount, transaction);
             if (extracted < maxAmount) {
                 extracted += storage.extractSlot(SLOT_OUTPUT_EXTRA, resource, maxAmount - extracted, transaction);
@@ -123,5 +116,5 @@ public class StoneMortarItemHandler implements SlottedStackStorage {
     @Override
     public Iterator<StorageView<ItemVariant>> iterator() {
         return storage.iterator();
-        }
+    }
 }

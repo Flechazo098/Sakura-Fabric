@@ -1,0 +1,21 @@
+{
+  "type": "sakura:cooking",
+  "experience": 0.0,
+  "fluid": {
+    "amount": 20250,
+    "fluidTag": "c:water/water"
+  },
+  "ingredients": [
+    {
+      "tag": "c:crops/pumpkin"
+    },
+    {
+      "item": "sakura:kaeshi"
+    }
+  ],
+  "recipeTime": 200,
+  "result": {
+    "count": 2,
+    "item": "sakura:nimono_pumpkin"
+  }
+}

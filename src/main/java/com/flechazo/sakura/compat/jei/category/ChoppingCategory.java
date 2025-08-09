@@ -1,8 +1,8 @@
 package com.flechazo.sakura.compat.jei.category;
 
 import com.flechazo.sakura.SakuraFabric;
-import com.flechazo.sakura.init.BlockRegistry;
 import com.flechazo.sakura.compat.jei.JEIPlugin;
+import com.flechazo.sakura.init.BlockRegistry;
 import com.flechazo.sakura.recipes.ChanceResult;
 import com.flechazo.sakura.recipes.ChoppingRecipe;
 import com.flechazo.sakura.utils.I18nUtils;
@@ -33,6 +33,7 @@ public class ChoppingCategory implements IRecipeCategory<ChoppingRecipe> {
     private final IDrawable icon;
 
     private final IDrawable chancedSlot;
+
     public ChoppingCategory(IGuiHelper helper) {
         title = Component.translatable("sakura.jei.chopping");
         ResourceLocation backgroundImage = new ResourceLocation(SakuraFabric.MODID, "textures/gui/jei_chopping.png");
@@ -97,7 +98,7 @@ public class ChoppingCategory implements IRecipeCategory<ChoppingRecipe> {
         }
         Minecraft minecraft = Minecraft.getInstance();
         Font fontRenderer = minecraft.font;
-        guiGraphics.drawString(fontRenderer, Component.translatable("sakura.jei.chopping.count", recipe.getRecipeTime()), 33, 32, 0xFEFEFE,true);
+        guiGraphics.drawString(fontRenderer, Component.translatable("sakura.jei.chopping.count", recipe.getRecipeTime()), 33, 32, 0xFEFEFE, true);
         RenderSystem.setShaderColor(1, 1, 1, 1);
     }
 

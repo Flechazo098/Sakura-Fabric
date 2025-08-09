@@ -1,19 +1,18 @@
 package com.flechazo.sakura.client.handler;
 
 
-import com.flechazo.sakura.init.BlockRegistry;
-import com.flechazo.sakura.init.BlockEntityRegistry;
-import com.flechazo.sakura.client.render.fluid.ClientFluidExtensions;
-import com.flechazo.sakura.client.render.fluid.FluidRenderingRegistry;
 import com.flechazo.sakura.client.gui.ScreensRegistry;
-import com.flechazo.sakura.client.render.layers.LayerRegistry;
 import com.flechazo.sakura.client.particle.FallenLeafParticle;
 import com.flechazo.sakura.client.particle.ParticleRegistry;
 import com.flechazo.sakura.client.render.blockentity.ChoppingBoardRender;
 import com.flechazo.sakura.client.render.blockentity.ObonRender;
 import com.flechazo.sakura.client.render.blockentity.StoneMortarRenderer;
+import com.flechazo.sakura.client.render.fluid.ClientFluidExtensions;
+import com.flechazo.sakura.client.render.fluid.FluidRenderingRegistry;
+import com.flechazo.sakura.client.render.layers.LayerRegistry;
+import com.flechazo.sakura.init.BlockEntityRegistry;
+import com.flechazo.sakura.init.BlockRegistry;
 import com.flechazo.sakura.init.FluidRegistry;
-
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;

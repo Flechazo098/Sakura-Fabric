@@ -13,10 +13,10 @@ public record ChanceResult(ItemStack stack, float chance) {
 
     public ItemStack rollOutput(RandomSource rand, int fortuneLevel) {
         int outputAmount = this.stack.getCount();
-        double fortuneBonus = (double)fortuneLevel;
+        double fortuneBonus = fortuneLevel;
 
-        for(int roll = 0; roll < this.stack.getCount(); ++roll) {
-            if ((double)rand.nextFloat() > (double)this.chance + fortuneBonus) {
+        for (int roll = 0; roll < this.stack.getCount(); ++roll) {
+            if ((double) rand.nextFloat() > (double) this.chance + fortuneBonus) {
                 --outputAmount;
             }
         }

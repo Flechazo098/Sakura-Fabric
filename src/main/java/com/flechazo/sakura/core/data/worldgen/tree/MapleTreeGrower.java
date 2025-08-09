@@ -15,7 +15,7 @@ public class MapleTreeGrower extends AbstractTreeGrower {
     private final ResourceKey<ConfiguredFeature<?, ?>> tree;
     private final ResourceKey<ConfiguredFeature<?, ?>> fancy_tree;
 
-    public MapleTreeGrower(ResourceKey<ConfiguredFeature<?, ?>> tree,ResourceKey<ConfiguredFeature<?, ?>> fancy_tree) {
+    public MapleTreeGrower(ResourceKey<ConfiguredFeature<?, ?>> tree, ResourceKey<ConfiguredFeature<?, ?>> fancy_tree) {
         this.tree = tree;
         this.fancy_tree = fancy_tree;
     }

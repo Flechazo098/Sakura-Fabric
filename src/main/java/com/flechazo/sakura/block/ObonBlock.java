@@ -1,7 +1,7 @@
 package com.flechazo.sakura.block;
 
-import com.flechazo.sakura.init.BlockEntityRegistry;
 import com.flechazo.sakura.block.entity.ObonBlockEntity;
+import com.flechazo.sakura.init.BlockEntityRegistry;
 import com.flechazo.sakura.tags.SakuraItemTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -32,6 +32,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public class ObonBlock extends BaseEntityBlock {
     protected static final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 3.0D, 16.0D);
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+
     public ObonBlock() {
         super(Properties.copy(Blocks.OAK_SLAB).noOcclusion());
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));

@@ -4,12 +4,13 @@ import com.flechazo.sakura.capability.FluidHandlerComponent;
 import com.flechazo.sakura.capability.ItemHandlerComponent;
 import com.flechazo.sakura.container.DistillerContainer;
 import com.flechazo.sakura.init.BlockEntityRegistry;
+import com.flechazo.sakura.init.RecipeTypeRegistry;
 import com.flechazo.sakura.inventory.FermenterItemHandler;
 import com.flechazo.sakura.recipes.DistillerRecipe;
-import com.flechazo.sakura.init.RecipeTypeRegistry;
 import com.flechazo.sakura.utils.FluidIngredient;
 import com.flechazo.sakura.utils.LevelUtils;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
 import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTank;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandlerContainer;
@@ -42,13 +43,13 @@ import java.util.Optional;
 
 public class DistillerBlockEntity extends SyncedBlockEntity implements MenuProvider, HeatableBlockEntity {
 
-    public static final int TANK_CAPACITY = 8000;
+    public static final long TANK_CAPACITY = 324000;
     private final ItemStackHandlerContainer inventory;
-    private LazyOptional<SlottedStackStorage> inputHandler;
-    private LazyOptional<SlottedStackStorage> outputHandler;
+    private final LazyOptional<SlottedStackStorage> inputHandler;
+    private final LazyOptional<SlottedStackStorage> outputHandler;
 
-    private LazyOptional<FluidTank> inputfluidTank;
-    private LazyOptional<FluidTank> outputfluidTank;
+    private final LazyOptional<FluidTank> inputfluidTank;
+    private final LazyOptional<FluidTank> outputfluidTank;
     protected final ContainerData tileData;
     private final Object2IntOpenHashMap<ResourceLocation> experienceTracker;
 
@@ -68,6 +69,7 @@ public class DistillerBlockEntity extends SyncedBlockEntity implements MenuProvi
         this.inputfluidTank = LazyOptional.of(this::createInputFluidHandler);
         this.outputfluidTank = LazyOptional.of(this::createFluidHandler);
         this.experienceTracker = new Object2IntOpenHashMap<>();
+        this.checkNewRecipe = true;
     }
 
     public static ItemHandlerComponent createItemHandlerComponent(DistillerBlockEntity blockEntity) {
@@ -161,7 +163,7 @@ public class DistillerBlockEntity extends SyncedBlockEntity implements MenuProvi
     }
 
     private boolean hasInput() {
-        if(this.inputfluidTank.isPresent()) {
+        if (this.inputfluidTank.isPresent()) {
             return !this.inputfluidTank.orElse(new FluidTank(0)).isEmpty();
         }
 
@@ -193,7 +195,7 @@ public class DistillerBlockEntity extends SyncedBlockEntity implements MenuProvi
         if (checkNewRecipe) {
             List<DistillerRecipe> recipes = level.getRecipeManager()
                     .getRecipesFor(RecipeTypeRegistry.DISTILLER_RECIPE_TYPE, inventoryWrapper, level);
-            for(DistillerRecipe recipe : recipes) {
+            for (DistillerRecipe recipe : recipes) {
                 if (recipe.matchesWithFluid(this.inputfluidTank.orElse(new FluidTank(0)).getFluid(), inventoryWrapper, level)) {
                     lastRecipeID = recipe.getId();
                     return Optional.of(recipe);
@@ -253,32 +255,20 @@ public class DistillerBlockEntity extends SyncedBlockEntity implements MenuProvi
             ItemStack outStack = inventory.getStackInSlot(i);
             if (outStack.isEmpty()) {
                 inventory.setStackInSlot(i, resultStacks.get(i - 3).copy());
-            } else if (ItemStack.isSameItem(outStack,resultStacks.get(i - 3))) {
+            } else if (ItemStack.isSameItem(outStack, resultStacks.get(i - 3))) {
                 outStack.grow(resultStacks.get(i - 3).getCount());
             }
         }
 
-        try (var transaction = Transaction.openOuter()) {
+        try (Transaction transaction = TransferUtil.getTransaction()) {
             if (recipe.getRequiredFluid() != FluidIngredient.EMPTY) {
-                FluidTank inputTank = this.inputfluidTank.orElse(new FluidTank(0));
-                long requiredAmount = recipe.getRequiredFluid().getRequiredAmount();
-
-                inputTank.extract(
-                        inputTank.getFluid().getType(),
-                        requiredAmount,
-                        transaction
-                );
+                this.inputfluidTank.ifPresent(tank ->
+                        tank.extract(recipe.getRequiredFluid().getFluidVariant(), recipe.getRequiredFluid().getRequiredAmount(), transaction));
             }
 
             if (!recipe.getResultFluid().isEmpty()) {
-                FluidTank outputTank = this.outputfluidTank.orElse(new FluidTank(0));
-                FluidStack resultFluid = recipe.getResultFluid();
-
-                outputTank.insert(
-                        resultFluid.getType(),
-                        resultFluid.getAmount(),
-                        transaction
-                );
+                this.outputfluidTank.ifPresent(tank ->
+                        tank.insert(recipe.getResultFluid().getType(), recipe.getResultFluid().getAmount(), transaction));
             }
 
             transaction.commit();

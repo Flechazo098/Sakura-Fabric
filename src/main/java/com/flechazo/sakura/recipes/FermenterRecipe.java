@@ -51,7 +51,7 @@ public class FermenterRecipe extends AbstractRecipe {
     }
 
     public boolean matchesWithFluid(FluidStack fluid, Container inv, Level worldIn) {
-        if(this.getRequiredFluid() == FluidIngredient.EMPTY)
+        if (this.getRequiredFluid() == FluidIngredient.EMPTY)
             return fluid.isEmpty() && matches(inv, worldIn);
         return this.getRequiredFluid().test(fluid) && matches(inv, worldIn);
     }
@@ -72,7 +72,7 @@ public class FermenterRecipe extends AbstractRecipe {
 
     @Override
     public ItemStack assemble(Container inv, RegistryAccess pRegistryAccess) {
-        if(! this.outputItems.isEmpty())
+        if (!this.outputItems.isEmpty())
             return this.outputItems.get(0).copy();
         return ItemStack.EMPTY;
     }
@@ -84,7 +84,7 @@ public class FermenterRecipe extends AbstractRecipe {
 
     @Override
     public ItemStack getResultItem(RegistryAccess pRegistryAccess) {
-        if(! this.outputItems.isEmpty())
+        if (!this.outputItems.isEmpty())
             return this.outputItems.get(0);
         return ItemStack.EMPTY;
     }

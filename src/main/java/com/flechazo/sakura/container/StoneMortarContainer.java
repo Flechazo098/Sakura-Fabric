@@ -1,7 +1,7 @@
 package com.flechazo.sakura.container;
 
-import com.flechazo.sakura.init.BlockRegistry;
 import com.flechazo.sakura.block.entity.StoneMortarBlockEntity;
+import com.flechazo.sakura.init.BlockRegistry;
 import com.flechazo.sakura.init.ContainerRegistry;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
 import io.github.fabricators_of_create.porting_lib.transfer.item.SlotItemHandler;
@@ -76,15 +76,18 @@ public class StoneMortarContainer extends AbstractContainerMenu {
                 if (!this.moveItemStackTo(itemStack1, 6, 42, true)) {
                     return ItemStack.EMPTY;
                 }
+                slot.onQuickCraft(itemStack1, itemStack);
             } else if (index >= 6) {
-                if (index >= 6 && index < 33) {
-                    if (!this.moveItemStackTo(itemStack1, 33, 42, false)) {
+                if (!this.moveItemStackTo(itemStack1, 0, 4, false)) {
+                    if (index >= 6 && index < 33) {
+                        if (!this.moveItemStackTo(itemStack1, 33, 42, false)) {
+                            return ItemStack.EMPTY;
+                        }
+                    } else if (index >= 33 && index < 42 && !this.moveItemStackTo(itemStack1, 6, 33, false)) {
                         return ItemStack.EMPTY;
                     }
-                } else if (index >= 33 && index < 42 && !this.moveItemStackTo(itemStack1, 6, 32, false)) {
-                    return ItemStack.EMPTY;
                 }
-            } else if (!this.moveItemStackTo(itemStack1, 6, 42, false)) {
+            } else if (!this.moveItemStackTo(itemStack1, 6, 43, false)) {
                 return ItemStack.EMPTY;
             }
 

@@ -3,8 +3,8 @@ package com.flechazo.sakura.block.entity;
 import com.flechazo.sakura.capability.ItemHandlerComponent;
 import com.flechazo.sakura.container.StoneMortarContainer;
 import com.flechazo.sakura.init.BlockEntityRegistry;
-import com.flechazo.sakura.inventory.StoneMortarItemHandler;
 import com.flechazo.sakura.init.RecipeTypeRegistry;
+import com.flechazo.sakura.inventory.StoneMortarItemHandler;
 import com.flechazo.sakura.recipes.StoneMortarRecipe;
 import com.flechazo.sakura.utils.LevelUtils;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
@@ -58,6 +58,7 @@ public class StoneMortarBlockEntity extends SyncedBlockEntity implements MenuPro
         this.outputHandler = LazyOptional.of(() -> new StoneMortarItemHandler(inventory, Direction.DOWN));
         this.tileData = createIntArray();
         this.experienceTracker = new Object2IntOpenHashMap<>();
+        this.checkNewRecipe = true;
     }
 
     public static ItemHandlerComponent createItemHandlerComponent(StoneMortarBlockEntity blockEntity) {
@@ -108,9 +109,9 @@ public class StoneMortarBlockEntity extends SyncedBlockEntity implements MenuPro
 
         if (blockEntity.hasInput()) {
             Optional<StoneMortarRecipe> recipe = blockEntity
-                    .getMatchingRecipe(blockEntity.inventory);
-            if (recipe.isPresent() && blockEntity.canWork(recipe.get())) {
-                didInventoryChange = blockEntity.processRecipe(recipe.get());
+                    .getMatchingRecipe(blockEntity.inventory, level);
+            if (recipe.isPresent() && blockEntity.canWork(recipe.get(), level)) {
+                didInventoryChange = blockEntity.processRecipe(recipe.get(), level);
             } else {
                 blockEntity.recipeTime = 0;
             }
@@ -132,7 +133,7 @@ public class StoneMortarBlockEntity extends SyncedBlockEntity implements MenuPro
         return false;
     }
 
-    private Optional<StoneMortarRecipe> getMatchingRecipe(ItemStackHandlerContainer inventoryWrapper) {
+    private Optional<StoneMortarRecipe> getMatchingRecipe(ItemStackHandlerContainer inventoryWrapper, Level level) {
         if (level == null) {
             return Optional.empty();
         }
@@ -160,10 +161,10 @@ public class StoneMortarBlockEntity extends SyncedBlockEntity implements MenuPro
         return Optional.empty();
     }
 
-    protected boolean canWork(StoneMortarRecipe recipe) {
+    protected boolean canWork(StoneMortarRecipe recipe, Level level) {
         if (hasInput()) {
             boolean check_extra = false;
-            ItemStack resultStack = recipe.getResultItem(null);
+            ItemStack resultStack = recipe.getResultItem(level.registryAccess());
 
             if (resultStack.isEmpty()) {
                 return false;
@@ -200,7 +201,7 @@ public class StoneMortarBlockEntity extends SyncedBlockEntity implements MenuPro
         }
     }
 
-    private boolean processRecipe(StoneMortarRecipe recipe) {
+    private boolean processRecipe(StoneMortarRecipe recipe, Level level) {
         if (level == null) {
             return false;
         }
@@ -213,7 +214,7 @@ public class StoneMortarBlockEntity extends SyncedBlockEntity implements MenuPro
 
         recipeTime = 0;
 
-        ItemStack resultStack = recipe.getResultItem(null);
+        ItemStack resultStack = recipe.getResultItem(level.registryAccess());
         ItemStack outStack = inventory.getStackInSlot(4);
         ItemStack extraStack = inventory.getStackInSlot(5);
         ItemStack resultExtraStack = recipe.getResultItemList().size() > 1 ? recipe.getResultItemList().get(1)
@@ -267,6 +268,7 @@ public class StoneMortarBlockEntity extends SyncedBlockEntity implements MenuPro
                     pos, entry.getIntValue(), ((StoneMortarRecipe) recipe).getExperience()));
         }
     }
+
     public ItemStackHandler getInventory() {
         return inventory;
     }

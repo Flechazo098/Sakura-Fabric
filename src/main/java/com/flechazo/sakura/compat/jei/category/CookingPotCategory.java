@@ -1,10 +1,9 @@
 package com.flechazo.sakura.compat.jei.category;
 
 import com.flechazo.sakura.SakuraFabric;
-import com.flechazo.sakura.block.entity.FermenterBlockEntity;
-import com.flechazo.sakura.init.BlockRegistry;
 import com.flechazo.sakura.block.entity.CookingPotBlockEntity;
 import com.flechazo.sakura.compat.jei.JEIPlugin;
+import com.flechazo.sakura.init.BlockRegistry;
 import com.flechazo.sakura.recipes.CookingPotRecipe;
 import com.flechazo.sakura.utils.FluidIngredient;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
@@ -19,6 +18,7 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.NonNullList;
@@ -80,8 +80,7 @@ public class CookingPotCategory implements IRecipeCategory<CookingPotRecipe> {
                 }
             }
         }
-
-        if(recipe.getRequiredFluid() != FluidIngredient.EMPTY) {
+        if (recipe.getRequiredFluid() != FluidIngredient.EMPTY) {
             List<FluidStack> fluidStacks = recipe.getRequiredFluid().getMatchingFluidStacks();
             IRecipeSlotBuilder fluidSlot = builder.addSlot(RecipeIngredientRole.INPUT, 1, 1)
                     .setFluidRenderer(CookingPotBlockEntity.TANK_CAPACITY, false, 16, 52)
@@ -90,7 +89,7 @@ public class CookingPotCategory implements IRecipeCategory<CookingPotRecipe> {
                             Component component = tooltip.get(i);
                             String text = component.getString();
                             if (text.contains("mB")) {
-                                tooltip.set(i, Component.literal(recipe.getRequiredFluid().getRequiredAmount() + " mB / " + CookingPotBlockEntity.TANK_CAPACITY + " mB"));
+                                tooltip.set(i, Component.literal(recipe.getRequiredFluid().getRequiredAmount() + " droplets / " + CookingPotBlockEntity.TANK_CAPACITY + " droplets").withStyle(ChatFormatting.GRAY));
                                 break;
                             }
                         }
@@ -100,10 +99,10 @@ public class CookingPotCategory implements IRecipeCategory<CookingPotRecipe> {
                 fluidSlot.addFluidStack(fluidStack.getFluid(), fluidStack.getAmount(), fluidStack.getTag());
             }
         }
-
         Minecraft minecraft = Minecraft.getInstance();
         builder.addSlot(RecipeIngredientRole.OUTPUT, 120, 22).addItemStack(recipe.getResultItem(minecraft.level.registryAccess()));
     }
+
     @Override
     public void draw(CookingPotRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         arrow.draw(guiGraphics, 82, 18);

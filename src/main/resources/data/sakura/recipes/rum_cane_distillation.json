@@ -2,7 +2,7 @@
   "type": "sakura:distillation",
   "experience": 0.0,
   "fluid": {
-    "amount": 500,
+    "amount": 40500,
     "fluidTag": "c:water/water"
   },
   "ingredients": [
@@ -18,7 +18,7 @@
   ],
   "recipeTime": 400,
   "result_fluid": {
-    "amount": 100,
+    "amount": 8100,
     "fluid": "sakura:rum"
   },
   "results": []

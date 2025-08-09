@@ -10,6 +10,7 @@ import net.minecraft.core.Direction;
 public interface FluidHandlerComponent extends Component {
     /**
      * 获取指定方向的流体存储
+     *
      * @param direction 方向，可以为null表示任意方向
      * @return 流体存储接口
      */
@@ -17,12 +18,14 @@ public interface FluidHandlerComponent extends Component {
 
     /**
      * 获取输入流体存储
+     *
      * @return 输入流体存储
      */
     FluidTank getInputFluidHandler();
 
     /**
      * 获取输出流体存储
+     *
      * @return 输出流体存储
      */
     FluidTank getOutputFluidHandler();

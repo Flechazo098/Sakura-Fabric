@@ -2,7 +2,7 @@
   "type": "sakura:fermenting",
   "experience": 0.0,
   "fluid": {
-    "amount": 200,
+    "amount": 16200,
     "fluidTag": "c:water/water"
   },
   "ingredients": [

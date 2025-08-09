@@ -29,6 +29,7 @@ public class TeishokuBlock extends Block {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     protected static final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 3.0D, 16.0D);
     private final FoodInfo info;
+
     public TeishokuBlock(FoodInfo info) {
         super(Properties.copy(Blocks.OAK_SLAB));
         this.info = info;
@@ -45,6 +46,7 @@ public class TeishokuBlock extends Block {
         super.createBlockStateDefinition(builder);
         builder.add(FACING, BITES);
     }
+
     public FoodInfo getFoodInfo() {
         return this.info;
     }

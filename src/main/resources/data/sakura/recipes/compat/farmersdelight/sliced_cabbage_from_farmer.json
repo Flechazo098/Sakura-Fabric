@@ -1,23 +1,25 @@
 {
-	"fabric:load_conditions": [
-		{
-			"condition": "fabric:all_mods_loaded",
-			"values": ["farmersdelight"]
-		}
-	],
-	"type": "farmersdelight:cutting",
-	"ingredients": [
-		{
-			"item": "sakura:cabbage"
-		}
-	],
-	"tool": {
-		"tag": "c:tools/knives"
-	},
-	"result": [
-		{
-			"item": "sakura:sliced_cabbage",
-			"count": 2
-		}
-	]
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "farmersdelight"
+      ]
+    }
+  ],
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "item": "sakura:cabbage"
+    }
+  ],
+  "tool": {
+    "tag": "c:tools/knives"
+  },
+  "result": [
+    {
+      "item": "sakura:sliced_cabbage",
+      "count": 2
+    }
+  ]
 }

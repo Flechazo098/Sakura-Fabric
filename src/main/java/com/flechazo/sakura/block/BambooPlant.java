@@ -86,14 +86,14 @@ public class BambooPlant extends Block implements BonemealableBlock {
 
     public void spreadingTick(ServerLevel level, BlockPos pos, RandomSource random) {
         int heightAbove = this.getHeightAboveUpToMax(level, pos) + 1;
-        if(heightAbove >= MAX_HEIGHT && (level.isRaining() || random.nextFloat() < 0.15)) {
+        if (heightAbove >= MAX_HEIGHT && (level.isRaining() || random.nextFloat() < 0.15)) {
             growBambooShoot(level, pos, random);
         }
     }
 
     public void growingTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         int heightBelow = this.getHeightBelowUpToMax(level, pos) + 1;
-        if(heightBelow < MAX_HEIGHT && level.isEmptyBlock(pos.above())) {
+        if (heightBelow < MAX_HEIGHT && level.isEmptyBlock(pos.above())) {
             this.growBamboo(state, level, pos, random, heightBelow);
         }
     }

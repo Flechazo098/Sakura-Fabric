@@ -28,6 +28,7 @@ public class RecipeSerializerRegistry {
         CHOPPING_RECIPE_SERIALIZER = registerRecipeSerializer(
                 "chopping", new AbstractRecipeSerializer<>(ChoppingRecipe.class));
     }
+
     private static <T extends RecipeSerializer<?>> T registerRecipeSerializer(String path, T serializer) {
         ResourceLocation id = new ResourceLocation(SakuraFabric.MODID, path);
         return Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, id, serializer);

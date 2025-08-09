@@ -1,7 +1,7 @@
 package com.flechazo.sakura.container;
 
-import com.flechazo.sakura.init.BlockRegistry;
 import com.flechazo.sakura.block.entity.DistillerBlockEntity;
+import com.flechazo.sakura.init.BlockRegistry;
 import com.flechazo.sakura.init.ContainerRegistry;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
 import io.github.fabricators_of_create.porting_lib.transfer.item.SlotItemHandler;

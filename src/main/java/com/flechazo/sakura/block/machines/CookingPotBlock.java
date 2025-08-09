@@ -1,17 +1,17 @@
 package com.flechazo.sakura.block.machines;
 
-import com.flechazo.sakura.init.BlockEntityRegistry;
 import com.flechazo.sakura.block.entity.CookingPotBlockEntity;
+import com.flechazo.sakura.init.BlockEntityRegistry;
 import com.flechazo.sakura.tags.SakuraBlockTags;
-import com.flechazo.sakura.utils.TransferFluidUtil;
+import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
 import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTank;
-import io.github.fabricators_of_create.porting_lib.transfer.fluid.item.FluidBucketWrapper;
 import io.github.fabricators_of_create.porting_lib.util.NetworkHooks;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorageUtil;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
@@ -22,6 +22,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -120,41 +121,99 @@ public class CookingPotBlock extends BaseEntityBlock {
     // 流体处理逻辑
     private boolean handleFluidInteraction(Level level, Player player, InteractionHand hand, CookingPotBlockEntity be, BlockHitResult hit) {
         ItemStack stack = player.getItemInHand(hand);
+        FluidTank fluidTank = be.getFluidTank().orElse(null);
 
-        // 尝试使用TransferFluidUtil进行流体交互
+        // 创建物品上下文
         ContainerItemContext itemContext = ContainerItemContext.withConstant(stack);
-        FluidBucketWrapper fluidHandler = new FluidBucketWrapper(itemContext);
+        Storage<FluidVariant> itemStorage = itemContext.find(FluidStorage.ITEM);
+        if (itemStorage == null) return false;
 
-        if (fluidHandler != null) {
-            FluidTank fluidTank = be.getFluidTank().orElse(null);
-            if (fluidTank != null) {
-                boolean success = TransferFluidUtil.tryTransferFluid(player, hand, fluidTank, fluidHandler);
-                if (success) {
-                    if (fluidHandler.getFluid().isEmpty()) {
+        boolean success = false;
+
+        // 空桶提取流体
+        if (stack.getItem() == Items.BUCKET) {
+            if (!fluidTank.getFluid().isEmpty() && fluidTank.getFluid().getAmount() >= FluidConstants.BUCKET) {
+                FluidVariant fluidToExtract = fluidTank.getFluid().getType();
+                try (Transaction transaction = TransferUtil.getTransaction()) {
+                    // 将流体从储罐传输到桶
+                    long extracted = fluidTank.extract(fluidTank.getFluid().getType(), FluidConstants.BUCKET, transaction);
+                    if (extracted == FluidConstants.BUCKET) {
+                        ItemStack filledBucket = TransferUtil.getFilledBucket(fluidToExtract);
+                        transaction.commit();
+
+                        // 更新玩家手中的物品
+                        if (!player.getAbilities().instabuild) {
+                            stack.shrink(1);
+                            if (stack.isEmpty()) {
+                                player.setItemInHand(hand, filledBucket);
+                            } else if (!player.getInventory().add(filledBucket)) {
+                                player.drop(filledBucket, false);
+                            }
+                        }
+
                         level.playSound(null, be.getBlockPos(), SoundEvents.BUCKET_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
-                    } else {
-                        level.playSound(null, be.getBlockPos(), SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
+                        success = true;
                     }
-                    be.setChanged();
-                    return true;
                 }
             }
-            return false;
+        }
+        // 有液体的桶注入流体
+        else if (itemStorage.supportsExtraction()) {
+            FluidVariant fluidInItem = null;
+            long amountInItem = 0;
+
+            // 获取桶中的流体
+            try (Transaction tx = TransferUtil.getTransaction()) {
+                for (var view : itemStorage.nonEmptyViews()) {
+                    fluidInItem = view.getResource();
+                    amountInItem = view.getAmount();
+                    break;
+                }
+            }
+
+            if (fluidInItem != null && amountInItem >= FluidConstants.BUCKET) {
+                // 检查流体槽是否为空或者流体类型相同
+                if (fluidTank.getFluid().isEmpty() || fluidTank.getFluid().getType().equals(fluidInItem)) {
+                    // 检查流体槽是否有足够空间
+                    long spaceAvailable = fluidTank.getCapacity() - fluidTank.getAmount();
+                    if (spaceAvailable >= FluidConstants.BUCKET) {
+                        try (Transaction transaction = TransferUtil.getTransaction()) {
+                            // 将流体从桶传输到储罐
+                            long inserted = fluidTank.insert(fluidInItem, FluidConstants.BUCKET, transaction);
+                            if (inserted == FluidConstants.BUCKET) {
+                                // 从物品中提取流体
+                                long extracted = itemStorage.extract(fluidInItem, FluidConstants.BUCKET, transaction);
+                                if (extracted == FluidConstants.BUCKET) {
+                                    transaction.commit();
+
+                                    // 更新玩家手中的物品
+                                    if (!player.getAbilities().instabuild) {
+                                        ItemStack emptyBucket = new ItemStack(Items.BUCKET);
+                                        stack.shrink(1);
+                                        if (stack.isEmpty()) {
+                                            player.setItemInHand(hand, emptyBucket);
+                                        } else if (!player.getInventory().add(emptyBucket)) {
+                                            player.drop(emptyBucket, false);
+                                        }
+                                    }
+
+                                    level.playSound(null, be.getBlockPos(), SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
+                                    success = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
-        // 如果不是使用TransferFluidUtil，则尝试使用Fabric API的流体交互
-        Storage<FluidVariant> itemFluidStorage = FluidStorage.ITEM.find(stack, ContainerItemContext.ofPlayerHand(player, hand));
-        if (itemFluidStorage != null) {
-            Storage<FluidVariant> blockFluidStorage = FluidStorage.SIDED.find(level, be.getBlockPos(), be.getBlockState(), be, hit.getDirection());
-            if (blockFluidStorage != null) {
-                if (FluidStorageUtil.interactWithFluidStorage(blockFluidStorage, player, hand)) {
-                    be.setChanged();
-                    return true;
-                }
-            }
+        if (success) {
+            be.setChanged();
         }
-        return false;
+
+        return success;
     }
+
     @SuppressWarnings("deprecation")
     @Override
     public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {

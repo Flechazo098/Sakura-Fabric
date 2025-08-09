@@ -1,22 +1,11 @@
 package com.flechazo.sakura;
 
-import com.flechazo.sakura.init.BlockItemRegistry;
-import com.flechazo.sakura.init.BlockRegistry;
-import com.flechazo.sakura.init.BlockEntityRegistry;
-import com.flechazo.sakura.init.ContainerRegistry;
 import com.flechazo.sakura.core.events.BurnTimeEvent;
 import com.flechazo.sakura.core.events.TreeEvent;
+import com.flechazo.sakura.init.*;
 import com.flechazo.sakura.init.fluid.BucketItemRegistry;
 import com.flechazo.sakura.init.fluid.FluidBlockRegistry;
-import com.flechazo.sakura.init.FluidRegistry;
 import com.flechazo.sakura.init.fluid.FluidTypeRegistry;
-import com.flechazo.sakura.init.CreativeModeTabRegistry;
-import com.flechazo.sakura.init.ComposterRegistry;
-import com.flechazo.sakura.init.FoodRegistry;
-import com.flechazo.sakura.init.ItemRegistry;
-import com.flechazo.sakura.init.LootModifiterRegistry;
-import com.flechazo.sakura.init.RecipeSerializerRegistry;
-import com.flechazo.sakura.init.RecipeTypeRegistry;
 import com.mojang.logging.LogUtils;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
@@ -49,6 +38,7 @@ public class SakuraFabric implements ModInitializer {
                         new ResourceLocation(SakuraFabric.MODID, "patch_bambooshoot"))
         );
     }
+
     @Override
     public void onInitialize() {
 

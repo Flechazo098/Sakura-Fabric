@@ -1,10 +1,10 @@
 package com.flechazo.sakura.client.render.blockentity;
 
 import com.flechazo.sakura.SakuraFabric;
-import com.flechazo.sakura.init.BlockRegistry;
 import com.flechazo.sakura.block.entity.StoneMortarBlockEntity;
 import com.flechazo.sakura.block.machines.StoneMortarBlock;
 import com.flechazo.sakura.client.render.layers.LayerRegistry;
+import com.flechazo.sakura.init.BlockRegistry;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -19,7 +19,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-public  class StoneMortarRenderer implements BlockEntityRenderer<StoneMortarBlockEntity> {
+public class StoneMortarRenderer implements BlockEntityRenderer<StoneMortarBlockEntity> {
 
     private final ModelPart top;
     private final ModelPart bb_main;

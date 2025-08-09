@@ -13,8 +13,9 @@ import net.minecraft.world.level.block.Block;
 
 import java.util.List;
 
-public class ItemFoodSeeds extends ItemNameBlockItem implements IFoodLike{
+public class ItemFoodSeeds extends ItemNameBlockItem implements IFoodLike {
     private final FoodInfo info;
+
     public ItemFoodSeeds(Block block, Item.Properties prop, FoodInfo info) {
         super(block, prop);
         this.info = info;
@@ -45,10 +46,10 @@ public class ItemFoodSeeds extends ItemNameBlockItem implements IFoodLike{
     @Override
     public void appendHoverText(ItemStack itemStack, Level level, List<Component> tooltips, TooltipFlag flag) {
         super.appendHoverText(itemStack, level, tooltips, flag);
-        if(!this.shouldAddEffectTooltips())
+        if (!this.shouldAddEffectTooltips())
             return;
 
-        if(!this.getFoodInfo().getEffects().isEmpty()) {
+        if (!this.getFoodInfo().getEffects().isEmpty()) {
             this.addEffectTooltips(tooltips);
         }
     }

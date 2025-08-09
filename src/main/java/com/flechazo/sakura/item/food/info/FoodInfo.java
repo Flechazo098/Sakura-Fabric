@@ -212,7 +212,7 @@ public class FoodInfo {
     }
 
     public float[] getNutrients() {
-        return new float[] { grain, fruit, veg, meat, dairy };
+        return new float[]{grain, fruit, veg, meat, dairy};
     }
 
     public boolean isHeatable() {

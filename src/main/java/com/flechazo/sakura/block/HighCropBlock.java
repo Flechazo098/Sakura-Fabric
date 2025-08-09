@@ -13,7 +13,6 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
@@ -49,7 +48,7 @@ public class HighCropBlock extends BaseCropBlock {
         if (!worldIn.getBlockState(downpos).is(this)) {
             return super.canSurvive(state, worldIn, pos);
         } else {
-            return !(Boolean)worldIn.getBlockState(downpos).getValue(this.getUpperProperty()) && (worldIn.getRawBrightness(pos, 0) >= 8 || worldIn.canSeeSky(pos)) && this.getAge(worldIn.getBlockState(downpos)) >= this.getGrowUpperAge();
+            return !(Boolean) worldIn.getBlockState(downpos).getValue(this.getUpperProperty()) && (worldIn.getRawBrightness(pos, 0) >= 8 || worldIn.canSeeSky(pos)) && this.getAge(worldIn.getBlockState(downpos)) >= this.getGrowUpperAge();
         }
     }
 
@@ -61,12 +60,12 @@ public class HighCropBlock extends BaseCropBlock {
         if (worldIn.isAreaLoaded(pos, 1)) {
             float f = getGrowthSpeed(this, worldIn, pos);
             int age = this.getAge(state);
-            if (worldIn.getRawBrightness(pos, 0) >= 9 && age < this.getMaxAge() && rand.nextInt((int)(25.0F / f) + 1) == 0) {
+            if (worldIn.getRawBrightness(pos, 0) >= 9 && age < this.getMaxAge() && rand.nextInt((int) (25.0F / f) + 1) == 0) {
                 worldIn.setBlock(pos, this.getStateForAge(age + 1).setValue(this.getUpperProperty(), state.getValue(this.getUpperProperty())), 2);
             }
 
-            if (!(Boolean)state.getValue(this.getUpperProperty())) {
-                if (age >= this.getGrowUpperAge() &&  rand.nextInt((int)(25.0F / f) + 1) == 0 && this.defaultBlockState().canSurvive(worldIn, pos.above()) && worldIn.isEmptyBlock(pos.above())) {
+            if (!(Boolean) state.getValue(this.getUpperProperty())) {
+                if (age >= this.getGrowUpperAge() && rand.nextInt((int) (25.0F / f) + 1) == 0 && this.defaultBlockState().canSurvive(worldIn, pos.above()) && worldIn.isEmptyBlock(pos.above())) {
                     worldIn.setBlockAndUpdate(pos.above(), this.defaultBlockState().setValue(this.getUpperProperty(), true));
                 }
 
@@ -101,7 +100,7 @@ public class HighCropBlock extends BaseCropBlock {
 
             BlockState top = worldIn.getBlockState(pos.above());
             if (top.is(this)) {
-                BonemealableBlock growable = (BonemealableBlock)worldIn.getBlockState(pos.above()).getBlock();
+                BonemealableBlock growable = (BonemealableBlock) worldIn.getBlockState(pos.above()).getBlock();
                 if (growable.isValidBonemealTarget(worldIn, pos.above(), top, false)) {
                     growable.performBonemeal(worldIn, worldIn.random, pos.above(), top);
                 }

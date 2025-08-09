@@ -1,7 +1,6 @@
 package com.flechazo.sakura.init;
 
 import com.flechazo.sakura.SakuraFabric;
-
 import com.flechazo.sakura.recipes.*;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -33,8 +32,8 @@ public class RecipeTypeRegistry {
     private record SakuraRecipeType<T extends Recipe<?>>(ResourceLocation id) implements RecipeType<T> {
 
         @Override
-            public String toString () {
-                return id.toString();
-            }
+        public String toString() {
+            return id.toString();
         }
+    }
 }

@@ -4,12 +4,13 @@ import com.flechazo.sakura.capability.FluidHandlerComponent;
 import com.flechazo.sakura.capability.ItemHandlerComponent;
 import com.flechazo.sakura.container.FermenterContainer;
 import com.flechazo.sakura.init.BlockEntityRegistry;
+import com.flechazo.sakura.init.RecipeTypeRegistry;
 import com.flechazo.sakura.inventory.FermenterItemHandler;
 import com.flechazo.sakura.recipes.FermenterRecipe;
-import com.flechazo.sakura.init.RecipeTypeRegistry;
 import com.flechazo.sakura.utils.FluidIngredient;
 import com.flechazo.sakura.utils.LevelUtils;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
 import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTank;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandlerContainer;
@@ -44,13 +45,13 @@ import java.util.Optional;
 
 public class FermenterBlockEntity extends SyncedBlockEntity implements MenuProvider {
 
-    public static final int TANK_CAPACITY = 8000;
+    public static final long TANK_CAPACITY = 324000;
     private final ItemStackHandlerContainer inventory;
-    private LazyOptional<SlottedStackStorage> inputHandler;
-    private LazyOptional<SlottedStackStorage> outputHandler;
+    private final LazyOptional<SlottedStackStorage> inputHandler;
+    private final LazyOptional<SlottedStackStorage> outputHandler;
 
-    private LazyOptional<FluidTank> inputfluidTank;
-    private LazyOptional<FluidTank> outputfluidTank;
+    private final LazyOptional<FluidTank> inputfluidTank;
+    private final LazyOptional<FluidTank> outputfluidTank;
     protected final ContainerData tileData;
     private final Object2IntOpenHashMap<ResourceLocation> experienceTracker;
 
@@ -70,6 +71,7 @@ public class FermenterBlockEntity extends SyncedBlockEntity implements MenuProvi
         this.inputfluidTank = LazyOptional.of(this::createInputFluidHandler);
         this.outputfluidTank = LazyOptional.of(this::createFluidHandler);
         this.experienceTracker = new Object2IntOpenHashMap<>();
+        this.checkNewRecipe = true;
     }
 
     public static ItemHandlerComponent createItemHandlerComponent(FermenterBlockEntity blockEntity) {
@@ -165,7 +167,7 @@ public class FermenterBlockEntity extends SyncedBlockEntity implements MenuProvi
     }
 
     private boolean hasInput() {
-        if(this.inputfluidTank.isPresent()) {
+        if (this.inputfluidTank.isPresent()) {
             return !this.inputfluidTank.orElse(new FluidTank(0)).isEmpty();
         }
 
@@ -176,6 +178,7 @@ public class FermenterBlockEntity extends SyncedBlockEntity implements MenuProvi
         }
         return false;
     }
+
     private Optional<FermenterRecipe> getMatchingRecipe(Container inventoryWrapper) {
         if (level == null) {
             return Optional.empty();
@@ -196,7 +199,7 @@ public class FermenterBlockEntity extends SyncedBlockEntity implements MenuProvi
         if (checkNewRecipe) {
             List<FermenterRecipe> recipes = level.getRecipeManager()
                     .getRecipesFor(RecipeTypeRegistry.FERMENTER_RECIPE_TYPE, inventoryWrapper, level);
-            for(FermenterRecipe recipe : recipes) {
+            for (FermenterRecipe recipe : recipes) {
                 if (recipe.matchesWithFluid(
                         this.inputfluidTank.orElse(new FluidTank(0)).getFluid(), inventoryWrapper, level)) {
                     lastRecipeID = recipe.getId();
@@ -264,38 +267,22 @@ public class FermenterBlockEntity extends SyncedBlockEntity implements MenuProvi
             ItemStack outStack = inventory.getStackInSlot(i);
             if (outStack.isEmpty()) {
                 inventory.setStackInSlot(i, resultStacks.get(i - 3).copy());
-            } else if (ItemStack.isSameItem(outStack,resultStacks.get(i - 3))) {
+            } else if (ItemStack.isSameItem(outStack, resultStacks.get(i - 3))) {
                 outStack.grow(resultStacks.get(i - 3).getCount());
             }
         }
 
-        // 使用 Fabric 的事务 API 处理流体操作
-        try (var transaction =  Transaction.openOuter()) {
+        try (Transaction transaction = TransferUtil.getTransaction()) {
             if (recipe.getRequiredFluid() != FluidIngredient.EMPTY) {
-                FluidTank inputTank = this.inputfluidTank.orElse(new FluidTank(0));
-                long requiredAmount = recipe.getRequiredFluid().getRequiredAmount();
-
-                // 在事务中提取流体
-                inputTank.extract(
-                        inputTank.getFluid().getType(),
-                        requiredAmount,
-                        transaction
-                );
+                this.inputfluidTank.ifPresent(tank ->
+                        tank.extract(recipe.getRequiredFluid().getFluidVariant(), recipe.getRequiredFluid().getRequiredAmount(), transaction));
             }
 
             if (!recipe.getResultFluid().isEmpty()) {
-                FluidTank outputTank = this.outputfluidTank.orElse(new FluidTank(0));
-                FluidStack resultFluid = recipe.getResultFluid();
-
-                // 在事务中插入流体
-                outputTank.insert(
-                        resultFluid.getType(),
-                        resultFluid.getAmount(),
-                        transaction
-                );
+                this.outputfluidTank.ifPresent(tank ->
+                        tank.insert(recipe.getResultFluid().getType(), recipe.getResultFluid().getAmount(), transaction));
             }
 
-            // 提交事务
             transaction.commit();
         }
 
@@ -316,6 +303,7 @@ public class FermenterBlockEntity extends SyncedBlockEntity implements MenuProvi
         }
         return true;
     }
+
     public void trackRecipeExperience(@Nullable Recipe<?> recipe) {
         if (recipe != null) {
             ResourceLocation recipeID = recipe.getId();
@@ -425,14 +413,11 @@ public class FermenterBlockEntity extends SyncedBlockEntity implements MenuProvi
         return new ContainerData() {
             @Override
             public int get(int index) {
-                switch (index) {
-                    case 0:
-                        return FermenterBlockEntity.this.recipeTime;
-                    case 1:
-                        return FermenterBlockEntity.this.recipeTimeTotal;
-                    default:
-                        return 0;
-                }
+                return switch (index) {
+                    case 0 -> FermenterBlockEntity.this.recipeTime;
+                    case 1 -> FermenterBlockEntity.this.recipeTimeTotal;
+                    default -> 0;
+                };
             }
 
             @Override

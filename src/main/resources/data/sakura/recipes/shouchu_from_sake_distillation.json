@@ -2,14 +2,14 @@
   "type": "sakura:distillation",
   "experience": 0.0,
   "fluid": {
-    "amount": 1000,
+    "amount": 81000,
     "fluid": "sakura:sake",
     "nbt": {}
   },
   "ingredients": [],
   "recipeTime": 400,
   "result_fluid": {
-    "amount": 500,
+    "amount": 40500,
     "fluid": "sakura:shouchu"
   },
   "results": []

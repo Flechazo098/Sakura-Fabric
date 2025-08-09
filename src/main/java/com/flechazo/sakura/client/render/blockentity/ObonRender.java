@@ -42,6 +42,7 @@ public class ObonRender implements BlockEntityRenderer<ObonBlockEntity> {
             poseStack.popPose();
         }
     }
+
     public void renderItemLayingDown(PoseStack matrixStackIn, Direction direction) {
         // Center item above the cutting board
         matrixStackIn.translate(0.5D, 0.16D, 0.5D);

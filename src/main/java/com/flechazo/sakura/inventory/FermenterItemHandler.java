@@ -99,11 +99,38 @@ public class FermenterItemHandler implements SlottedStackStorage {
         return 0;
     }
 
-    @Override public ItemStack getStackInSlot(int slot) { return storage.getStackInSlot(slot); }
-    @Override public void setStackInSlot(int slot, ItemStack stack) { storage.setStackInSlot(slot, stack); }
-    @Override public int getSlotLimit(int slot) { return storage.getSlotLimit(slot); }
-    @Override public boolean isItemValid(int slot, ItemVariant resource, int count) { return storage.isItemValid(slot, resource, count); }
-    @Override public int getSlotCount() { return storage.getSlotCount(); }
-    @Override public SingleSlotStorage<ItemVariant> getSlot(int slot) { return storage.getSlot(slot); }
-    @Override public Iterator<StorageView<ItemVariant>> iterator() { return storage.iterator(); }
+    @Override
+    public ItemStack getStackInSlot(int slot) {
+        return storage.getStackInSlot(slot);
+    }
+
+    @Override
+    public void setStackInSlot(int slot, ItemStack stack) {
+        storage.setStackInSlot(slot, stack);
+    }
+
+    @Override
+    public int getSlotLimit(int slot) {
+        return storage.getSlotLimit(slot);
+    }
+
+    @Override
+    public boolean isItemValid(int slot, ItemVariant resource, int count) {
+        return storage.isItemValid(slot, resource, count);
+    }
+
+    @Override
+    public int getSlotCount() {
+        return storage.getSlotCount();
+    }
+
+    @Override
+    public SingleSlotStorage<ItemVariant> getSlot(int slot) {
+        return storage.getSlot(slot);
+    }
+
+    @Override
+    public Iterator<StorageView<ItemVariant>> iterator() {
+        return storage.iterator();
+    }
 }

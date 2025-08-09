@@ -19,11 +19,11 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public interface IFoodLike {
-    public FoodInfo getFoodInfo();
+    FoodInfo getFoodInfo();
 
-    public boolean shouldAddEffectTooltips();
+    boolean shouldAddEffectTooltips();
 
-    public default void addEffectTooltips(List<Component> tooltips) {
+    default void addEffectTooltips(List<Component> tooltips) {
         List<Pair<Supplier<MobEffectInstance>, Float>> effectList = this.getFoodInfo().getEffects();
         if (effectList.isEmpty()) {
             tooltips.add(Component.translatable("effect.none").withStyle(ChatFormatting.GRAY));

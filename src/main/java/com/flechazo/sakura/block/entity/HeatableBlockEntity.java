@@ -16,13 +16,13 @@ public interface HeatableBlockEntity {
     default boolean isHeated(Level level, BlockPos pos) {
         BlockState stateBelow = level.getBlockState(pos.below());
         if (stateBelow.is(this.heatSourceTag())) {
-            return stateBelow.hasProperty(BlockStateProperties.LIT) ? (Boolean)stateBelow.getValue(BlockStateProperties.LIT) : true;
+            return stateBelow.hasProperty(BlockStateProperties.LIT) ? stateBelow.getValue(BlockStateProperties.LIT) : true;
         } else {
             if (!this.requiresDirectHeat() && stateBelow.is(this.heatConductorTag())) {
                 BlockState stateFurtherBelow = level.getBlockState(pos.below(2));
                 if (stateFurtherBelow.is(this.heatSourceTag())) {
                     if (stateFurtherBelow.hasProperty(BlockStateProperties.LIT)) {
-                        return (Boolean)stateFurtherBelow.getValue(BlockStateProperties.LIT);
+                        return stateFurtherBelow.getValue(BlockStateProperties.LIT);
                     }
 
                     return true;
@@ -33,11 +33,11 @@ public interface HeatableBlockEntity {
         }
     }
 
-    default TagKey<Block> heatSourceTag(){
+    default TagKey<Block> heatSourceTag() {
         return CommonTags.HEAT_SOURCES;
     }
 
-    default TagKey<Block> heatConductorTag(){
+    default TagKey<Block> heatConductorTag() {
         return CommonTags.HEAT_CONDUCTORS;
     }
 

@@ -1,7 +1,7 @@
 package com.flechazo.sakura.block.foods;
 
-import com.flechazo.sakura.init.BlockRegistry;
 import com.flechazo.sakura.block.entity.HeatableBlockEntity;
+import com.flechazo.sakura.init.BlockRegistry;
 import com.flechazo.sakura.item.food.info.FoodInfo;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -37,6 +37,7 @@ public class NabeBlock extends Block implements HeatableBlockEntity {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     protected static final VoxelShape SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 8.0D, 15.0D);
     private final FoodInfo info;
+
     public NabeBlock(FoodInfo info) {
         super(Properties.copy(BlockRegistry.COOKING_POT));
         this.info = info;
@@ -50,8 +51,8 @@ public class NabeBlock extends Block implements HeatableBlockEntity {
 
     @Override
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand) {
-        if(state.getValue(IS_COOKED)) return;
-        if(this.isHeated(level, pos) && rand.nextInt(10) == 0) {
+        if (state.getValue(IS_COOKED)) return;
+        if (this.isHeated(level, pos) && rand.nextInt(10) == 0) {
             level.playSound(null, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1F, 0.8F);
             level.setBlock(pos, state.setValue(IS_COOKED, true), UPDATE_ALL);
         }
@@ -59,8 +60,8 @@ public class NabeBlock extends Block implements HeatableBlockEntity {
 
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource rand) {
-        if(state.getValue(IS_COOKED)) return;
-        if(this.isHeated(level, pos) && rand.nextInt(4) == 0) {
+        if (state.getValue(IS_COOKED)) return;
+        if (this.isHeated(level, pos) && rand.nextInt(4) == 0) {
             double x = (double) pos.getX() + 0.5D + (rand.nextDouble() * 0.6D - 0.3D);
             double y = (double) pos.getY() + 0.75D;
             double z = (double) pos.getZ() + 0.5D + (rand.nextDouble() * 0.6D - 0.3D);
@@ -78,6 +79,7 @@ public class NabeBlock extends Block implements HeatableBlockEntity {
         super.createBlockStateDefinition(builder);
         builder.add(IS_COOKED, FACING, BITES);
     }
+
     public FoodInfo getFoodInfo() {
         return this.info;
     }
@@ -106,7 +108,7 @@ public class NabeBlock extends Block implements HeatableBlockEntity {
         if (!state.getValue(IS_COOKED)) {
             player.displayClientMessage(Component.translatable("sakura.block.nabe.not_cooked"), true);
             return InteractionResult.FAIL;
-        }else if (!player.canEat(false)) {
+        } else if (!player.canEat(false)) {
             return InteractionResult.PASS;
         } else {
             player.getFoodData().eat(this.getFoodInfo().getAmount(), this.getFoodInfo().getCalories());

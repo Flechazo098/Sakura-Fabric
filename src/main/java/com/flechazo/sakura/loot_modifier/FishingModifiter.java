@@ -12,7 +12,7 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 public class FishingModifiter {
     private static final ResourceLocation FISHING_ID = new ResourceLocation("minecraft", "gameplay/fishing");
 
-    public static void register () {
+    public static void register() {
         LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
 
             if (FISHING_ID.equals(id)) {

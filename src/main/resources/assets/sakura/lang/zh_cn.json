@@ -14,6 +14,10 @@
 	"block.sakura.tatami_carpet": "榻榻米地毯",
 	"block.sakura.tatami_tan_ns_carpet": "无边缘榻榻米地毯（日晒）",
 	"block.sakura.tatami_ns_carpet": "无边缘榻榻米地毯",
+
+	"block.sakura.tatami_waxed":"榻榻米（涂蜡）",
+	"block.sakura.tatami_slab_waxed":"榻榻米台阶（涂蜡）",
+
 	"block.sakura.bamboo_door": "竹门",
 
 	"block.sakura.bamboo_shoot": "竹笋",
@@ -131,17 +135,22 @@
 	"block.sakura.teishoku_fish_raw": "生鱼片定食",
 	"block.sakura.teishoku_fish_cooked": "烤鱼定食",
 	"block.sakura.teishoku_fish_salt": "盐烤鱼定食",
-	
+
 	"block.sakura.nabe_sukiyaki": "寿喜烧锅",
 	"block.sakura.nabe_oden": "关东煮锅",
-	
 
-	"item.sakura.machined_fish": "加工鱼肉",
+	"item.sakura.kaeshi":"调味酱油",
+	"item.sakura.nuka":"米糠",
+	"item.sakura.mirin_kasu":"味淋粕",
+	"item.sakura.pickled_radish":"腌萝卜",
+	"item.sakura.pickled_eggplant":"腌茄子",
+
+	"item.sakura.machined_fish": "鱼片",
 	"item.sakura.futon": "布团",
 	"item.sakura.silk": "丝绸",
 	"item.sakura.bento_box": "便当盒",
 	"item.sakura.charcoal_powder":"炭粉",
-    "item.sakura.kouji":"米曲",
+	"item.sakura.kouji":"米曲",
 
 	"item.sakura.matsutake": "松茸",
 	"item.sakura.shimeji": "食用菌",
@@ -151,14 +160,14 @@
 	"item.sakura.nimono_fish": "鱼煮物",
 	"item.sakura.nimono_radish": "大根煮物",
 	"item.sakura.nimono_pumpkin": "南瓜煮物",
-	
+
 	"item.sakura.minced_meat": "肉糜",
 	"item.sakura.surimi": "鱼糜",
 	"item.sakura.soysauce": "酱油",
 	"item.sakura.dashi": "高汤",
 	"item.sakura.mirin": "味淋",
 	"item.sakura.sake_kasu": "清酒酒糟",
-	
+
 	"item.sakura.kamaboko": "蒲鉾",
 	"item.sakura.chikuwa_raw": "生竹轮",
 	"item.sakura.chikuwa": "竹轮",
@@ -190,9 +199,9 @@
 	"item.sakura.pudding_mocha": "抹茶布丁",
 	"item.sakura.mocha_cookie": "抹茶曲奇",
 	"item.sakura.taiyaki_mocha": "抹茶鲷鱼烧",
-	
+
 	"item.sakura.soybean":"大豆",
-    "item.sakura.molasses":"糖蜜",
+	"item.sakura.molasses":"糖蜜",
 
 	"item.sakura.soup_miso": "味噌汤",
 	"item.sakura.yaki_pasta": "意面",
@@ -443,7 +452,6 @@
 
 	"item.sakura:sakura_guide": "农夫指南",
 
-	"item.sakura.kaeshi": "调味面汁",
 	"item.sakura.noodle_soup": "面汤",
 	"item.sakura.soysause": "酱油",
 	"item.sakura.rice_redbean": "红豆饭",
@@ -648,10 +656,10 @@
 	"container.sakura.cooking_pot": "烹饪锅",
 
 	"sakura.block.nabe.not_cooked":"还没煮熟。",
-	
+
 	"container.sakura.distiller":"蒸馏桶",
 	"container.sakura.fermenter":"酿造桶",
-	
+
 	"barrel.contains.fluid": "这个桶含有%1$s液体",
 	"barrel.contains.nonfluid": "这个桶是空的",
 
@@ -671,26 +679,21 @@
 	"entity.Villager.wa_silk": "丝绸商人",
 
 	"guide.sakura_guide.landing_text": "世界上有许多作物。而本书主要收录收割者必须掌握的作物知识。",
-	
+
 	"sakura.jei.chopping.count":"需要切%s刀",
 
 	"itemGroup.sakura": "樱",
 
 	"wailaharvestability.toolclass.forging_hammer": "锻造锤",
 
-	"sakura.tooltip.campfire.fire_remain": "剩余燃料: %1$s Ticks",
-	"sakura.tooltip.campfire.item_in": "篝火里的物品: %1$s",
+	"sakuratooltip.campfire.fire_remain": "剩余燃料: %1$s Ticks",
+	"sakuratooltip.campfire.item_in": "篝火里的物品: %1$s",
 
-	"sakura.effect.scorpion": "蝎毒",
-	"sakura.effect.cannon": "大炮",
-	"sakura.effect.exp_up": "经验提升",
-	"sakura.effect.fire_blade": "火焰之刃",
-	"sakura.effect.golden_heart": "金色生命",
-	"sakura.effect.poisom": "毒药",
-
-	"text.autoconfig.sakura.title": "樱 配置",
-	"text.autoconfig.sakura.option.seedDropConfig": "种子掉落率配置",
-	"text.autoconfig.sakura.option.seedDropConfig.globalDropRate": "全局种子掉落率配置",
-	"text.autoconfig.sakura.option.seedDropConfig.globalDropRate.@Tooltip": "(默认: 0.1) - 降低此值将减少所有种子的掉落概率"
+	"sakuraeffect.scorpion": "蝎毒",
+	"sakuraeffect.cannon": "大炮",
+	"sakuraeffect.exp_up": "经验提升",
+	"sakuraeffect.fire_blade": "火焰之刃",
+	"sakuraeffect.golden_heart": "金色生命",
+	"sakuraeffect.poisom": "毒药"
 
 }

@@ -24,8 +24,8 @@ public class ComposterRegistry {
     }
 
     private static void register(Item item) {
-        if(item instanceof IFoodLike food) {
-            if(food.getFoodInfo().getCompostChance() > 0) register(item, food.getFoodInfo().getCompostChance());
+        if (item instanceof IFoodLike food) {
+            if (food.getFoodInfo().getCompostChance() > 0) register(item, food.getFoodInfo().getCompostChance());
         }
     }
 

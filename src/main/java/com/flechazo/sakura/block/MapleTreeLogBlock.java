@@ -35,13 +35,14 @@ public class MapleTreeLogBlock extends RotatedPillarBlock implements BlockExtens
                                 : MapColor.PODZOL))
                 .strength(2.0F).sound(SoundType.WOOD));
     }
+
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand,
                                  BlockHitResult hitresult) {
         ItemStack itemstack = player.getItemInHand(hand);
         if (itemstack.canPerformAction(ToolActions.SHEARS_CARVE)) {
             if (!level.isClientSide) {
-                level.playSound((Player) null, pos, SoundEvents.WOOD_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
+                level.playSound(null, pos, SoundEvents.WOOD_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
                 level.setBlock(pos, BlockRegistry.MAPLE_SAP_LOG.withPropertiesOf(state)
                         .setValue(MapleTreeSapLogBlock.EXHAUSTION, false), 11);
                 itemstack.hurtAndBreak(1, player, tool -> {
@@ -72,7 +73,7 @@ public class MapleTreeLogBlock extends RotatedPillarBlock implements BlockExtens
             Player player = context.getPlayer();
 
             if (player != null && !level.isClientSide) {
-                level.playSound((Player) null, pos, SoundEvents.WOOD_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
+                level.playSound(null, pos, SoundEvents.WOOD_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
 
                 ItemStack itemstack = context.getItemInHand();
                 itemstack.hurtAndBreak(1, player, tool -> {

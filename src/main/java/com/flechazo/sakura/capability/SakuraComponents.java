@@ -2,10 +2,10 @@ package com.flechazo.sakura.capability;
 
 import com.flechazo.sakura.SakuraFabric;
 import com.flechazo.sakura.block.entity.*;
-import dev.onyxstudios.cca.api.v3.component.ComponentKey;
-import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
 import dev.onyxstudios.cca.api.v3.block.BlockComponentFactoryRegistry;
 import dev.onyxstudios.cca.api.v3.block.BlockComponentInitializer;
+import dev.onyxstudios.cca.api.v3.component.ComponentKey;
+import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
 import net.minecraft.resources.ResourceLocation;
 
 public class SakuraComponents implements BlockComponentInitializer {

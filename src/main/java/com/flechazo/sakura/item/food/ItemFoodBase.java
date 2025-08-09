@@ -57,7 +57,7 @@ public class ItemFoodBase extends Item implements IFoodLike {
             return itemstack;
         } else {
             Item remainingItem = this.getCraftingRemainingItem();
-            if (entity instanceof Player && ((Player)entity).getAbilities().instabuild) {
+            if (entity instanceof Player && ((Player) entity).getAbilities().instabuild) {
                 return itemstack;
             } else if (remainingItem != null) {
                 return remainingItem.getDefaultInstance();
@@ -89,7 +89,7 @@ public class ItemFoodBase extends Item implements IFoodLike {
         }
 
         this.getFoodInfo().getEffects().forEach((k) -> {
-            MobEffectInstance effect = k.getFirst() instanceof Supplier ? k.getFirst().get() : (MobEffectInstance)k.getFirst();
+            MobEffectInstance effect = k.getFirst() instanceof Supplier ? k.getFirst().get() : (MobEffectInstance) k.getFirst();
             food.effect(effect, k.getSecond());
         });
 

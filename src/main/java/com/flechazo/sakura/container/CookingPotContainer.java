@@ -1,7 +1,7 @@
 package com.flechazo.sakura.container;
 
-import com.flechazo.sakura.init.BlockRegistry;
 import com.flechazo.sakura.block.entity.CookingPotBlockEntity;
+import com.flechazo.sakura.init.BlockRegistry;
 import com.flechazo.sakura.init.ContainerRegistry;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
 import io.github.fabricators_of_create.porting_lib.transfer.item.SlotItemHandler;
@@ -77,14 +77,16 @@ public class CookingPotContainer extends AbstractContainerMenu {
 
                 slot.onQuickCraft(itemStack1, itemStack);
             } else if (index >= 10) {
-                if (index >= 10 && index < 37) {
-                    if (!this.moveItemStackTo(itemStack1, 37, 46, false)) {
+                if (!this.moveItemStackTo(itemStack1, 0, 9, true)) {
+                    if (index >= 10 && index < 37) {
+                        if (!this.moveItemStackTo(itemStack1, 37, 46, false)) {
+                            return ItemStack.EMPTY;
+                        }
+                    } else if (index >= 37 && index < 46 && !this.moveItemStackTo(itemStack1, 10, 37, false)) {
                         return ItemStack.EMPTY;
                     }
-                } else if (index >= 37 && index < 46 && !this.moveItemStackTo(itemStack1, 10, 37, false)) {
-                    return ItemStack.EMPTY;
                 }
-            } else if (!this.moveItemStackTo(itemStack1, 10, 46, false)) {
+            } else if (!this.moveItemStackTo(itemStack1, 10, 47, false)) {
                 return ItemStack.EMPTY;
             }
 

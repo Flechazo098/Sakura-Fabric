@@ -1,11 +1,11 @@
 package com.flechazo.sakura.init;
 
 import com.flechazo.sakura.SakuraFabric;
-import com.flechazo.sakura.item.food.ItemFoodSeeds;
-import com.flechazo.sakura.item.tools.KnifeItem;
-import com.flechazo.sakura.item.food.RiceSeedsItem;
 import com.flechazo.sakura.item.enums.SakuraNormalItemSet;
+import com.flechazo.sakura.item.food.ItemFoodSeeds;
+import com.flechazo.sakura.item.food.RiceSeedsItem;
 import com.flechazo.sakura.item.food.info.FoodInfo;
+import com.flechazo.sakura.item.tools.KnifeItem;
 import com.flechazo.sakura.utils.ItemRegistryUtil;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -16,6 +16,7 @@ import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.block.Block;
 
 import java.util.Map;
+
 public class ItemRegistry {
 
     public static final Item RICE_SEEDS = registerItem("rice_seeds", new RiceSeedsItem());

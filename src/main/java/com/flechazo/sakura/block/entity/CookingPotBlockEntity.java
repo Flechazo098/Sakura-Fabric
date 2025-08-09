@@ -1,15 +1,16 @@
 package com.flechazo.sakura.block.entity;
 
-import com.flechazo.sakura.init.BlockEntityRegistry;
-import com.flechazo.sakura.init.BlockRegistry;
 import com.flechazo.sakura.block.machines.CookingPotBlock;
 import com.flechazo.sakura.container.CookingPotContainer;
+import com.flechazo.sakura.init.BlockEntityRegistry;
+import com.flechazo.sakura.init.BlockRegistry;
+import com.flechazo.sakura.init.RecipeTypeRegistry;
 import com.flechazo.sakura.inventory.CookingPotItemHandler;
 import com.flechazo.sakura.recipes.CookingPotRecipe;
-import com.flechazo.sakura.init.RecipeTypeRegistry;
 import com.flechazo.sakura.utils.FluidIngredient;
 import com.flechazo.sakura.utils.LevelUtils;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
 import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTank;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandlerContainer;
@@ -17,6 +18,7 @@ import io.github.fabricators_of_create.porting_lib.transfer.item.SlottedStackSto
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -42,12 +44,12 @@ import java.util.Optional;
 
 public class CookingPotBlockEntity extends SyncedBlockEntity implements MenuProvider, HeatableBlockEntity {
 
-    public static final int TANK_CAPACITY = 8000;
+    public static final long TANK_CAPACITY = 162000;
     private final ItemStackHandlerContainer inventory;
-    private LazyOptional<SlottedStackStorage > inputHandler;
-    private LazyOptional<SlottedStackStorage> outputHandler;
+    private final LazyOptional<SlottedStackStorage> inputHandler;
+    private final LazyOptional<SlottedStackStorage> outputHandler;
 
-    private LazyOptional<FluidTank> fluidTank;
+    private final LazyOptional<FluidTank> fluidTank;
     protected final ContainerData tileData;
     private final Object2IntOpenHashMap<ResourceLocation> experienceTracker;
 
@@ -66,14 +68,15 @@ public class CookingPotBlockEntity extends SyncedBlockEntity implements MenuProv
         this.tileData = createIntArray();
         this.fluidTank = LazyOptional.of(this::createFluidHandler);
         this.experienceTracker = new Object2IntOpenHashMap<>();
+        this.checkNewRecipe = true;
     }
 
     public static void workingTick(Level level, BlockPos pos, BlockState state, CookingPotBlockEntity blockEntity) {
         boolean didInventoryChange = false;
         if (blockEntity.isHeated(level, pos) && blockEntity.hasInput()) {
             Optional<CookingPotRecipe> recipe = blockEntity.getMatchingRecipe(blockEntity.inventory);
-            if (recipe.isPresent() && blockEntity.canWork(recipe.get(),level)) {
-                didInventoryChange = blockEntity.processRecipe(recipe.get(),level);
+            if (recipe.isPresent() && blockEntity.canWork(recipe.get(), level)) {
+                didInventoryChange = blockEntity.processRecipe(recipe.get(), level);
             } else {
                 blockEntity.recipeTime = 0;
             }
@@ -116,8 +119,8 @@ public class CookingPotBlockEntity extends SyncedBlockEntity implements MenuProv
         if (checkNewRecipe) {
             List<CookingPotRecipe> recipes = level.getRecipeManager().getRecipesFor(RecipeTypeRegistry.COOKING_RECIPE_TYPE,
                     inventoryWrapper, level);
-            for(CookingPotRecipe recipe : recipes) {
-                if(recipe.matchesWithFluid(this.fluidTank.orElse(new FluidTank(0)).getFluid(),
+            for (CookingPotRecipe recipe : recipes) {
+                if (recipe.matchesWithFluid(this.fluidTank.orElse(new FluidTank(0)).getFluid(),
                         inventoryWrapper, level)) {
                     lastRecipeID = recipe.getId();
                     return Optional.of(recipe);
@@ -129,7 +132,7 @@ public class CookingPotBlockEntity extends SyncedBlockEntity implements MenuProv
         return Optional.empty();
     }
 
-    protected boolean canWork(CookingPotRecipe recipe,Level level) {
+    protected boolean canWork(CookingPotRecipe recipe, Level level) {
         if (hasInput()) {
             ItemStack resultStack = recipe.getResultItem(level.registryAccess());
             if (resultStack.isEmpty()) {
@@ -173,13 +176,15 @@ public class CookingPotBlockEntity extends SyncedBlockEntity implements MenuProv
             outStack.grow(resultStack.getCount());
         }
 
-        if(recipe.getRequiredFluid() != FluidIngredient.EMPTY) {
-            FluidTank tank = this.fluidTank.orElse(new FluidTank(0));
-            long amount = recipe.getRequiredFluid().getRequiredAmount();
-            if (tank.getFluidAmount() >= amount) {
-                tank.setFluid(new FluidStack(tank.getFluid().getFluid(), tank.getFluidAmount() - amount));
+        try (Transaction transaction = TransferUtil.getTransaction()) {
+            if (recipe.getRequiredFluid() != FluidIngredient.EMPTY) {
+                this.fluidTank.ifPresent(tank ->
+                        tank.extract(recipe.getRequiredFluid().getFluidVariant(), recipe.getRequiredFluid().getRequiredAmount(), transaction));
             }
+
+            transaction.commit();
         }
+
 
         trackRecipeExperience(recipe);
 
@@ -314,6 +319,7 @@ public class CookingPotBlockEntity extends SyncedBlockEntity implements MenuProv
             }
         };
     }
+
     private ContainerData createIntArray() {
         return new ContainerData() {
             @Override

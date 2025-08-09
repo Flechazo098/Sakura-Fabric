@@ -1,7 +1,6 @@
 package com.flechazo.sakura.compat.jei;
 
 import com.flechazo.sakura.SakuraFabric;
-import com.flechazo.sakura.init.BlockRegistry;
 import com.flechazo.sakura.client.gui.CookingPotScreen;
 import com.flechazo.sakura.client.gui.DistillerScreen;
 import com.flechazo.sakura.client.gui.FermenterScreen;
@@ -11,12 +10,12 @@ import com.flechazo.sakura.container.CookingPotContainer;
 import com.flechazo.sakura.container.DistillerContainer;
 import com.flechazo.sakura.container.FermenterContainer;
 import com.flechazo.sakura.container.StoneMortarContainer;
+import com.flechazo.sakura.init.BlockRegistry;
 import com.flechazo.sakura.init.RecipeTypeRegistry;
 import com.flechazo.sakura.recipes.*;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.registration.*;
-import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
@@ -25,7 +24,6 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -99,10 +97,10 @@ public class JEIPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
-        registration.addRecipeTransferHandler(CookingPotContainer.class,null, COOKING_POT_JEI_TYPE, 0, 9, 10, 36);
-        registration.addRecipeTransferHandler(StoneMortarContainer.class,null, STONE_MORTAR_JEI_TYPE, 0, 4, 6, 36);
-        registration.addRecipeTransferHandler(FermenterContainer.class, null,FERMENTER_JEI_TYPE, 0, 3, 6, 36);
-        registration.addRecipeTransferHandler(DistillerContainer.class, null,DISTILLER_JEI_TYPE, 0, 3, 6, 36);
+        registration.addRecipeTransferHandler(CookingPotContainer.class, null, COOKING_POT_JEI_TYPE, 0, 9, 10, 36);
+        registration.addRecipeTransferHandler(StoneMortarContainer.class, null, STONE_MORTAR_JEI_TYPE, 0, 4, 6, 36);
+        registration.addRecipeTransferHandler(FermenterContainer.class, null, FERMENTER_JEI_TYPE, 0, 3, 6, 36);
+        registration.addRecipeTransferHandler(DistillerContainer.class, null, DISTILLER_JEI_TYPE, 0, 3, 6, 36);
     }
 
     @Override

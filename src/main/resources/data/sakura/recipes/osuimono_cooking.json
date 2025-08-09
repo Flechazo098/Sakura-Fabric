@@ -2,7 +2,7 @@
   "type": "sakura:cooking",
   "experience": 0.0,
   "fluid": {
-    "amount": 250,
+    "amount": 20250,
     "fluidTag": "c:water/water"
   },
   "ingredients": [

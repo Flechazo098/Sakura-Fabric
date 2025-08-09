@@ -2,6 +2,8 @@
     "block.sakura.sakura_diamond_block":"Block of Sakura Diamond",
     "block.sakura.kawara_block":"Kawara Block",
     "block.sakura.kawara":"Kawara",
+    "block.sakura.tatami_waxed":"Waxed Tatami",
+    "block.sakura.tatami_slab_waxed":"Waxed Tatami Slab",
     "block.sakura.tatami_tan":"Tan Tatami",
     "block.sakura.tatami":"Tatami",
     "block.sakura.tatami_tan_ns":"No Skirt Tan Tatami",
@@ -129,8 +131,8 @@
     "block.sakura.teishoku_fish_raw":"Raw Fish Teishoku",
     "block.sakura.teishoku_fish_cooked":"Cooked Fish Teishoku",
     "block.sakura.teishoku_fish_salt":"Salted Cooked Fish Teishoku",
-	
-	"block.sakura.chopping_board": "Chopping Board",
+
+    "block.sakura.chopping_board": "Chopping Board",
 
     "item.sakura.machined_fish":"Machined Fish",
     "item.sakura.futon":"Futon",
@@ -145,16 +147,16 @@
     "item.sakura.roast_matsutake":"Roasted Matsutake",
 
     "item.sakura.minced_meat": "Minced Meat",
-	"item.sakura.surimi": "Surimi",
-	"item.sakura.soysauce": "Soysauce",
-	"item.sakura.dashi": "Dashi",
-	"item.sakura.mirin": "Mirin",
-	"item.sakura.sake_kasu": "Sake Kasu",
-	
-	"item.sakura.kamaboko": "Kamaboko",
-	"item.sakura.chikuwa_raw": "Raw Chikuwa",
-	"item.sakura.chikuwa": "Chikuwa",
-	"item.sakura.satsumaage": "Satsumaage",
+    "item.sakura.surimi": "Surimi",
+    "item.sakura.soysauce": "Soysauce",
+    "item.sakura.dashi": "Dashi",
+    "item.sakura.mirin": "Mirin",
+    "item.sakura.sake_kasu": "Sake Kasu",
+
+    "item.sakura.kamaboko": "Kamaboko",
+    "item.sakura.chikuwa_raw": "Raw Chikuwa",
+    "item.sakura.chikuwa": "Chikuwa",
+    "item.sakura.satsumaage": "Satsumaage",
 
     "item.sakura.nimono_fish":"Fish Nimono",
     "item.sakura.nimono_radish":"Radish Nimono",
@@ -164,6 +166,12 @@
     "item.sakura.dough_okinoyaki":"Okinoyaki Dough",
     "item.sakura.okinoyaki_plus":"Okinoyaki Plus",
     "item.sakura.okinoyaki_final":"Okinoyaki Final",
+
+    "item.sakura.kaeshi":"Kaeshi",
+    "item.sakura.nuka":"Rice Bran",
+    "item.sakura.mirin_kasu":"Mirin Kasu",
+    "item.sakura.pickled_radish":"Pickled Radish",
+    "item.sakura.pickled_eggplant":"Pickled Eggplant",
 
     "item.sakura.bento_0":"Bento",
     "item.sakura.bento_1":"Bento",
@@ -475,10 +483,10 @@
     "item.sakura.yeast":"Yeast",
     "item.sakura.alkaline":"Alkaline",
     "item.sakura.mint":"Mint",
-    
+
     "item.sakura.soybean":"Soybean",
     "item.sakura.molasses":"Molasses",
-    
+
     "item.sakura.empty_bottle":"Empty Bottle",
     "item.sakura.orange_juice":"Orange Juice",
     "item.sakura.lemon_juice":"Lemon Juice",
@@ -645,20 +653,20 @@
 
     "container.sakura.stone_mortar":"Stone Mortar",
     "container.sakura.cooking_pot":"Cooking Pot",
-	
-	"container.sakura.distiller":"Distillation Barrel",
-	"container.sakura.fermenter":"Fermenting Barrel",
+
+    "container.sakura.distiller":"Distillation Barrel",
+    "container.sakura.fermenter":"Fermenting Barrel",
 
     "barrel.contains.fluid":"This barrel contains %1$s liquid",
     "barrel.contains.nonfluid":"This barrel is empty",
-	
-	"sakura.block.nabe.not_cooked":"Not cooked yet.",
+
+    "sakura.block.nabe.not_cooked":"Not cooked yet.",
 
     "sakura.jei.cooking":"Cooking Pot",
     "sakura.jei.stone_mortar":"Stone Mortar",
     "sakura.jei.fermenting":"Fermenting",
     "sakura.jei.distillation":"Distillation Barrel",
-	"sakura.jei.chopping":"Chopping",
+    "sakura.jei.chopping":"Chopping",
     "sakura.jei.liquid_item":"Liquid to Bucket",
     "sakura.jei.straw_web":"Open-air Drying",
 
@@ -697,11 +705,6 @@
     "sakura.effect.exp_up":"Experience Up",
     "sakura.effect.fire_blade":"Fire Blade",
     "sakura.effect.golden_heart":"Golden Heart",
-    "sakura.effect.poisom":"Poisoning",
-
-    "text.autoconfig.sakura.title": "Sakura Config",
-    "text.autoconfig.sakura.option.seedDropConfig": "Seed Drop Rate Configuration",
-    "text.autoconfig.sakura.option.seedDropConfig.globalDropRate": " Global Seed Drop Rate Configuration",
-    "text.autoconfig.sakura.option.seedDropConfig.globalDropRate.@Tooltip": "(Default: 0.1) — Decreasing this value reduces the probability of seeds dropping."
+    "sakura.effect.poisom":"Poisoning"
 
 }

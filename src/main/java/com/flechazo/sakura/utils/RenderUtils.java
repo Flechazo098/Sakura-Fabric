@@ -1,7 +1,7 @@
 package com.flechazo.sakura.utils;
 
-import com.flechazo.sakura.init.fluid.FluidTypeRegistry;
 import com.flechazo.sakura.init.FluidRegistry;
+import com.flechazo.sakura.init.fluid.FluidTypeRegistry;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;

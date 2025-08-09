@@ -42,17 +42,17 @@ public class CookingPotScreen extends AbstractContainerScreen<CookingPotContaine
             return;
         }
 //        RenderUtils.setup(BACKGROUND_TEXTURE);
-        ms.blit(BACKGROUND_TEXTURE,this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
+        ms.blit(BACKGROUND_TEXTURE, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
 
         if (this.menu.isHeated()) {
-            ms.blit(BACKGROUND_TEXTURE,this.leftPos + 101, this.topPos + 52, 176, 0, 18, 18);
+            ms.blit(BACKGROUND_TEXTURE, this.leftPos + 101, this.topPos + 52, 176, 0, 18, 18);
         }
         // Render progress arrow
         int l = this.menu.getCookProgressionScaled();
         ms.blit(BACKGROUND_TEXTURE, this.leftPos + 98, this.topPos + 34, 176, 18, l + 1, 17);
 
         this.menu.tileEntity.getFluidTank().ifPresent(fluidTank -> {
-            int heightInd = (int) (52.0F * ((float)fluidTank.getFluidAmount() / (float)fluidTank.getCapacity()));
+            int heightInd = (int) (52.0F * ((float) fluidTank.getFluidAmount() / (float) fluidTank.getCapacity()));
             if (heightInd > 0) {
                 RenderUtils.renderFluidStack(this.leftPos + 17, this.topPos + 69 - heightInd, 16, heightInd, 0.0F, fluidTank.getFluid());
             }

@@ -16,10 +16,10 @@ public class BaseCropBlock extends CropBlock {
     }
 
     protected ItemLike getBaseSeedId() {
-        return (ItemLike)this.seedItem.get();
+        return this.seedItem.get();
     }
 
     public BlockState withAge(int age) {
-        return (BlockState)this.defaultBlockState().setValue(this.getAgeProperty(), age);
+        return this.defaultBlockState().setValue(this.getAgeProperty(), age);
     }
 }

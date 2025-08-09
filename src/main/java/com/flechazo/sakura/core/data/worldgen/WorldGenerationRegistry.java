@@ -45,16 +45,17 @@ public class WorldGenerationRegistry {
 
     private static ConfiguredFeature<?, ?> wildPlantFeature(Supplier<Block> wildCrop, TagKey<Block> blockTag) {
         return new ConfiguredFeature<>(Feature.RANDOM_PATCH, getWildCropConfiguration(wildCrop.get(),
-                64, 1, BlockPredicate.matchesTag(BLOCK_BELOW,blockTag)));
+                64, 1, BlockPredicate.matchesTag(BLOCK_BELOW, blockTag)));
     }
+
     private static PlacedFeature wildPlantPatch(ConfiguredFeature<?, ?> feature,
-            PlacementModifier... modifiers) {
+                                                PlacementModifier... modifiers) {
         return new PlacedFeature(Holder.direct(feature), Lists.newArrayList(modifiers));
     }
 
     private static RandomPatchConfiguration getWildCropConfiguration(Block block, int tries, int xzSpread, BlockPredicate plantedOn) {
         return new RandomPatchConfiguration(tries, xzSpread, 3, PlacementUtils.filtered(
                 Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(block)),
-                        BlockPredicate.allOf(BlockPredicate.ONLY_IN_AIR_PREDICATE, plantedOn)));
+                BlockPredicate.allOf(BlockPredicate.ONLY_IN_AIR_PREDICATE, plantedOn)));
     }
 }

@@ -16,6 +16,7 @@ import java.util.Objects;
 
 public class FacingSlab extends SlabBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+
     public FacingSlab(Properties prop) {
         super(prop);
         this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH));
@@ -28,7 +29,7 @@ public class FacingSlab extends SlabBlock {
         BlockState state = world.getBlockState(pos);
         if (state.is(this) && state.getValue(SlabBlock.TYPE) == SlabType.TOP) {
             return Objects.requireNonNull(super.getStateForPlacement(context)).setValue(FACING, state.getValue(FACING));
-        }else
+        } else
             return Objects.requireNonNull(super.getStateForPlacement(context)).setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 

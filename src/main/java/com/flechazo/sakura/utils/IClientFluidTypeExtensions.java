@@ -1,7 +1,7 @@
 package com.flechazo.sakura.utils;
 
-import com.flechazo.sakura.init.fluid.FluidTypeRegistry;
 import com.flechazo.sakura.init.FluidRegistry;
+import com.flechazo.sakura.init.fluid.FluidTypeRegistry;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidType;
 import net.fabricmc.api.EnvType;
@@ -15,7 +15,8 @@ import net.minecraft.world.level.material.Fluid;
  */
 @Environment(EnvType.CLIENT)
 public interface IClientFluidTypeExtensions {
-    IClientFluidTypeExtensions DEFAULT = new IClientFluidTypeExtensions() { };
+    IClientFluidTypeExtensions DEFAULT = new IClientFluidTypeExtensions() {
+    };
 
     /**
      * 获取流体的静态纹理

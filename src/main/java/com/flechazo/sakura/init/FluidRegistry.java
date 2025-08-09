@@ -400,7 +400,7 @@ public class FluidRegistry {
         protected void spread(Level world, BlockPos blockPos, FluidState fluidState) {
             if (!fluidState.isEmpty()) {
                 int bottomFluidLevel = fluidState.getValue(LEVEL);
-                if(bottomFluidLevel == 0) {
+                if (bottomFluidLevel == 0) {
                     BlockState blockState = world.getBlockState(blockPos);
                     BlockPos belowBlockPos = blockPos.below();
                     BlockState belowBlockState = world.getBlockState(belowBlockPos);
@@ -410,8 +410,7 @@ public class FluidRegistry {
                         if (this.sourceNeighborCount(world, blockPos) >= 3) {
                             this.spreadToSides(world, blockPos, fluidState, blockState);
                         }
-                    }
-                    else if (fluidState.isSource() || !belowBlockState.getFluidState().getType().isSame(this)) {
+                    } else if (fluidState.isSource() || !belowBlockState.getFluidState().getType().isSame(this)) {
                         this.spreadToSides(world, blockPos, fluidState, blockState);
                     }
                 }

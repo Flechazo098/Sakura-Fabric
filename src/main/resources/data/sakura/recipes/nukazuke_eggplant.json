@@ -1,0 +1,30 @@
+{
+  "type": "sakura:fermenting",
+  "experience": 0.0,
+  "fluid": {
+    "amount": 8100,
+    "fluidTag": "c:water/water"
+  },
+  "ingredients": [
+    {
+      "tag": "c:crops/eggplant"
+    },
+    {
+      "item": "sakura:nuka"
+    },
+    {
+      "tag": "c:salt"
+    }
+  ],
+  "recipeTime": 400,
+  "result_fluid": {
+    "amount": 0,
+    "fluid": "minecraft:empty"
+  },
+  "results": [
+    {
+      "count": 2,
+      "item": "sakura:pickled_eggplant"
+    }
+  ]
+}

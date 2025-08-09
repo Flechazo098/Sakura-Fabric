@@ -3,7 +3,7 @@
   "experience": 0.0,
   "ingredients": [
     {
-      "tag": "stone"
+      "tag": "c:stone"
     }
   ],
   "recipeTime": 200,

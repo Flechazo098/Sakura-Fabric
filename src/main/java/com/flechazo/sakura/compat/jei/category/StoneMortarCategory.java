@@ -1,8 +1,8 @@
 package com.flechazo.sakura.compat.jei.category;
 
 import com.flechazo.sakura.SakuraFabric;
-import com.flechazo.sakura.init.BlockRegistry;
 import com.flechazo.sakura.compat.jei.JEIPlugin;
+import com.flechazo.sakura.init.BlockRegistry;
 import com.flechazo.sakura.recipes.StoneMortarRecipe;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -66,7 +66,7 @@ public class StoneMortarCategory implements IRecipeCategory<StoneMortarRecipe> {
             for (int column = 0; column < 2; ++column) {
                 int inputIndex = row * 2 + column;
                 if (inputIndex < recipeIngredients.size()) {
-                    builder.addSlot(RecipeIngredientRole.INPUT, 1+column * borderSlotSize, 14 + row * borderSlotSize)
+                    builder.addSlot(RecipeIngredientRole.INPUT, 1 + column * borderSlotSize, 14 + row * borderSlotSize)
                             .addIngredients(recipeIngredients.get(inputIndex));
                 }
             }

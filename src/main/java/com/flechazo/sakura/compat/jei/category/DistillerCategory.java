@@ -1,9 +1,9 @@
 package com.flechazo.sakura.compat.jei.category;
 
 import com.flechazo.sakura.SakuraFabric;
-import com.flechazo.sakura.init.BlockRegistry;
 import com.flechazo.sakura.block.entity.DistillerBlockEntity;
 import com.flechazo.sakura.compat.jei.JEIPlugin;
+import com.flechazo.sakura.init.BlockRegistry;
 import com.flechazo.sakura.recipes.DistillerRecipe;
 import com.flechazo.sakura.utils.FluidIngredient;
 import mezz.jei.api.constants.VanillaTypes;
@@ -16,6 +16,7 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
@@ -36,7 +37,7 @@ public class DistillerCategory implements IRecipeCategory<DistillerRecipe> {
     public DistillerCategory(IGuiHelper helper) {
         title = Component.translatable("sakura.jei.distillation");
         ResourceLocation backgroundImage = new ResourceLocation(SakuraFabric.MODID, "textures/gui/distiller.png");
-        background = helper.createDrawable(backgroundImage, 32, 10, 110, 66);
+        background = helper.createDrawable(backgroundImage, 32, 16, 110, 54);
         icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(BlockRegistry.DISTILLER));
         heatIndicator = helper.createDrawable(backgroundImage, 176, 17, 18, 18);
         arrow = helper.drawableBuilder(backgroundImage, 176, 0, 24, 17).buildAnimated(200, IDrawableAnimated.StartDirection.LEFT, false);
@@ -68,25 +69,23 @@ public class DistillerCategory implements IRecipeCategory<DistillerRecipe> {
     public void setRecipe(IRecipeLayoutBuilder builder, DistillerRecipe recipe, IFocusGroup focuses) {
         NonNullList<Ingredient> recipeIngredients = recipe.getIngredients();
         int borderSlotSize = 18;
-        for (int row = 0; row < 3; ++ row) {
-            int inputIndex = row;
-            if (inputIndex < recipeIngredients.size()) {
-                builder.addSlot(RecipeIngredientRole.INPUT, 23, 7 + row * borderSlotSize)
-                        .addIngredients(recipeIngredients.get(inputIndex));
+        for (int row = 0; row < 3; ++row) {
+            if (row < recipeIngredients.size()) {
+                builder.addSlot(RecipeIngredientRole.INPUT, 23, 1 + row * borderSlotSize)
+                        .addIngredients(recipeIngredients.get(row));
             }
         }
 
         if (recipe.getRequiredFluid() != FluidIngredient.EMPTY) {
             var fluidStacks = recipe.getRequiredFluid().getMatchingFluidStacks();
             var fluidSlot = builder.addSlot(RecipeIngredientRole.INPUT, 1, 1)
-                    .setFluidRenderer(DistillerBlockEntity.TANK_CAPACITY, false, 16, 64)
+                    .setFluidRenderer(DistillerBlockEntity.TANK_CAPACITY, false, 16, 52)
                     .addTooltipCallback((recipeSlotView, tooltip) -> {
-                        // 替换或添加正确的流体量信息
                         for (int i = 0; i < tooltip.size(); i++) {
                             Component component = tooltip.get(i);
                             String text = component.getString();
                             if (text.contains("mB")) {
-                                tooltip.set(i, Component.literal(recipe.getRequiredFluid().getRequiredAmount() + " mB / " + DistillerBlockEntity.TANK_CAPACITY + " mB"));
+                                tooltip.set(i, Component.literal(recipe.getRequiredFluid().getRequiredAmount() + " droplets / " + DistillerBlockEntity.TANK_CAPACITY + " droplets").withStyle(ChatFormatting.GRAY));
                                 break;
                             }
                         }
@@ -97,26 +96,23 @@ public class DistillerCategory implements IRecipeCategory<DistillerRecipe> {
             }
         }
 
-        for (int row = 0; row < 3; ++ row) {
-            int inputIndex = row;
-            if (inputIndex < recipe.getResultItemList().size()) {
-                builder.addSlot(RecipeIngredientRole.OUTPUT, 71, 7 + row * borderSlotSize)
-                        .addItemStack(recipe.getResultItemList().get(inputIndex));
+        for (int row = 0; row < 3; ++row) {
+            if (row < recipe.getResultItemList().size()) {
+                builder.addSlot(RecipeIngredientRole.OUTPUT, 71, 1 + row * borderSlotSize)
+                        .addItemStack(recipe.getResultItemList().get(row));
             }
         }
 
-        // 添加自定义工具提示回调，显示正确的流体量
-        if (! recipe.getResultFluid().isEmpty()) {
+        if (!recipe.getResultFluid().isEmpty()) {
             var resultFluid = recipe.getResultFluid();
             builder.addSlot(RecipeIngredientRole.OUTPUT, 93, 1)
-                    .setFluidRenderer(DistillerBlockEntity.TANK_CAPACITY, false, 16, 64)
+                    .setFluidRenderer(DistillerBlockEntity.TANK_CAPACITY, false, 16, 52)
                     .addTooltipCallback((recipeSlotView, tooltip) -> {
-                        // 替换或添加正确的流体量信息
                         for (int i = 0; i < tooltip.size(); i++) {
                             Component component = tooltip.get(i);
                             String text = component.getString();
                             if (text.contains("mB")) {
-                                tooltip.set(i, Component.literal(resultFluid.getAmount() + " mB / " + DistillerBlockEntity.TANK_CAPACITY + " mB"));
+                                tooltip.set(i, Component.literal(resultFluid.getAmount() + " droplets / " + DistillerBlockEntity.TANK_CAPACITY + " droplets").withStyle(ChatFormatting.GRAY));
                                 break;
                             }
                         }
@@ -124,10 +120,11 @@ public class DistillerCategory implements IRecipeCategory<DistillerRecipe> {
                     .addFluidStack(resultFluid.getFluid(), resultFluid.getAmount(), resultFluid.getTag());
         }
     }
+
     @Override
     public void draw(DistillerRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
-        bubbles.draw(guiGraphics, 46, 6);
-        arrow.draw(guiGraphics, 44, 24);
-        heatIndicator.draw(guiGraphics, 47, 43);
+        bubbles.draw(guiGraphics, 46, 0);
+        arrow.draw(guiGraphics, 44, 18);
+        heatIndicator.draw(guiGraphics, 47, 37);
     }
 }

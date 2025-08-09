@@ -1,7 +1,6 @@
 package com.flechazo.sakura.recipes;
 
 import com.google.gson.annotations.Expose;
-import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandlerContainer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.crafting.Recipe;
