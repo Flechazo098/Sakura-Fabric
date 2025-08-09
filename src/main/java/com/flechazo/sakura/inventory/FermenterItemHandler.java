@@ -26,7 +26,6 @@ public class FermenterItemHandler implements SlottedStackStorage {
 
     @Override
     public long insert(ItemVariant resource, long maxAmount, TransactionContext transaction) {
-        // 只允许从上方插入输入槽
         if (direction != null && direction != Direction.UP) {
             return 0;
         }
@@ -48,14 +47,11 @@ public class FermenterItemHandler implements SlottedStackStorage {
     public long extract(ItemVariant resource, long maxAmount, TransactionContext transaction) {
         long totalExtracted = 0;
 
-        // 根据方向确定可提取槽位
         if (direction == null || direction == Direction.UP) {
-            // 允许提取输入槽 (0-2)
             for (int slot = 0; slot < SLOTS_INPUT; slot++) {
                 totalExtracted += extractFromSlot(slot, resource, maxAmount - totalExtracted, transaction);
             }
         } else {
-            // 允许提取输出槽 (3-5)
             for (int slot = SLOT_OUTPUT_BEGIN; slot <= SLOT_OUTPUT_END; slot++) {
                 if (slot >= getSlotCount()) break;
                 totalExtracted += extractFromSlot(slot, resource, maxAmount - totalExtracted, transaction);
@@ -64,7 +60,6 @@ public class FermenterItemHandler implements SlottedStackStorage {
         return totalExtracted;
     }
 
-    // 单槽插入实现
     @Override
     public long insertSlot(int slot, ItemVariant resource, long maxAmount, TransactionContext transaction) {
         if (direction == null || direction == Direction.UP) {
@@ -75,7 +70,6 @@ public class FermenterItemHandler implements SlottedStackStorage {
         return 0;
     }
 
-    // 单槽提取实现
     @Override
     public long extractSlot(int slot, ItemVariant resource, long maxAmount, TransactionContext transaction) {
         if (direction == null || direction == Direction.UP) {
@@ -83,14 +77,14 @@ public class FermenterItemHandler implements SlottedStackStorage {
                 return storage.extractSlot(slot, resource, maxAmount, transaction);
             }
         } else {
-            if (slot >= SLOT_OUTPUT_BEGIN && slot <= SLOT_OUTPUT_END) { // 修复原代码的条件错误
+            if (slot >= SLOT_OUTPUT_BEGIN && slot <= SLOT_OUTPUT_END) {
                 return storage.extractSlot(slot, resource, maxAmount, transaction);
             }
         }
         return 0;
     }
 
-    // 从指定槽位提取
+
     private long extractFromSlot(int slot, ItemVariant resource, long maxAmount, TransactionContext transaction) {
         StorageView<ItemVariant> view = getSlot(slot);
         if (view.getResource().matches(resource.toStack())) {

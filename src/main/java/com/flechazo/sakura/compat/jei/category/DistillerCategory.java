@@ -76,7 +76,7 @@ public class DistillerCategory implements IRecipeCategory<DistillerRecipe> {
             }
         }
 
-        if (recipe.getRequiredFluid() != FluidIngredient.EMPTY) {
+        if (recipe.getRequiredFluid() != FluidIngredient.EMPTY()) {
             var fluidStacks = recipe.getRequiredFluid().getMatchingFluidStacks();
             var fluidSlot = builder.addSlot(RecipeIngredientRole.INPUT, 1, 1)
                     .setFluidRenderer(DistillerBlockEntity.TANK_CAPACITY, false, 16, 52)

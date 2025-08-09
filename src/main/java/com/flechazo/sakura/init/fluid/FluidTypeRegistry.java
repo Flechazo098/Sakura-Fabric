@@ -8,13 +8,10 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class FluidTypeRegistry {
-    public static final List<FluidType> FLUID_TYPES = new ArrayList<>();
     private static final Map<FluidType, Integer> FLUID_COLORS = new HashMap<>();
 
     public static FluidType FOOD_OIL;
@@ -46,14 +43,15 @@ public class FluidTypeRegistry {
     private static FluidType register(String name, int color) {
         // 确保颜色包含 alpha 通道
         if ((color & 0xFF000000) == 0) {
-            color = color | 0xFF000000; // 添加完全不透明的 alpha 通道
+            color = color | 0xFF000000;
         }
 
         FluidType fluidType = new FluidType(FluidType.Properties.create()
                 .temperature(27)
+                .density(3000)
+                .viscosity(1000)
                 .sound(SoundActions.BUCKET_FILL, SoundEvents.BUCKET_FILL)
-                .sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY)
-                .density(3000).viscosity(1000));
+                .sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY));
 
         FluidType registeredType = Registry.register(
                 PortingLibFluids.FLUID_TYPES,
@@ -61,24 +59,11 @@ public class FluidTypeRegistry {
                 fluidType
         );
 
-        // 存储流体类型和对应的颜色
         FLUID_COLORS.put(registeredType, color);
-        FLUID_TYPES.add(registeredType);
-
-
         return registeredType;
     }
 
     public static int getFluidColor(FluidType fluidType) {
-        // 确保颜色包含 alpha 通道
-        int color = FLUID_COLORS.getOrDefault(fluidType, 0xFFFFFFFF);
-
-        // 如果颜色没有 alpha 通道，添加完全不透明的 alpha
-        if ((color & 0xFF000000) == 0) {
-            color = color | 0xFF000000;
-        }
-
-
-        return color;
+        return FLUID_COLORS.getOrDefault(fluidType, 0xFFFFFFFF);
     }
 }

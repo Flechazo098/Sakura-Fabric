@@ -66,7 +66,7 @@ public class CookingPotContainer extends AbstractContainerMenu {
         ItemStack itemStack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
 
-        if (slot != null && slot.hasItem()) {
+        if (slot.hasItem()) {
             ItemStack itemStack1 = slot.getItem();
             itemStack = itemStack1.copy();
 
@@ -78,11 +78,11 @@ public class CookingPotContainer extends AbstractContainerMenu {
                 slot.onQuickCraft(itemStack1, itemStack);
             } else if (index >= 10) {
                 if (!this.moveItemStackTo(itemStack1, 0, 9, true)) {
-                    if (index >= 10 && index < 37) {
+                    if (index < 37) {
                         if (!this.moveItemStackTo(itemStack1, 37, 46, false)) {
                             return ItemStack.EMPTY;
                         }
-                    } else if (index >= 37 && index < 46 && !this.moveItemStackTo(itemStack1, 10, 37, false)) {
+                    } else if (index < 46 && !this.moveItemStackTo(itemStack1, 10, 37, false)) {
                         return ItemStack.EMPTY;
                     }
                 }

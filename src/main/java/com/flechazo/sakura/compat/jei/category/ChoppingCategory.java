@@ -76,8 +76,7 @@ public class ChoppingCategory implements IRecipeCategory<ChoppingRecipe> {
             ChanceResult chanceResult = byproducts.get(i);
             builder.addSlot(RecipeIngredientRole.OUTPUT, i * 18 + 11, 51).addItemStack(chanceResult.stack())
                     .addTooltipCallback((ingredient, tooltip) -> {
-                        ChanceResult output = chanceResult;
-                        float chance = output.chance();
+                        float chance = chanceResult.chance();
                         if (chance != 1)
                             tooltip.add(I18nUtils.chanceComponent(chance));
                     });

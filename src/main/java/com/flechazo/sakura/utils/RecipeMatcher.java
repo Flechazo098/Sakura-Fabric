@@ -8,6 +8,7 @@ package com.flechazo.sakura.utils;
 import java.util.*;
 import java.util.function.Predicate;
 
+// from forge
 public class RecipeMatcher {
     /**
      * Attempts to match inputs to the specified tests. In the best way that all inputs are used by one test.

@@ -27,7 +27,6 @@ public class ObonBlockEntity extends SyncedBlockEntity {
         return new ItemHandlerComponent() {
             @Override
             public void readFromNbt(CompoundTag compoundTag) {
-                // 从NBT中读取物品栏数据
                 if (compoundTag.contains("Inventory")) {
                     blockEntity.inventory.deserializeNBT(compoundTag.getCompound("Inventory"));
                 }
@@ -35,7 +34,6 @@ public class ObonBlockEntity extends SyncedBlockEntity {
 
             @Override
             public void writeToNbt(CompoundTag compoundTag) {
-                // 将物品栏数据写入NBT
                 compoundTag.put("Inventory", blockEntity.inventory.serializeNBT());
             }
 

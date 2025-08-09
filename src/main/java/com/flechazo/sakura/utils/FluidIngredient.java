@@ -1,17 +1,18 @@
 package com.flechazo.sakura.utils;
 
-import com.flechazo.sakura.utils.json.FluidHelper;
 import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.GsonHelper;
@@ -25,9 +26,17 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+@SuppressWarnings("UnstableApiUsage")
 public abstract class FluidIngredient implements Predicate<FluidStack> {
 
-    public static final FluidIngredient EMPTY = new FluidStackIngredient();
+    private static class EmptyHolder {
+        private static final FluidIngredient INSTANCE = new FluidStackIngredient();
+    }
+
+    public static FluidIngredient EMPTY() {
+        return EmptyHolder.INSTANCE;
+    }
+
 
     public List<FluidStack> matchingFluidStacks;
 
@@ -94,8 +103,7 @@ public abstract class FluidIngredient implements Predicate<FluidStack> {
     public JsonObject serialize() {
         JsonObject json = new JsonObject();
         writeInternal(json);
-        if (amountRequired != 0)
-            json.addProperty("amount", amountRequired);
+        json.addProperty("amount", amountRequired);
         return json;
     }
 
@@ -120,7 +128,7 @@ public abstract class FluidIngredient implements Predicate<FluidStack> {
         if (json.has("null_fluid")) {
             if (!json.get("null_fluid").getAsBoolean())
                 throw new JsonSyntaxException("'null_fluid' can NOT be false, delete it: " + je);
-            return FluidIngredient.EMPTY;
+            return FluidIngredient.EMPTY();
         }
         FluidIngredient ingredient = json.has("fluidTag") ? new FluidTagIngredient() : new FluidStackIngredient();
         ingredient.readInternal(json);
@@ -158,7 +166,6 @@ public abstract class FluidIngredient implements Predicate<FluidStack> {
 
         @Override
         public FluidVariant getFluidVariant() {
-            // 对于 NullFluidIngredient，返回一个空的流体变体。
             return FluidVariant.blank();
         }
     }
@@ -191,17 +198,31 @@ public abstract class FluidIngredient implements Predicate<FluidStack> {
         }
 
         @Override
-        protected void readInternal(JsonObject json) {
-            FluidStack stack = FluidHelper.deserializeFluidStack(json);
-            fluid = stack.getFluid();
-            tagToMatch = stack.getOrCreateTag();
+        protected void writeInternal(JsonObject json) {
+            json.addProperty("fluid", BuiltInRegistries.FLUID.getKey(fluid).toString());
+            if (!tagToMatch.isEmpty()) {
+                json.add("nbt", JsonParser.parseString(tagToMatch.toString()));
+            }
         }
 
         @Override
-        protected void writeInternal(JsonObject json) {
-            json.addProperty("fluid", BuiltInRegistries.FLUID.getKey(fluid)
-                    .toString());
-            json.add("nbt", JsonParser.parseString(tagToMatch.toString()));
+        protected void readInternal(JsonObject json) {
+            ResourceLocation fluidId = new ResourceLocation(GsonHelper.getAsString(json, "fluid"));
+            fluid = BuiltInRegistries.FLUID.get(fluidId);
+
+            if (json.has("nbt")) {
+                try {
+                    JsonElement element = json.get("nbt");
+                    tagToMatch = TagParser.parseTag(element.isJsonObject() ?
+                            DataGenUtil.DATA_GSON.toJson(element) :
+                            GsonHelper.convertToString(element, "nbt"));
+                } catch (CommandSyntaxException e) {
+                    e.printStackTrace();
+                    tagToMatch = new CompoundTag();
+                }
+            } else {
+                tagToMatch = new CompoundTag();
+            }
         }
 
         @Override

@@ -78,7 +78,6 @@ public class FermenterBlockEntity extends SyncedBlockEntity implements MenuProvi
         return new ItemHandlerComponent() {
             @Override
             public void readFromNbt(CompoundTag compoundTag) {
-                // 从NBT中读取物品栏数据
                 if (compoundTag.contains("Inventory")) {
                     blockEntity.inventory.deserializeNBT(compoundTag.getCompound("Inventory"));
                 }
@@ -86,7 +85,6 @@ public class FermenterBlockEntity extends SyncedBlockEntity implements MenuProvi
 
             @Override
             public void writeToNbt(CompoundTag compoundTag) {
-                // 将物品栏数据写入NBT
                 compoundTag.put("Inventory", blockEntity.inventory.serializeNBT());
             }
 
@@ -224,7 +222,7 @@ public class FermenterBlockEntity extends SyncedBlockEntity implements MenuProvi
                         || recipe.getResultFluid().isEmpty();
             }
             if (resultStacks.size() <= 0) {
-                return fluid_flag && recipe.getRequiredFluid() != FluidIngredient.EMPTY;
+                return fluid_flag && recipe.getRequiredFluid() != FluidIngredient.EMPTY();
             } else {
                 boolean flag = true;
                 for (int i = 3; i < resultStacks.size() + 3; i++) {
@@ -273,7 +271,7 @@ public class FermenterBlockEntity extends SyncedBlockEntity implements MenuProvi
         }
 
         try (Transaction transaction = TransferUtil.getTransaction()) {
-            if (recipe.getRequiredFluid() != FluidIngredient.EMPTY) {
+            if (recipe.getRequiredFluid() != FluidIngredient.EMPTY()) {
                 this.inputfluidTank.ifPresent(tank ->
                         tank.extract(recipe.getRequiredFluid().getFluidVariant(), recipe.getRequiredFluid().getRequiredAmount(), transaction));
             }

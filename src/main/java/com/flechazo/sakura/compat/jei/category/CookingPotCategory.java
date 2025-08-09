@@ -80,7 +80,7 @@ public class CookingPotCategory implements IRecipeCategory<CookingPotRecipe> {
                 }
             }
         }
-        if (recipe.getRequiredFluid() != FluidIngredient.EMPTY) {
+        if (recipe.getRequiredFluid() != FluidIngredient.EMPTY()) {
             List<FluidStack> fluidStacks = recipe.getRequiredFluid().getMatchingFluidStacks();
             IRecipeSlotBuilder fluidSlot = builder.addSlot(RecipeIngredientRole.INPUT, 1, 1)
                     .setFluidRenderer(CookingPotBlockEntity.TANK_CAPACITY, false, 16, 52)

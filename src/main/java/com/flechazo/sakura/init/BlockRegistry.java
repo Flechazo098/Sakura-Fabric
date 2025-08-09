@@ -216,7 +216,6 @@ public class BlockRegistry {
     }
 
     public static Collection<Block> getAllBlocks() {
-        // 返回所有注册的方块
         return Arrays.stream(BlockRegistry.class.getDeclaredFields())
                 .filter(field -> field.getType().isAssignableFrom(Block.class))
                 .map(field -> {

@@ -177,7 +177,7 @@ public class CookingPotBlockEntity extends SyncedBlockEntity implements MenuProv
         }
 
         try (Transaction transaction = TransferUtil.getTransaction()) {
-            if (recipe.getRequiredFluid() != FluidIngredient.EMPTY) {
+            if (recipe.getRequiredFluid() != FluidIngredient.EMPTY()) {
                 this.fluidTank.ifPresent(tank ->
                         tank.extract(recipe.getRequiredFluid().getFluidVariant(), recipe.getRequiredFluid().getRequiredAmount(), transaction));
             }

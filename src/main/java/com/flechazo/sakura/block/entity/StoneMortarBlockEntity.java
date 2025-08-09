@@ -65,7 +65,6 @@ public class StoneMortarBlockEntity extends SyncedBlockEntity implements MenuPro
         return new ItemHandlerComponent() {
             @Override
             public void readFromNbt(CompoundTag compoundTag) {
-                // 从NBT中读取物品栏数据
                 if (compoundTag.contains("Inventory")) {
                     blockEntity.inventory.deserializeNBT(compoundTag.getCompound("Inventory"));
                 }
@@ -85,12 +84,10 @@ public class StoneMortarBlockEntity extends SyncedBlockEntity implements MenuPro
 
             @Override
             public void writeToNbt(CompoundTag compoundTag) {
-                // 将物品栏数据写入NBT
                 compoundTag.put("Inventory", blockEntity.inventory.serializeNBT());
                 compoundTag.putInt("RecipeTime", blockEntity.recipeTime);
                 compoundTag.putInt("RecipeTimeTotal", blockEntity.recipeTimeTotal);
 
-                // 保存经验追踪数据
                 CompoundTag recipesUsed = new CompoundTag();
                 blockEntity.experienceTracker.forEach((recipeId, craftedAmount) ->
                         recipesUsed.putInt(recipeId.toString(), craftedAmount));

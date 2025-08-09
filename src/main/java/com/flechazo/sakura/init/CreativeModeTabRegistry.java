@@ -83,6 +83,5 @@ public class CreativeModeTabRegistry {
             }
         });
 
-//        SakuraFabric.LOGGER.info("注册创造模式物品栏");
     }
 }

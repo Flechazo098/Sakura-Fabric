@@ -3,7 +3,6 @@ package com.flechazo.sakura.utils.json;
 import com.flechazo.sakura.utils.DataGenUtil;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -26,8 +25,6 @@ public class FluidHelper {
     public static FluidStack deserializeFluidStack(JsonObject json) {
         ResourceLocation id = new ResourceLocation(GsonHelper.getAsString(json, "fluid"));
         Fluid fluid = BuiltInRegistries.FLUID.get(id);
-        if (fluid == null)
-            throw new JsonSyntaxException("Unknown fluid '" + id + "'");
         int amount = GsonHelper.getAsInt(json, "amount");
         FluidStack stack = new FluidStack(fluid, amount);
 

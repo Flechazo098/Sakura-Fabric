@@ -261,7 +261,7 @@ public class DistillerBlockEntity extends SyncedBlockEntity implements MenuProvi
         }
 
         try (Transaction transaction = TransferUtil.getTransaction()) {
-            if (recipe.getRequiredFluid() != FluidIngredient.EMPTY) {
+            if (recipe.getRequiredFluid() != FluidIngredient.EMPTY()) {
                 this.inputfluidTank.ifPresent(tank ->
                         tank.extract(recipe.getRequiredFluid().getFluidVariant(), recipe.getRequiredFluid().getRequiredAmount(), transaction));
             }

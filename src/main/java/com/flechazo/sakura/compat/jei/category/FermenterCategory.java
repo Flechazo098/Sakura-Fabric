@@ -72,7 +72,7 @@ public class FermenterCategory implements IRecipeCategory<FermenterRecipe> {
                         .addIngredients(recipeIngredients.get(row));
             }
         }
-        if (recipe.getRequiredFluid() != FluidIngredient.EMPTY) {
+        if (recipe.getRequiredFluid() != FluidIngredient.EMPTY()) {
             var fluidStacks = recipe.getRequiredFluid().getMatchingFluidStacks();
             var fluidSlot = builder.addSlot(RecipeIngredientRole.INPUT, 1, 1)
                     .setFluidRenderer(FermenterBlockEntity.TANK_CAPACITY, false, 16, 52)

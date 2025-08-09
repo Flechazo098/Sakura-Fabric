@@ -12,6 +12,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 
 import java.lang.reflect.Type;
 
+
 public abstract class AbstractSerializer<T> implements JsonSerializer<T>, JsonDeserializer<T> {
     public static class ItemStackSerializer extends AbstractSerializer<ItemStack> {
         private static final ItemStackSerializer INSTANCE = new ItemStackSerializer();

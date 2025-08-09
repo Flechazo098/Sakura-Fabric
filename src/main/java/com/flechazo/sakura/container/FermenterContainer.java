@@ -66,7 +66,7 @@ public class FermenterContainer extends AbstractContainerMenu {
         ItemStack itemStack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
 
-        if (slot != null && slot.hasItem()) {
+        if (slot.hasItem()) {
             ItemStack itemStack1 = slot.getItem();
             itemStack = itemStack1.copy();
 
@@ -77,11 +77,11 @@ public class FermenterContainer extends AbstractContainerMenu {
 
                 slot.onQuickCraft(itemStack1, itemStack);
             } else if (index >= 7) {
-                if (index >= 7 && index < 34) {
+                if (index < 34) {
                     if (!this.moveItemStackTo(itemStack1, 33, 42, false)) {
                         return ItemStack.EMPTY;
                     }
-                } else if (index >= 33 && index < 42 && !this.moveItemStackTo(itemStack1, 7, 33, false)) {
+                } else if (index < 42 && !this.moveItemStackTo(itemStack1, 7, 33, false)) {
                     return ItemStack.EMPTY;
                 }
             } else if (!this.moveItemStackTo(itemStack1, 7, 42, false)) {
